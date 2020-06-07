@@ -67,19 +67,20 @@ export function App() {
         fontFamily: "arial",
         backgroundColor: "black",
         color: "white",
-        padding: 20,
         boxSizing: "border-box",
         margin: 0,
         height: "100vh",
         overflow: "scroll",
         scrollSnapType: "y proximity",
+        position: "fixed",
+        top: 0,
+        left: 0,
       }}
     >
       <h1
         style={{
           letterSpacing: 3,
           textAlign: "center",
-          scrollSnapAlign: "center",
         }}
       >
         HUNTER
@@ -128,6 +129,7 @@ const inputStyle: CSSProperties = {
   border: "none",
   borderBottom: "solid 2px white",
   fontSize: 20,
+  borderRadius: 0,
 };
 
 function AddPlayerForm({
@@ -207,10 +209,9 @@ function GamePlayer({
   return (
     <li
       style={{
-        marginBottom: 30,
         borderTop: "solid 2px grey",
-        paddingTop: 20,
-        scrollSnapAlign: "start",
+        padding: 20,
+        scrollSnapAlign: player.order === 0 ? "start" : "end",
       }}
     >
       <h2
