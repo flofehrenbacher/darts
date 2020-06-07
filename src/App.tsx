@@ -76,7 +76,8 @@ export function App() {
         color: "white",
         margin: 0,
         height: "100vh",
-        overflow: "scroll",
+        width: "100vw",
+        overflowY: "scroll",
         scrollSnapType: "y proximity",
         scrollPaddingTop: 40,
         position: "fixed",
@@ -202,6 +203,7 @@ function AddPlayerForm({
       onSubmit={() => {
         if (newPlayer.number !== undefined) {
           onAddNewPlayer(newPlayer);
+          setNewPlayer({ name: "", number: undefined });
         }
       }}
       style={{
@@ -240,8 +242,6 @@ function AddPlayerForm({
           id="newPlayerNumber"
           type="number"
           pattern="\d*"
-          min={0}
-          max={25}
           required
           value={newPlayer.number}
           onChange={(event) =>
