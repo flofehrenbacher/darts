@@ -17,11 +17,18 @@ const buttonStyle = {
 
 export function App() {
   const [players, setPlayers] = useStickyState<Player[]>([], "");
+  const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
+    true,
+    "bonus-available"
+  );
 
-  function onAddNewPlayer(newPlayerName: string, newPlayerNumber: number) {
-    const newPlayerN = players.find((p) => p.name === newPlayerName)
-      ? `${newPlayerName}2`
-      : newPlayerName;
+  function onAddNewPlayer(newPlayer: {
+    name: string;
+    number: number | undefined;
+  }) {
+    const newPlayerN = players.find((p) => p.name === newPlayer.name)
+      ? `${newPlayer.name}2`
+      : newPlayer.name;
 
     setPlayers([
       ...players,
@@ -30,7 +37,7 @@ export function App() {
         name: newPlayerN,
         hits: [false, false, false],
         lives: [false, false, false],
-        number: newPlayerNumber,
+        number: newPlayer.number ?? 0,
       },
     ]);
   }
@@ -67,30 +74,72 @@ export function App() {
         fontFamily: "arial",
         backgroundColor: "black",
         color: "white",
-        boxSizing: "border-box",
         margin: 0,
         height: "100vh",
         overflow: "scroll",
         scrollSnapType: "y proximity",
+        scrollPaddingTop: 40,
         position: "fixed",
         top: 0,
         left: 0,
       }}
     >
-      <h1
+      <div
         style={{
-          letterSpacing: 3,
-          textAlign: "center",
+          height: 40,
+          display: "flex",
+          backgroundColor: "white",
+          margin: 0,
+          color: "black",
+          overflow: "hidden",
+          position: "sticky",
+          top: 0,
+          left: 0,
+          borderBottom: "solid 2px grey",
+          zIndex: 1,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        HUNTER
-      </h1>
-      <button style={buttonStyle} onClick={() => setPlayers([])}>
+        <div style={{ flexBasis: "10%", height: "100%" }}></div>
+        <h1
+          style={{
+            margin: 0,
+            padding: 0,
+            display: "block",
+            letterSpacing: 4,
+            flexGrow: 2,
+            textAlign: "center",
+          }}
+        >
+          HUNTER
+        </h1>
+        <LifeIcon
+          style={{
+            opacity: bonusAvailable ? 1 : 0.3,
+            flexBasis: "10%",
+          }}
+          fillPrimary="darkred"
+          fillSecondary="darkred"
+          height={40}
+          width={40}
+          onClick={() => setBonusAvailble(!bonusAvailable)}
+        />
+      </div>
+      <button
+        style={{
+          ...buttonStyle,
+          scrollSnapAlign: "start",
+          scrollMarginBlockStart: 20,
+          marginTop: 20,
+        }}
+        onClick={() => setPlayers([])}
+      >
         Zurücksetzen
       </button>
       <AddPlayerForm onAddNewPlayer={onAddNewPlayer} />
       <div>
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {players
             .sort((p1, p2) => p1.order - p2.order)
             .map((player) => (
@@ -135,18 +184,24 @@ const inputStyle: CSSProperties = {
 function AddPlayerForm({
   onAddNewPlayer,
 }: {
-  onAddNewPlayer: (newPlayerName: string, newPlayerNumber: number) => void;
+  onAddNewPlayer: ({
+    name,
+    number,
+  }: {
+    name: string;
+    number: number | undefined;
+  }) => void;
 }) {
-  const [newPlayerName, setNewPlayerName] = React.useState("");
-  const [newPlayerNumber, setNewPlayerNumber] = React.useState<
-    number | undefined
-  >(undefined);
+  const [newPlayer, setNewPlayer] = useStickyState<{
+    name: string;
+    number: number | undefined;
+  }>({ name: "", number: undefined }, "user-form");
 
   return (
     <form
       onSubmit={() => {
-        if (newPlayerNumber !== undefined) {
-          onAddNewPlayer(newPlayerName, newPlayerNumber);
+        if (newPlayer.number !== undefined) {
+          onAddNewPlayer(newPlayer);
         }
       }}
       style={{
@@ -163,8 +218,10 @@ function AddPlayerForm({
           id="newPlayerName"
           type="text"
           required
-          value={newPlayerName}
-          onChange={(event) => setNewPlayerName(event.target.value)}
+          value={newPlayer.name}
+          onChange={(event) =>
+            setNewPlayer({ ...newPlayer, name: event.target.value })
+          }
         ></input>
       </div>
       <div style={{ alignSelf: "flex-start", width: "80%", margin: "0 auto" }}>
@@ -186,8 +243,10 @@ function AddPlayerForm({
           min={0}
           max={25}
           required
-          value={newPlayerNumber}
-          onChange={(event) => setNewPlayerNumber(Number(event.target.value))}
+          value={newPlayer.number}
+          onChange={(event) =>
+            setNewPlayer({ ...newPlayer, number: Number(event.target.value) })
+          }
         ></input>
       </div>
       <button style={buttonStyle}>Hinzufügen</button>
@@ -211,7 +270,7 @@ function GamePlayer({
       style={{
         borderTop: "solid 2px grey",
         padding: 20,
-        scrollSnapAlign: player.order === 0 ? "start" : "end",
+        scrollSnapAlign: "start",
       }}
     >
       <h2
@@ -249,6 +308,8 @@ function GamePlayer({
           {player.lives.map((alive, index) => {
             return (
               <LifeIcon
+                fillPrimary="white"
+                fillSecondary="#22a6b3"
                 style={{
                   opacity: alive ? 0.2 : 1,
                   marginLeft: "3%",
@@ -295,7 +356,14 @@ function Icon(props: any) {
   );
 }
 
-function LifeIcon(props: any) {
+function LifeIcon({
+  fillSecondary,
+  fillPrimary,
+  ...props
+}: any & {
+  fillSecondary: string;
+  fillPrimary: string;
+}) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill="none" rx="0" ry="0" />
@@ -303,13 +371,13 @@ function LifeIcon(props: any) {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M14.5 11H9.5V12H1V16H9.5V17H14.5V16H23V12H14.5V11Z"
-        fill="#22a6b3"
+        fill={fillSecondary}
       />
       <path
         fillRule="evenodd"
         clipRule="evenodd"
         d="M2.6 23H10C10.8019 23 11.522 22.6321 12 22.0567C12.4779 22.6321 13.198 23 13.9999 23H21.3999C22.2799 23 22.9999 22.28 22.9999 21.4V16H21.7999V21.4C21.7999 21.62 21.6199 21.8 21.3999 21.8H13.9999C13.2344 21.8 12.6072 21.1773 12.6 20.4134L12.6 20.4V17H11.3999V20.4L11.3999 20.4134C11.3927 21.1773 10.7655 21.8 10 21.8H2.6C2.38 21.8 2.2 21.62 2.2 21.4V16H1.00005V12H2.2V7.56C3.05 7.43 3.82 7.04 4.42 6.43C5.18 5.68 5.6 4.68 5.6 3.6V2.2H8.82L10.86 6.42C11.2066 7.14291 11.3963 7.94428 11.3999 8.7464L11.3999 8.77V11H12.6V8.77L12.6 8.7464C12.6036 7.94428 12.7933 7.14291 13.1399 6.42L15.1799 2.2H18.3999V3.6C18.3999 4.68 18.8199 5.68 19.5699 6.43C20.1799 7.04 20.9499 7.43 21.7999 7.56V12H22.9999V7C22.9999 6.67 22.7299 6.4 22.3999 6.4C21.6499 6.4 20.9499 6.11 20.4199 5.57C19.8899 5.05 19.5999 4.35 19.5999 3.6V1.6C19.5999 1.27 19.3299 1 18.9999 1H14.7999C14.5699 1 14.3599 1.13 14.2599 1.34L12.0599 5.9C12.0395 5.9423 12.0195 5.98483 12 6.02757C11.9804 5.98483 11.9604 5.9423 11.94 5.9L9.74 1.34C9.64 1.13 9.43 1 9.2 1H5C4.67 1 4.4 1.27 4.4 1.6V3.6C4.4 4.35 4.11 5.05 3.57 5.58C3.05 6.11 2.35 6.4 1.6 6.4C1.27 6.4 1 6.67 1 7V21.4C1 22.28 1.72 23 2.6 23Z"
-        fill="#ffffff"
+        fill={fillPrimary}
       />
       <path
         fillRule="evenodd"
