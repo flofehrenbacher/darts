@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,UAEE,QAAS,CACT,SAAU,CACV,iBAAkB,CAClB,YACF","file":"main.749dd8d7.chunk.css","sourcesContent":["body,\nhtml {\n  margin: 0;\n  padding: 0;\n  overflow: \"hidden\";\n  height: 100vh;\n}\n"]}
