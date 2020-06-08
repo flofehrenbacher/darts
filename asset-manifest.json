@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/darts/static/css/main.999bfc98.chunk.css",
-    "main.js": "/darts/static/js/main.3d73ce6e.chunk.js",
-    "main.js.map": "/darts/static/js/main.3d73ce6e.chunk.js.map",
+    "main.js": "/darts/static/js/main.23b4c593.chunk.js",
+    "main.js.map": "/darts/static/js/main.23b4c593.chunk.js.map",
     "runtime-main.js": "/darts/static/js/runtime-main.4e9586ce.js",
     "runtime-main.js.map": "/darts/static/js/runtime-main.4e9586ce.js.map",
     "static/js/2.f1e61d53.chunk.js": "/darts/static/js/2.f1e61d53.chunk.js",
     "static/js/2.f1e61d53.chunk.js.map": "/darts/static/js/2.f1e61d53.chunk.js.map",
     "index.html": "/darts/index.html",
-    "precache-manifest.032325153c2cf9df8066981c6dbba506.js": "/darts/precache-manifest.032325153c2cf9df8066981c6dbba506.js",
+    "precache-manifest.47b08b1e3a74b67cdcf8e809893c7aec.js": "/darts/precache-manifest.47b08b1e3a74b67cdcf8e809893c7aec.js",
     "service-worker.js": "/darts/service-worker.js",
     "static/css/main.999bfc98.chunk.css.map": "/darts/static/css/main.999bfc98.chunk.css.map",
     "static/js/2.f1e61d53.chunk.js.LICENSE.txt": "/darts/static/js/2.f1e61d53.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.4e9586ce.js",
     "static/js/2.f1e61d53.chunk.js",
     "static/css/main.999bfc98.chunk.css",
-    "static/js/main.3d73ce6e.chunk.js"
+    "static/js/main.23b4c593.chunk.js"
   ]
 }
