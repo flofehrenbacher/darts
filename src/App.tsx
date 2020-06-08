@@ -134,7 +134,10 @@ export function App() {
           scrollMarginBlockStart: 20,
           marginTop: 20,
         }}
-        onClick={() => setPlayers([])}
+        onClick={() => {
+          setPlayers([]);
+          setBonusAvailble(true);
+        }}
       >
         Zurücksetzen
       </button>
