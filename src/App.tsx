@@ -220,6 +220,7 @@ function AddPlayerForm({
         </label>
         <input
           style={{ ...inputStyle, width: "100%" }}
+          autoComplete="off"
           id="newPlayerName"
           type="text"
           required
@@ -242,6 +243,7 @@ function AddPlayerForm({
             margin: "0 auto",
             display: "block",
           }}
+          autoComplete="off"
           id="newPlayerNumber"
           type="number"
           pattern="\d*"
