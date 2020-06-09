@@ -28,7 +28,7 @@ export function Layout({
         margin: "0 auto",
         height: "100vh",
         width: "100vw",
-        maxWidth: "500px",
+        maxWidth: "800px",
         overflowY: "scroll",
         scrollSnapType: "y proximity",
         scrollPaddingTop: 40,

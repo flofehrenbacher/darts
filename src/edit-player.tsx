@@ -87,7 +87,6 @@ function EditPlayerForm({ player }: { player: Player }) {
           id="newPlayerNumber"
           type="number"
           pattern="\d*"
-          required
           value={inputFields.number}
           onChange={(event) =>
             setInputFields({
