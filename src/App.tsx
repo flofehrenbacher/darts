@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { MemoryRouter as Router, Route, Switch } from "react-router-dom";
 import { AddPlayer } from "./add-player";
 import { PlayersProvider, SetPlayersProvider } from "./context";
 import { EditPlayer } from "./edit-player";
