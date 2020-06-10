@@ -22,10 +22,10 @@ export function EditPlayer() {
 }
 
 function EditPlayerForm({ player }: { player: Player }) {
-  const [inputFields, setInputFields] = React.useState<{
-    name?: string;
-    number?: number;
-  }>({ name: player.name, number: player.number });
+  const [editableNumber, setEditableNumber] = React.useState<string>(
+    String(player.number)
+  );
+  const [editableName, setEditableName] = React.useState<string>(player.name);
   const players = usePlayers();
   const setPlayers = useSetPlayers();
   const history = useHistory();
@@ -35,7 +35,8 @@ function EditPlayerForm({ player }: { player: Player }) {
       ...players.filter((p) => p.id !== player.id),
       {
         ...player,
-        ...inputFields,
+        number: editableNumber ? Number(editableNumber) : undefined,
+        name: editableName,
       },
     ]);
     history.goBack();
@@ -64,10 +65,8 @@ function EditPlayerForm({ player }: { player: Player }) {
           id="newPlayerName"
           type="text"
           required
-          value={inputFields.name}
-          onChange={(event) =>
-            setInputFields({ ...inputFields, name: event.target.value })
-          }
+          value={editableName}
+          onChange={(event) => setEditableName(event.target.value)}
         ></input>
       </div>
       <div style={{ alignSelf: "flex-start", width: "80%", margin: "0 auto" }}>
@@ -87,13 +86,8 @@ function EditPlayerForm({ player }: { player: Player }) {
           id="newPlayerNumber"
           type="number"
           pattern="\d*"
-          value={inputFields.number}
-          onChange={(event) =>
-            setInputFields({
-              ...inputFields,
-              number: Number(event.target.value),
-            })
-          }
+          value={editableNumber}
+          onChange={(event) => setEditableNumber(event.target.value)}
         ></input>
       </div>
       <button style={buttonStyle}>Ändern</button>

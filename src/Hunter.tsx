@@ -1,9 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Player } from "./App";
+import { usePlayers, useSetPlayers } from "./context";
 import { HitIcon, LifeIcon } from "./icons";
 import { Layout } from "./layout";
-import { useSetPlayers, usePlayers } from "./context";
-import { useHistory } from "react-router-dom";
 
 export function Hunter() {
   const setPlayers = useSetPlayers();
@@ -98,9 +98,13 @@ function GamePlayer({
                   opacity: hit ? 1 : 0.4,
                   marginLeft: "3%",
                   width: "30%",
+                  zIndex: 1,
                 }}
                 key={`${player.name}-hit-${index}`}
-                onClick={() => onClickHit(player, hit, index)}
+                onClick={(e: any) => {
+                  e.stopPropagation();
+                  onClickHit(player, hit, index);
+                }}
               />
             );
           })}
@@ -116,9 +120,13 @@ function GamePlayer({
                   opacity: alive ? 0.2 : 1,
                   marginLeft: "3%",
                   width: "30%",
+                  zIndex: 1,
                 }}
                 key={`${player.name}-live-${index}`}
-                onClick={() => onClickLive(player, alive, index)}
+                onClick={(e: any) => {
+                  e.stopPropagation();
+                  onClickLive(player, alive, index);
+                }}
               />
             );
           })}

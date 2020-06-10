@@ -82,7 +82,8 @@ function AddPlayerForm() {
 
   return (
     <form
-      onSubmit={() => {
+      onSubmit={(event) => {
+        event.preventDefault();
         onAddNewPlayer(newPlayer);
         setNewPlayer({ name: "", number: undefined });
       }}
