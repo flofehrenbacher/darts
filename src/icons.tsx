@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export function HitIcon(props: any) {
   return (
@@ -24,7 +24,7 @@ export function HitIcon(props: any) {
         fillOpacity="0.3"
       />
     </svg>
-  );
+  )
 }
 
 export function LifeIcon({
@@ -32,8 +32,8 @@ export function LifeIcon({
   fillPrimary,
   ...props
 }: any & {
-  fillSecondary: string;
-  fillPrimary: string;
+  fillSecondary: string
+  fillPrimary: string
 }) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
@@ -58,5 +58,5 @@ export function LifeIcon({
         fillOpacity="undefined"
       />
     </svg>
-  );
+  )
 }

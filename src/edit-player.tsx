@@ -1,34 +1,34 @@
-import React from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { inputStyle } from "./add-player";
-import { buttonStyle, Player } from "./App";
-import { usePlayers, useSetPlayers } from "./context";
-import { Layout } from "./layout";
+import React from 'react'
+import { useParams, useHistory } from 'react-router-dom'
+import { inputStyle } from './add-player'
+import { buttonStyle, Player } from './App'
+import { usePlayers, useSetPlayers } from './context'
+import { Layout } from './layout'
 
 export function EditPlayer() {
-  const { id } = useParams();
-  const players = usePlayers();
+  const { id } = useParams()
+  const players = usePlayers()
   const player = players.find((p) => {
-    return p.id === Number(id);
-  });
+    return p.id === Number(id)
+  })
   if (player === undefined) {
-    throw new Error(`Player with id ${id} does not exist`);
+    throw new Error(`Player with id ${id} does not exist`)
   }
   return (
     <Layout title={player.name}>
       <EditPlayerForm player={player} />
     </Layout>
-  );
+  )
 }
 
 function EditPlayerForm({ player }: { player: Player }) {
   const [editableNumber, setEditableNumber] = React.useState<string>(
     String(player.number)
-  );
-  const [editableName, setEditableName] = React.useState<string>(player.name);
-  const players = usePlayers();
-  const setPlayers = useSetPlayers();
-  const history = useHistory();
+  )
+  const [editableName, setEditableName] = React.useState<string>(player.name)
+  const players = usePlayers()
+  const setPlayers = useSetPlayers()
+  const history = useHistory()
 
   function onEditPlayer() {
     setPlayers([
@@ -38,29 +38,29 @@ function EditPlayerForm({ player }: { player: Player }) {
         number: editableNumber ? Number(editableNumber) : undefined,
         name: editableName,
       },
-    ]);
-    history.goBack();
+    ])
+    history.goBack()
   }
 
   return (
     <form
       onSubmit={(event) => {
-        event.preventDefault();
-        onEditPlayer();
+        event.preventDefault()
+        onEditPlayer()
       }}
       style={{
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        justifyContent: "center",
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        justifyContent: 'center',
       }}
     >
-      <div style={{ alignSelf: "flex-start", width: "80%", margin: "0 auto" }}>
-        <label htmlFor="newPlayerName" style={{ display: "block" }}>
+      <div style={{ alignSelf: 'flex-start', width: '80%', margin: '0 auto' }}>
+        <label htmlFor="newPlayerName" style={{ display: 'block' }}>
           Name
         </label>
         <input
-          style={{ ...inputStyle, width: "100%" }}
+          style={{ ...inputStyle, width: '100%' }}
           autoComplete="off"
           id="newPlayerName"
           type="text"
@@ -69,9 +69,9 @@ function EditPlayerForm({ player }: { player: Player }) {
           onChange={(event) => setEditableName(event.target.value)}
         ></input>
       </div>
-      <div style={{ alignSelf: "flex-start", width: "80%", margin: "0 auto" }}>
+      <div style={{ alignSelf: 'flex-start', width: '80%', margin: '0 auto' }}>
         <label
-          style={{ marginTop: 10, display: "block" }}
+          style={{ marginTop: 10, display: 'block' }}
           htmlFor="newPlayerNumber"
         >
           Nummer
@@ -79,8 +79,8 @@ function EditPlayerForm({ player }: { player: Player }) {
         <input
           style={{
             ...inputStyle,
-            margin: "0 auto",
-            display: "block",
+            margin: '0 auto',
+            display: 'block',
           }}
           autoComplete="off"
           id="newPlayerNumber"
@@ -92,5 +92,5 @@ function EditPlayerForm({ player }: { player: Player }) {
       </div>
       <button style={buttonStyle}>Ändern</button>
     </form>
-  );
+  )
 }
