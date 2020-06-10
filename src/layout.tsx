@@ -2,6 +2,8 @@ import React from 'react'
 import { LifeIcon } from './icons'
 import { useStickyState } from './use-sticky-state'
 import { Link, useHistory } from 'react-router-dom'
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
 export function Layout({
   children,
@@ -55,25 +57,17 @@ export function Layout({
         }}
       >
         <div style={{ flexBasis: '10%', height: '100%' }}>
-          <button style={{ height: '100%' }} onClick={() => history.goBack()}>
-            ←
-          </button>
+          {history.length > 1 && (
+            <button style={{ height: '100%' }} onClick={() => history.goBack()}>
+              ←
+            </button>
+          )}
         </div>
         <Link
           style={{ textDecoration: 'none', color: 'black', flexGrow: 2 }}
           to="/"
         >
-          <h1
-            style={{
-              margin: 0,
-              padding: 0,
-              display: 'block',
-              letterSpacing: 4,
-              textAlign: 'center',
-            }}
-          >
-            {title}
-          </h1>
+          <h1 css={styles.h1}>{title}</h1>
         </Link>
         <div style={{ flexBasis: '10%', height: '100%' }}>
           {gameType === 'HUNTER' && (
@@ -93,4 +87,16 @@ export function Layout({
       {children}
     </main>
   )
+}
+
+const styles = {
+  h1: css`
+    margin: 0;
+    padding: 0;
+    display: block;
+    letter-spacing: 4px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+  `,
 }

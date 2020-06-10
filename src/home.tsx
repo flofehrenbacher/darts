@@ -4,8 +4,10 @@ import { Layout } from './layout'
 import { buttonStyle } from './App'
 import { Link } from 'react-router-dom'
 import { useStickyState } from './use-sticky-state'
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
-export function AddPlayer() {
+export function Home() {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
   return (
@@ -26,24 +28,26 @@ export function AddPlayer() {
         Zurücksetzen
       </button>
       <AddPlayerForm />
-      <div style={{ margin: '0 auto', width: '80%' }}>
-        <h2 style={{ textDecoration: 'underline' }}>SPIELER</h2>
+      <div>
+        <h2 css={headlineStyles}>SPIELER</h2>
         <ul style={{ listStyle: 'none' }}>
           {players
             .sort((a, b) => a.id - b.id)
             .map((p) => (
-              <li key={p.id}>{p.name}</li>
+              <li css={{ textAlign: 'center' }} key={p.id}>
+                {p.name}
+              </li>
             ))}
         </ul>
-        <h2 style={{ textDecoration: 'underline' }}>SPIELE</h2>
+        <h2 css={headlineStyles}>SPIELE</h2>
         <ul style={{ listStyle: 'none' }}>
-          <Link style={{ color: 'white', textDecoration: 'none' }} to="/hunter">
-            <h3>HUNTER</h3>
+          <Link css={gameLinkStyles} to="/hunter">
+            <button css={buttonStyle}>HUNTER</button>
           </Link>
 
           <li>
-            <Link style={{ color: 'white', textDecoration: 'none' }} to="/301">
-              <h3>301</h3>
+            <Link css={[gameLinkStyles]} to="/301">
+              <button css={[buttonStyle]}>301</button>
             </Link>
           </li>
         </ul>
@@ -52,6 +56,23 @@ export function AddPlayer() {
   )
 }
 
+const gameLinkStyles = css`
+  text-decoration: none;
+  button {
+    font-size: 20px;
+    font-weight: bold;
+  }
+`
+
+const headlineStyles = css`
+  display: block;
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+`
+
 function AddPlayerForm() {
   const [newPlayer, setNewPlayer] = useStickyState<{
     name: string
@@ -59,6 +80,8 @@ function AddPlayerForm() {
   }>({ name: '', number: undefined }, 'user-form')
   const players = usePlayers()
   const setPlayers = useSetPlayers()
+
+  const input = React.useRef<HTMLInputElement>(null)
 
   function onAddNewPlayer(newPlayer: {
     name: string
@@ -92,22 +115,20 @@ function AddPlayerForm() {
         flexDirection: 'column',
       }}
     >
-      <div style={{ alignSelf: 'flex-start', width: '80%', margin: '0 auto' }}>
-        <label htmlFor="newPlayerName" style={{ display: 'block' }}>
-          Name
-        </label>
-        <input
-          style={{ ...inputStyle, width: '100%' }}
-          autoComplete="off"
-          id="newPlayerName"
-          type="text"
-          required
-          value={newPlayer.name}
-          onChange={(event) =>
-            setNewPlayer({ ...newPlayer, name: event.target.value })
-          }
-        ></input>
-      </div>
+      <label htmlFor="newPlayerName" style={{ display: 'block' }}>
+        Name
+      </label>
+      <input
+        ref={input}
+        style={{ ...inputStyle }}
+        id="newPlayerName"
+        autoComplete="new-password"
+        required
+        value={newPlayer.name}
+        onChange={(event) =>
+          setNewPlayer({ ...newPlayer, name: event.target.value })
+        }
+      ></input>
       <button style={buttonStyle}>Hinzufügen</button>
     </form>
   )
@@ -121,4 +142,5 @@ export const inputStyle: CSSProperties = {
   borderBottom: 'solid 2px white',
   fontSize: 20,
   borderRadius: 0,
+  width: '100%',
 }

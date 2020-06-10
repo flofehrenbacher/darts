@@ -1,11 +1,13 @@
 import React from 'react'
 import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
-import { AddPlayer } from './add-player'
+import { Home } from './home'
 import { PlayersProvider, SetPlayersProvider } from './context'
 import { EditPlayer } from './edit-player'
 import { Hunter } from './Hunter'
 import { ThreeZeroOne } from './three-zero-one'
 import { useStickyState } from './use-sticky-state'
+import { css, Global } from '@emotion/core'
+import emotionReset from 'emotion-reset'
 
 export type Player = {
   id: number
@@ -17,9 +19,10 @@ export type Player = {
 
 export const buttonStyle = {
   display: 'block',
-  width: '80%',
   padding: 10,
   margin: '20px auto',
+  width: '100%',
+  backgroundColor: '#292',
 }
 
 export function App() {
@@ -27,6 +30,18 @@ export function App() {
 
   return (
     <Router>
+      <Global
+        styles={css`
+          ${emotionReset}
+
+          *, *::after, *::before {
+            box-sizing: border-box;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+          }
+        `}
+      />
       <SetPlayersProvider value={setPlayers}>
         <PlayersProvider value={players}>
           <Switch>
@@ -40,7 +55,7 @@ export function App() {
               <EditPlayer />
             </Route>
             <Route path="/">
-              <AddPlayer />
+              <Home />
             </Route>
           </Switch>
         </PlayersProvider>

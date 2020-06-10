@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { inputStyle } from './add-player'
+import { inputStyle } from './home'
 import { buttonStyle, Player } from './App'
 import { usePlayers, useSetPlayers } from './context'
 import { Layout } from './layout'
@@ -35,7 +35,8 @@ function EditPlayerForm({ player }: { player: Player }) {
       ...players.filter((p) => p.id !== player.id),
       {
         ...player,
-        number: editableNumber ? Number(editableNumber) : undefined,
+        number:
+          editableNumber !== undefined ? Number(editableNumber) : undefined,
         name: editableName,
       },
     ])
@@ -61,9 +62,8 @@ function EditPlayerForm({ player }: { player: Player }) {
         </label>
         <input
           style={{ ...inputStyle, width: '100%' }}
-          autoComplete="off"
+          autoComplete="new-password"
           id="newPlayerName"
-          type="text"
           required
           value={editableName}
           onChange={(event) => setEditableName(event.target.value)}
@@ -82,11 +82,11 @@ function EditPlayerForm({ player }: { player: Player }) {
             margin: '0 auto',
             display: 'block',
           }}
-          autoComplete="off"
-          id="newPlayerNumber"
+          autoComplete="new-password"
           type="number"
+          id="newPlayerNumber"
           pattern="\d*"
-          value={editableNumber}
+          value={editableNumber === undefined ? '' : editableNumber}
           onChange={(event) => setEditableNumber(event.target.value)}
         ></input>
       </div>
