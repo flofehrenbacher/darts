@@ -4,6 +4,7 @@ import { Player } from './App'
 import { usePlayers, useSetPlayers } from './context'
 import { HitIcon, LifeIcon } from './icons'
 import { Layout } from './layout'
+import { theme } from './theme'
 
 export function Hunter() {
   const setPlayers = useSetPlayers()
@@ -95,7 +96,7 @@ function GamePlayer({
             return (
               <HitIcon
                 style={{
-                  opacity: hit ? 1 : 0.4,
+                  opacity: hit ? 1 : 0.2,
                   marginLeft: '3%',
                   width: '30%',
                   zIndex: 1,
@@ -114,8 +115,8 @@ function GamePlayer({
           {player.lives.map((alive, index) => {
             return (
               <LifeIcon
-                fillPrimary="white"
-                fillSecondary="#22a6b3"
+                fillPrimary={theme.white}
+                fillSecondary={theme.signalGreen}
                 style={{
                   opacity: alive ? 0.2 : 1,
                   marginLeft: '3%',

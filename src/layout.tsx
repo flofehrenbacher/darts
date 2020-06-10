@@ -4,6 +4,7 @@ import { useStickyState } from './use-sticky-state'
 import { Link, useHistory } from 'react-router-dom'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { theme } from './theme'
 
 export function Layout({
   children,
@@ -12,7 +13,7 @@ export function Layout({
 }: {
   children: React.ReactNode
   title?: string
-  gameType?: 'HUNTER'
+  gameType?: 'HUNTER' | '301'
 }) {
   const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
     true,
@@ -25,8 +26,8 @@ export function Layout({
     <main
       style={{
         fontFamily: 'arial',
-        backgroundColor: 'black',
-        color: 'white',
+        backgroundColor: theme.dark,
+        color: theme.white,
         margin: '0 auto',
         height: '100vh',
         width: '100vw',
@@ -41,9 +42,9 @@ export function Layout({
     >
       <div
         style={{
-          height: 40,
+          height: 60,
           display: 'flex',
-          backgroundColor: 'white',
+          backgroundColor: theme.white,
           margin: 0,
           color: 'black',
           overflow: 'hidden',
@@ -56,27 +57,52 @@ export function Layout({
           alignItems: 'center',
         }}
       >
-        <div style={{ flexBasis: '10%', height: '100%' }}>
-          {history.length > 1 && (
-            <button style={{ height: '100%' }} onClick={() => history.goBack()}>
+        <div
+          style={{
+            height: '100%',
+            width: 60,
+            backgroundColor: gameType === 'HUNTER' ? theme.grey : 'none',
+          }}
+        >
+          {gameType !== undefined && (
+            <button
+              style={{
+                height: '100%',
+                width: '100%',
+                display: 'block',
+                border: 'none',
+                fontSize: 20,
+                fontWeight: 500,
+              }}
+              onClick={() => history.push('/home')}
+            >
               ←
             </button>
           )}
         </div>
         <Link
-          style={{ textDecoration: 'none', color: 'black', flexGrow: 2 }}
+          style={{ textDecoration: 'none', color: theme.dark, flexGrow: 1 }}
           to="/"
         >
           <h1 css={styles.h1}>{title}</h1>
         </Link>
-        <div style={{ flexBasis: '10%', height: '100%' }}>
+        <div
+          style={{
+            height: '100%',
+            width: 60,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: gameType === 'HUNTER' ? theme.grey : 'none',
+          }}
+        >
           {gameType === 'HUNTER' && (
             <LifeIcon
               style={{
                 opacity: bonusAvailable ? 1 : 0.3,
               }}
-              fillPrimary="darkred"
-              fillSecondary="darkred"
+              fillPrimary={theme.dark}
+              fillSecondary={theme.dark}
               height={40}
               width={40}
               onClick={() => setBonusAvailble(!bonusAvailable)}
@@ -84,7 +110,7 @@ export function Layout({
           )}
         </div>
       </div>
-      {children}
+      <div css={{ padding: 5 }}>{children}</div>
     </main>
   )
 }

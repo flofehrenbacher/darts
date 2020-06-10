@@ -4,6 +4,8 @@ import { inputStyle } from './home'
 import { buttonStyle, Player } from './App'
 import { usePlayers, useSetPlayers } from './context'
 import { Layout } from './layout'
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
 export function EditPlayer() {
   const { id } = useParams()
@@ -52,8 +54,9 @@ function EditPlayerForm({ player }: { player: Player }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        minHeight: '300px',
         justifyContent: 'center',
+        alignContent: 'center',
       }}
     >
       <div style={{ alignSelf: 'flex-start', width: '80%', margin: '0 auto' }}>
@@ -90,7 +93,7 @@ function EditPlayerForm({ player }: { player: Player }) {
           onChange={(event) => setEditableNumber(event.target.value)}
         ></input>
       </div>
-      <button style={buttonStyle}>Ändern</button>
+      <button css={buttonStyle}>Ändern</button>
     </form>
   )
 }

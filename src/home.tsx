@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useStickyState } from './use-sticky-state'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { theme } from './theme'
 
 export function Home() {
   const setPlayers = useSetPlayers()
@@ -13,7 +14,7 @@ export function Home() {
   return (
     <Layout title="Darts">
       <button
-        style={{
+        css={{
           ...buttonStyle,
           scrollSnapAlign: 'start',
           scrollMarginBlockStart: 20,
@@ -58,10 +59,6 @@ export function Home() {
 
 const gameLinkStyles = css`
   text-decoration: none;
-  button {
-    font-size: 20px;
-    font-weight: bold;
-  }
 `
 
 const headlineStyles = css`
@@ -129,7 +126,7 @@ function AddPlayerForm() {
           setNewPlayer({ ...newPlayer, name: event.target.value })
         }
       ></input>
-      <button style={buttonStyle}>Hinzufügen</button>
+      <button css={buttonStyle}>Hinzufügen</button>
     </form>
   )
 }
@@ -137,7 +134,7 @@ function AddPlayerForm() {
 export const inputStyle: CSSProperties = {
   textAlign: 'center',
   backgroundColor: 'transparent',
-  color: 'white',
+  color: theme.white,
   border: 'none',
   borderBottom: 'solid 2px white',
   fontSize: 20,

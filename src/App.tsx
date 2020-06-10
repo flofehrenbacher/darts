@@ -1,13 +1,14 @@
-import React from 'react'
-import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
-import { Home } from './home'
-import { PlayersProvider, SetPlayersProvider } from './context'
-import { EditPlayer } from './edit-player'
-import { Hunter } from './Hunter'
-import { ThreeZeroOne } from './three-zero-one'
-import { useStickyState } from './use-sticky-state'
 import { css, Global } from '@emotion/core'
 import emotionReset from 'emotion-reset'
+import React, { CSSProperties } from 'react'
+import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
+import { PlayersProvider, SetPlayersProvider } from './context'
+import { EditPlayer } from './edit-player'
+import { Home } from './home'
+import { Hunter } from './Hunter'
+import { theme } from './theme'
+import { ThreeZeroOne } from './three-zero-one'
+import { useStickyState } from './use-sticky-state'
 
 export type Player = {
   id: number
@@ -17,13 +18,18 @@ export type Player = {
   number?: number
 }
 
-export const buttonStyle = {
-  display: 'block',
-  padding: 10,
-  margin: '20px auto',
-  width: '100%',
-  backgroundColor: '#292',
-}
+export const buttonStyle = css`
+  display: block;
+  padding: 10;
+  margin: 20px auto;
+  padding: 10px;
+  width: 100%;
+  color: ${theme.white};
+  border: none;
+  background-color: ${theme.signalGreen};
+  font-size: 20px;
+  font-weight: 500;
+`
 
 export function App() {
   const [players, setPlayers] = useStickyState<Player[]>([], '')
