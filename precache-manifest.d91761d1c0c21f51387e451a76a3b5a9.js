@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "00db7b3a21ea2200247fcff4546657d7",
+    "revision": "f26647fa48936e23fe2c6f2afa889fab",
     "url": "/darts/index.html"
   },
   {
-    "revision": "67f718ff37419d9661d9",
+    "revision": "e1661662a7d50591166f",
     "url": "/darts/static/css/main.99b9b046.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/darts/static/js/2.66e57462.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "67f718ff37419d9661d9",
-    "url": "/darts/static/js/main.666c8d58.chunk.js"
+    "revision": "e1661662a7d50591166f",
+    "url": "/darts/static/js/main.2cabf654.chunk.js"
   },
   {
     "revision": "8537b9ab9552d426b467",
