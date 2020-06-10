@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/darts/static/css/main.4e6debc3.chunk.css",
+    "main.css": "/darts/static/css/main.5d35153a.chunk.css",
     "main.js": "/darts/static/js/main.9f4efe7a.chunk.js",
     "main.js.map": "/darts/static/js/main.9f4efe7a.chunk.js.map",
     "runtime-main.js": "/darts/static/js/runtime-main.4e9586ce.js",
@@ -8,15 +8,15 @@
     "static/js/2.66e57462.chunk.js": "/darts/static/js/2.66e57462.chunk.js",
     "static/js/2.66e57462.chunk.js.map": "/darts/static/js/2.66e57462.chunk.js.map",
     "index.html": "/darts/index.html",
-    "precache-manifest.17552bfbd800bcc8cbcc14ab62d7ef8a.js": "/darts/precache-manifest.17552bfbd800bcc8cbcc14ab62d7ef8a.js",
+    "precache-manifest.b66fea39c91766028d605b7b81f30e61.js": "/darts/precache-manifest.b66fea39c91766028d605b7b81f30e61.js",
     "service-worker.js": "/darts/service-worker.js",
-    "static/css/main.4e6debc3.chunk.css.map": "/darts/static/css/main.4e6debc3.chunk.css.map",
+    "static/css/main.5d35153a.chunk.css.map": "/darts/static/css/main.5d35153a.chunk.css.map",
     "static/js/2.66e57462.chunk.js.LICENSE.txt": "/darts/static/js/2.66e57462.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.4e9586ce.js",
     "static/js/2.66e57462.chunk.js",
-    "static/css/main.4e6debc3.chunk.css",
+    "static/css/main.5d35153a.chunk.css",
     "static/js/main.9f4efe7a.chunk.js"
   ]
 }
