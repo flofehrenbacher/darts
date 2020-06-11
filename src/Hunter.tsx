@@ -33,17 +33,18 @@ export function Hunter() {
   }
 
   return (
-    <Layout gameType="HUNTER" title="Hunter">
+    <Layout pageType="HUNTER" title="Hunter">
       <div>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        <ul style={{ listStyle: 'none' }}>
           {players
             .sort((p1, p2) => p1.id - p2.id)
-            .map((player) => (
+            .map((player, i) => (
               <GamePlayer
                 key={player.name}
                 player={player}
                 onClickHit={onClickHit}
                 onClickLive={onClickLive}
+                isLastPlayer={players.length === i + 1}
               />
             ))}
         </ul>
@@ -56,19 +57,20 @@ function GamePlayer({
   player,
   onClickLive,
   onClickHit,
+  isLastPlayer,
 }: {
   player: Player
   onClickLive: (player: Player, alive: boolean, index: number) => void
   onClickHit: (player: Player, hit: boolean, index: number) => void
+  isLastPlayer: boolean
 }) {
   const history = useHistory()
   return (
     <li
       onClick={() => history.push(`edit-player/${player.id}`)}
       style={{
-        borderBottom: 'solid 2px grey',
+        borderBottom: isLastPlayer ? 'solid 2px transparent' : 'solid 2px grey',
         padding: 20,
-        scrollSnapAlign: 'start',
         height: '30vh',
         minHeight: '200px',
         display: 'flex',

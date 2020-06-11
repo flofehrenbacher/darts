@@ -9,11 +9,11 @@ import { theme } from './theme'
 export function Layout({
   children,
   title,
-  gameType,
+  pageType: gameType,
 }: {
   children: React.ReactNode
+  pageType: 'HUNTER' | '301' | 'HOME' | 'EDIT_PLAYER'
   title?: string
-  gameType?: 'HUNTER' | '301'
 }) {
   const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
     true,
@@ -29,15 +29,11 @@ export function Layout({
         backgroundColor: theme.dark,
         color: theme.white,
         margin: '0 auto',
-        height: '100vh',
-        width: '100vw',
-        maxWidth: '800px',
+        maxWidth: '500px',
         overflowY: 'scroll',
-        scrollSnapType: 'y proximity',
-        scrollPaddingTop: 40,
-        position: 'fixed',
-        top: 0,
-        left: 0,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <div
@@ -55,16 +51,17 @@ export function Layout({
           zIndex: 1,
           justifyContent: 'center',
           alignItems: 'center',
+          flexShrink: 0,
         }}
       >
         <div
           style={{
             height: '100%',
             width: 60,
-            backgroundColor: gameType === 'HUNTER' ? theme.grey : 'none',
+            backgroundColor: gameType !== 'HOME' ? theme.grey : 'none',
           }}
         >
-          {gameType !== undefined && (
+          {gameType !== 'HOME' && (
             <button
               style={{
                 height: '100%',
@@ -74,7 +71,7 @@ export function Layout({
                 fontSize: 20,
                 fontWeight: 500,
               }}
-              onClick={() => history.push('/home')}
+              onClick={() => history.goBack()}
             >
               ←
             </button>
@@ -110,7 +107,7 @@ export function Layout({
           )}
         </div>
       </div>
-      <div css={{ padding: 5 }}>{children}</div>
+      <div css={{ padding: 5, flexGrow: 1 }}>{children}</div>
     </main>
   )
 }

@@ -1,57 +1,88 @@
 import React, { CSSProperties } from 'react'
 import { useSetPlayers, usePlayers } from './context'
 import { Layout } from './layout'
-import { buttonStyle } from './App'
-import { Link } from 'react-router-dom'
+import { buttonStyle, Player } from './App'
+import { Link, useHistory } from 'react-router-dom'
 import { useStickyState } from './use-sticky-state'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { theme } from './theme'
+import { toast } from 'react-toastify'
+import { RemoveIcon } from './icons'
 
-export function Home() {
+export function Home({
+  onRemovePlayer,
+}: {
+  onRemovePlayer: (player: Player) => void
+}) {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
+  const history = useHistory()
+
   return (
-    <Layout title="Darts">
-      <button
-        css={{
-          ...buttonStyle,
-          scrollSnapAlign: 'start',
-          scrollMarginBlockStart: 20,
-          marginTop: 20,
-        }}
-        onClick={() => {
-          // eslint-disable-next-line no-restricted-globals
-          const confirmation = confirm('Wirklich alle Spieler entfernen?')
-          confirmation && setPlayers([])
-        }}
-      >
-        Zurücksetzen
-      </button>
-      <AddPlayerForm />
+    <Layout title="Darts" pageType="HOME">
+      <h2 css={headlineStyles}>Spieler hinzufügen</h2>
+      <AddPlayerForm css={{ marginTop: 20 }} />
       <div>
-        <h2 css={headlineStyles}>SPIELER</h2>
+        <h2 css={headlineStyles}>Spieler</h2>
         <ul style={{ listStyle: 'none' }}>
           {players
             .sort((a, b) => a.id - b.id)
             .map((p) => (
-              <li css={{ textAlign: 'center' }} key={p.id}>
-                {p.name}
+              <li
+                css={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  height: 40,
+                  backgroundColor: theme.grey,
+                  color: theme.dark,
+                  marginTop: 2,
+                }}
+                key={p.id}
+                onClick={() => history.push(`edit-player/${p.id}`)}
+              >
+                <span css={{ padding: 10, fontWeight: 600 }}>{p.name}</span>
+                <button
+                  css={{
+                    height: '100%',
+                    width: 40,
+                    background: theme.white,
+                    border: 'none',
+                  }}
+                  onClick={() => onRemovePlayer(p)}
+                >
+                  <RemoveIcon />
+                </button>
               </li>
             ))}
         </ul>
-        <h2 css={headlineStyles}>SPIELE</h2>
+        <h2 css={headlineStyles}>Spiel starten</h2>
         <ul style={{ listStyle: 'none' }}>
           <Link css={gameLinkStyles} to="/hunter">
-            <button css={buttonStyle}>HUNTER</button>
+            <button css={buttonStyle(theme.signalGreen)}>HUNTER</button>
           </Link>
 
           <li>
             <Link css={[gameLinkStyles]} to="/301">
-              <button css={[buttonStyle]}>301</button>
+              <button css={[buttonStyle(theme.signalGreen), { marginTop: 2 }]}>
+                301
+              </button>
             </Link>
           </li>
         </ul>
+        <button
+          css={[buttonStyle(theme.dark, theme.signalRed), { marginTop: 20 }]}
+          onClick={() => {
+            const confirmation = window.confirm(
+              'Wirklich alle Spieler entfernen?'
+            )
+            confirmation && setPlayers([])
+          }}
+        >
+          Zurücksetzen
+        </button>
       </div>
     </Layout>
   )
@@ -65,12 +96,11 @@ const headlineStyles = css`
   display: block;
   width: 100%;
   font-size: 20px;
-  text-align: center;
   margin: 20px 0;
   font-weight: bold;
 `
 
-function AddPlayerForm() {
+function AddPlayerForm(props: any) {
   const [newPlayer, setNewPlayer] = useStickyState<{
     name: string
     number: number | undefined
@@ -98,6 +128,7 @@ function AddPlayerForm() {
         number: newPlayer.number,
       },
     ])
+    toast(`${newPlayerN} hinzugefügt`)
   }
 
   return (
@@ -111,6 +142,7 @@ function AddPlayerForm() {
         display: 'flex',
         flexDirection: 'column',
       }}
+      {...props}
     >
       <label htmlFor="newPlayerName" style={{ display: 'block' }}>
         Name
@@ -126,7 +158,11 @@ function AddPlayerForm() {
           setNewPlayer({ ...newPlayer, name: event.target.value })
         }
       ></input>
-      <button css={buttonStyle}>Hinzufügen</button>
+      <button
+        css={[buttonStyle(theme.dark, theme.signalGreen), { marginTop: 10 }]}
+      >
+        Hinzufügen
+      </button>
     </form>
   )
 }
@@ -137,7 +173,10 @@ export const inputStyle: CSSProperties = {
   color: theme.white,
   border: 'none',
   borderBottom: 'solid 2px white',
-  fontSize: 20,
+  fontSize: 24,
   borderRadius: 0,
+  padding: 7,
   width: '100%',
+  margin: '2px auto 0',
+  display: 'block',
 }

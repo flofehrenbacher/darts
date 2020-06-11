@@ -1,7 +1,14 @@
 import { css, Global } from '@emotion/core'
 import emotionReset from 'emotion-reset'
-import React, { CSSProperties } from 'react'
-import { MemoryRouter as Router, Route, Switch } from 'react-router-dom'
+import React from 'react'
+import {
+  MemoryRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { PlayersProvider, SetPlayersProvider } from './context'
 import { EditPlayer } from './edit-player'
 import { Home } from './home'
@@ -18,24 +25,22 @@ export type Player = {
   number?: number
 }
 
-export const buttonStyle = css`
+export const buttonStyle = (color: string, borderColor?: string) => css`
   display: block;
-  padding: 10;
-  margin: 20px auto;
-  padding: 10px;
+  padding: 7px;
   width: 100%;
   color: ${theme.white};
   border: none;
-  background-color: ${theme.signalGreen};
+  background-color: ${color};
   font-size: 20px;
   font-weight: 500;
+  border: 2px solid ${borderColor ?? 'transparent'};
 `
 
 export function App() {
-  const [players, setPlayers] = useStickyState<Player[]>([], '')
-
+  const currentPath = localStorage.getItem('currentPath')
   return (
-    <Router>
+    <Router initialEntries={[currentPath ?? '/']}>
       <Global
         styles={css`
           ${emotionReset}
@@ -44,28 +49,59 @@ export function App() {
             box-sizing: border-box;
             -moz-osx-font-smoothing: grayscale;
             -webkit-font-smoothing: antialiased;
-            font-smoothing: antialiased;
           }
         `}
       />
-      <SetPlayersProvider value={setPlayers}>
-        <PlayersProvider value={players}>
-          <Switch>
-            <Route path="/hunter">
-              <Hunter />
-            </Route>
-            <Route path="/301">
-              <ThreeZeroOne />
-            </Route>
-            <Route path="/edit-player/:id">
-              <EditPlayer />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
-        </PlayersProvider>
-      </SetPlayersProvider>
+      <ToastContainer />
+      <AppWithRouteAccess />
     </Router>
   )
+}
+
+function AppWithRouteAccess() {
+  const [players, setPlayers] = useStickyState<Player[]>([], '')
+  function onRemovePlayer(player: Player) {
+    const confirmation = window.confirm(
+      `Spieler ${player.name} wirklich entfernen?`
+    )
+    if (confirmation) {
+      setPlayers(players.filter((p) => p.id === player.id))
+    }
+  }
+
+  return (
+    <SetPlayersProvider value={setPlayers}>
+      <PlayersProvider value={players}>
+        <Switch>
+          <LocalStorageRoute path="/hunter">
+            <Hunter />
+          </LocalStorageRoute>
+          <LocalStorageRoute path="/301">
+            <ThreeZeroOne />
+          </LocalStorageRoute>
+          <LocalStorageRoute path="/edit-player/:id">
+            <EditPlayer />
+          </LocalStorageRoute>
+          <LocalStorageRoute path="/">
+            <Home onRemovePlayer={onRemovePlayer} />
+          </LocalStorageRoute>
+        </Switch>
+      </PlayersProvider>
+    </SetPlayersProvider>
+  )
+}
+
+function LocalStorageRoute({
+  path,
+  children,
+}: {
+  path: string
+  children: React.ReactNode
+}) {
+  const { pathname } = useLocation()
+  React.useEffect(() => {
+    console.log(path)
+    localStorage.setItem('currentPath', pathname)
+  }, [path, pathname])
+  return <Route path={path}>{children}</Route>
 }
