@@ -23,6 +23,8 @@ export type Player = {
   lives: [true | false, true | false, true | false]
   hits: [true | false, true | false, true | false]
   number?: number
+  stillInGame: boolean
+  threeZeroOnePoints: number
 }
 
 export const buttonStyle = (color: string, borderColor?: string) => css`
@@ -64,9 +66,7 @@ function AppWithRouteAccess() {
     const confirmation = window.confirm(
       `Spieler ${player.name} wirklich entfernen?`
     )
-    if (confirmation) {
-      setPlayers(players.filter((p) => p.id === player.id))
-    }
+    confirmation && setPlayers(players.filter((p) => p.id !== player.id))
   }
 
   return (

@@ -114,21 +114,11 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
           />
         </div>
         <button
-          css={[buttonStyle(theme.dark, theme.signalGreen), { marginTop: 10 }]}
+          css={[buttonStyle(theme.dark, theme.signalGreen), { marginTop: 50 }]}
         >
           Ändern
         </button>
       </form>
-      <button
-        css={[buttonStyle(theme.dark, theme.signalRed), { marginTop: 10 }]}
-        onClick={(e) => {
-          e.preventDefault()
-          setPlayers(players.filter((p) => player.id !== p.id))
-          history.goBack()
-        }}
-      >
-        Entfernen
-      </button>
     </div>
   )
 }

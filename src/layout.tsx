@@ -1,25 +1,23 @@
 import React from 'react'
-import { LifeIcon } from './icons'
-import { useStickyState } from './use-sticky-state'
 import { Link, useHistory } from 'react-router-dom'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { theme } from './theme'
+import { RestartIcon } from './icons'
 
 export function Layout({
   children,
   title,
-  pageType: gameType,
+  pageType,
+  rightIcon,
+  resetGame,
 }: {
   children: React.ReactNode
   pageType: 'HUNTER' | '301' | 'HOME' | 'EDIT_PLAYER'
   title?: string
+  rightIcon?: React.ReactNode
+  resetGame?: () => void
 }) {
-  const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
-    true,
-    'bonus-available'
-  )
-
   const history = useHistory()
 
   return (
@@ -58,10 +56,10 @@ export function Layout({
           style={{
             height: '100%',
             width: 60,
-            backgroundColor: gameType !== 'HOME' ? theme.grey : 'none',
+            backgroundColor: pageType !== 'HOME' ? theme.grey : 'none',
           }}
         >
-          {gameType !== 'HOME' && (
+          {pageType !== 'HOME' && (
             <button
               style={{
                 height: '100%',
@@ -77,6 +75,12 @@ export function Layout({
             </button>
           )}
         </div>
+        <div
+          style={{
+            height: '100%',
+            width: 60,
+          }}
+        ></div>
         <Link
           style={{ textDecoration: 'none', color: theme.dark, flexGrow: 1 }}
           to="/"
@@ -86,25 +90,20 @@ export function Layout({
         <div
           style={{
             height: '100%',
-            width: 60,
+            width: 120,
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor: gameType === 'HUNTER' ? theme.grey : 'none',
+            backgroundColor:
+              rightIcon !== undefined || resetGame !== undefined
+                ? theme.grey
+                : 'none',
           }}
         >
-          {gameType === 'HUNTER' && (
-            <LifeIcon
-              style={{
-                opacity: bonusAvailable ? 1 : 0.3,
-              }}
-              fillPrimary={theme.dark}
-              fillSecondary={theme.dark}
-              height={40}
-              width={40}
-              onClick={() => setBonusAvailble(!bonusAvailable)}
-            />
+          {resetGame && (
+            <RestartIcon css={{ width: 40, height: 40 }} onClick={resetGame} />
           )}
+          {rightIcon}
         </div>
       </div>
       <div css={{ padding: 5, flexGrow: 1 }}>{children}</div>

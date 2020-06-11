@@ -5,10 +5,17 @@ import { usePlayers, useSetPlayers } from './context'
 import { HitIcon, LifeIcon } from './icons'
 import { Layout } from './layout'
 import { theme } from './theme'
+import { useStickyState } from './use-sticky-state'
 
 export function Hunter() {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
+  const history = useHistory()
+
+  const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
+    true,
+    'bonus-available'
+  )
 
   function onClickHit(player: Player, hit: boolean, index: number) {
     const updatePlayer = players.find((p) => p.name === player.name)
@@ -23,20 +30,92 @@ export function Hunter() {
 
   function onClickLive(player: Player, alive: boolean, index: number) {
     const updatePlayer = players.find((p) => p.name === player.name)
-    if (updatePlayer) {
+    let wasPlayerRemoved = false
+    if (updatePlayer !== undefined) {
       updatePlayer.lives[index] = !alive
+
+      if (updatePlayer?.lives.every((live) => !live)) {
+        console.log(updatePlayer?.lives)
+        if (bonusAvailable) {
+          alert('Es gibt ja noch den Bonus ☘️ Glück gehabt!')
+          updatePlayer.lives[1] = true
+          setPlayers([
+            ...players.filter((p) => p.name !== player.name),
+            updatePlayer,
+          ])
+          setBonusAvailble(false)
+        } else {
+          wasPlayerRemoved = true
+          updatePlayer.stillInGame = false
+          setPlayers([
+            ...players.filter((p) => p.name !== player.name),
+            updatePlayer,
+          ])
+        }
+      }
       setPlayers([
         ...players.filter((p) => p.name !== player.name),
         updatePlayer,
       ])
+
+      const restPlayers = players.filter((p) => p.stillInGame)
+      if (restPlayers.length === 1) {
+        resetGame(true)
+        const confirmation = window.confirm(
+          `Glückwunsch ${restPlayers[0].name}🎊🍻🥳\n Nochmal spielen? 🤓`
+        )
+        if (!confirmation) {
+          history.push('home')
+        }
+      } else if (wasPlayerRemoved) {
+        alert(
+          `${updatePlayer.name} fliegt als ${
+            players.filter((p) => !p.stillInGame).length
+          }. aus dem Spiel ✌️`
+        )
+      }
+    }
+  }
+
+  const RightIcon = (
+    <LifeIcon
+      style={{
+        opacity: bonusAvailable ? 1 : 0.3,
+        width: 40,
+        height: 40,
+      }}
+      fillPrimary={theme.dark}
+      fillSecondary={theme.dark}
+    />
+  )
+
+  function resetGame(alreadyConfirmed?: boolean) {
+    const confirmation =
+      alreadyConfirmed || window.confirm('Spiel wiederholen?')
+    if (confirmation) {
+      setPlayers((previousPlayers) => {
+        return previousPlayers.map((p) => ({
+          ...p,
+          hits: [false, false, false],
+          lives: [true, true, true],
+          stillInGame: true,
+        }))
+      })
+      setBonusAvailble(true)
     }
   }
 
   return (
-    <Layout pageType="HUNTER" title="Hunter">
+    <Layout
+      pageType="HUNTER"
+      title="Hunter"
+      rightIcon={RightIcon}
+      resetGame={() => resetGame(false)}
+    >
       <div>
         <ul style={{ listStyle: 'none' }}>
           {players
+            .filter((p) => p.stillInGame)
             .sort((p1, p2) => p1.id - p2.id)
             .map((player, i) => (
               <GamePlayer
@@ -120,7 +199,7 @@ function GamePlayer({
                 fillPrimary={theme.white}
                 fillSecondary={theme.signalGreen}
                 style={{
-                  opacity: alive ? 0.2 : 1,
+                  opacity: alive ? 1 : 0.2,
                   marginLeft: '3%',
                   width: '30%',
                   zIndex: 1,

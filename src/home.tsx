@@ -51,7 +51,10 @@ export function Home({
                     background: theme.white,
                     border: 'none',
                   }}
-                  onClick={() => onRemovePlayer(p)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onRemovePlayer(p)
+                  }}
                 >
                   <RemoveIcon />
                 </button>
@@ -79,6 +82,7 @@ export function Home({
               'Wirklich alle Spieler entfernen?'
             )
             confirmation && setPlayers([])
+            localStorage.setItem('bonus-available', 'true')
           }}
         >
           Zurücksetzen
@@ -124,8 +128,10 @@ function AddPlayerForm(props: any) {
         id: players.length,
         name: newPlayerN,
         hits: [false, false, false],
-        lives: [false, false, false],
+        lives: [true, true, true],
         number: newPlayer.number,
+        stillInGame: true,
+        threeZeroOnePoints: 301,
       },
     ])
     toast(`${newPlayerN} hinzugefügt`)
