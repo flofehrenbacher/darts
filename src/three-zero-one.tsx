@@ -7,10 +7,18 @@ import { inputStyle } from './home'
 import { theme } from './theme'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { useStickyState } from './use-sticky-state'
 
 export function ThreeZeroOne() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
+
+  const [currentPlayerId, setCurrentPlayerId] = useStickyState(
+    0,
+    'current-player-id'
+  )
+
+  // React.useEffect(() => setCurrentPlayerId(0))
 
   function resetGame() {
     const confirmation = window.confirm('Spiel wiederholen?')
@@ -24,94 +32,115 @@ export function ThreeZeroOne() {
     }
   }
 
+  const currentPlayer = players.find((p) => currentPlayerId === p.id)
+
+  function onUpdatePoints(
+    editableNumber: number,
+    setEditableNumber: React.Dispatch<React.SetStateAction<number | undefined>>
+  ) {
+    if (editableNumber !== undefined && currentPlayer !== undefined) {
+      const newPoints = currentPlayer.threeZeroOnePoints - editableNumber
+
+      setPlayers([
+        ...players.filter((p) => p.id !== currentPlayer.id),
+        { ...currentPlayer, threeZeroOnePoints: newPoints },
+      ])
+      setEditableNumber(undefined)
+      setCurrentPlayerId((currentPlayerId + 1) % players.length)
+    }
+  }
+
   return (
     <Layout pageType="301" title="301" resetGame={resetGame}>
-      <ul style={{ listStyle: 'none' }}>
+      <ul>
         {players
           .filter((p) => p.stillInGame)
           .sort((p1, p2) => p1.id - p2.id)
           .map((player, i) => (
-            <GamePlayer
-              key={player.name}
-              player={player}
-              isLastPlayer={players.length === i + 1}
-            />
+            <li key={player.id}>
+              {player.name} {player.threeZeroOnePoints}
+            </li>
           ))}
       </ul>
+      <div css={{ marginTop: 30 }}>
+        {currentPlayer && (
+          <React.Fragment>
+            <h2 css={{ fontSize: 40, textAlign: 'center' }}>
+              {currentPlayer.name}
+            </h2>
+            <p css={{ fontSize: 50, textAlign: 'center' }}>
+              {currentPlayer.threeZeroOnePoints}
+            </p>
+          </React.Fragment>
+        )}
+        {currentPlayer && <RemovePoints onEnterPoints={onUpdatePoints} />}
+      </div>
     </Layout>
   )
 }
-
-function GamePlayer({
-  player,
-  isLastPlayer,
+function RemovePoints({
+  onEnterPoints,
 }: {
-  player: Player
-  isLastPlayer: boolean
+  onEnterPoints: (...props: any) => void
 }) {
-  return (
-    <li
-      style={{
-        borderBottom: isLastPlayer ? 'solid 2px transparent' : 'solid 2px grey',
-        padding: 20,
-        height: '30vh',
-        minHeight: '200px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-      }}
-    >
-      <h2
-        style={{
-          margin: 0,
-          padding: 0,
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <span style={{ fontSize: 40 }}>{player.name}</span>{' '}
-        <span style={{ fontSize: 45, fontWeight: 600, marginLeft: 20 }}>
-          {player.threeZeroOnePoints}
-        </span>
-      </h2>
-      <RemovePoints player={player} />
-    </li>
-  )
-}
+  const x = React.useRef<HTMLInputElement>(null)
 
-function RemovePoints({ player }: { player: Player }) {
+  React.useEffect(() => {
+    if (x.current) {
+      x.current.focus()
+    }
+  })
   const [editableNumber, setEditableNumber] = React.useState<
     number | undefined
   >(undefined)
-  const players = usePlayers()
-  const setPlayers = useSetPlayers()
-
-  function onUpdatePoints() {
-    if (editableNumber !== undefined) {
-      const newPoints = player.threeZeroOnePoints - editableNumber
-
-      setPlayers([
-        ...players.filter((p) => p.id !== player.id),
-        { ...player, threeZeroOnePoints: newPoints },
-      ])
-      setEditableNumber(undefined)
-    }
-  }
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        onUpdatePoints()
+        onEnterPoints(editableNumber, setEditableNumber)
+        x.current?.setAttribute('autofocus', 'true')
+        x.current?.focus()
       }}
     >
-      <InputNumber
+      <input
+        ref={x}
+        min={0}
+        max={180}
+        step={1}
+        css={{
+          ...inputStyle,
+          width: '70px',
+        }}
+        pattern="\d*"
+        required
+        autoFocus
+        id="newPlayerNumber"
+        value={editableNumber === undefined ? '' : editableNumber}
+        onChange={(event) => {
+          event.preventDefault()
+          const points = Number(event.target.value)
+          if (typeof points === 'number') {
+            if (points === 0) {
+              onEnterPoints(0, setEditableNumber)
+              x.current?.setAttribute('autofocus', 'true')
+              x.current?.focus()
+            } else {
+              setEditableNumber(points)
+            }
+          } else {
+            setEditableNumber(undefined)
+          }
+        }}
+      />
+      {/* <InputNumber
+        ref={x}
         min={1}
         max={180}
         step={1}
         css={{
           ...inputStyle,
-          width: '50px',
+          width: '70px',
         }}
         required
         id="newPlayerNumber"
@@ -120,9 +149,9 @@ function RemovePoints({ player }: { player: Player }) {
           setEditableNumber(x)
         }}
         enableMobileNumericKeyboard
-      />
+      /> */}
       <button css={[buttonStyle(theme.dark, theme.white), { marginTop: 20 }]}>
-        Abziehen
+        Weiter
       </button>
     </form>
   )
