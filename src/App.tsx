@@ -1,12 +1,7 @@
 import { css, Global } from '@emotion/core'
 import emotionReset from 'emotion-reset'
 import React from 'react'
-import {
-  MemoryRouter as Router,
-  Route,
-  Switch,
-  useLocation,
-} from 'react-router-dom'
+import { MemoryRouter as Router, Route, useLocation } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { PlayersProvider, SetPlayersProvider } from './context'
@@ -16,6 +11,8 @@ import { Hunter } from './Hunter'
 import { theme } from './theme'
 import { ThreeZeroOne } from './three-zero-one'
 import { useStickyState } from './use-sticky-state'
+import Switch from 'react-router-transition-switch'
+import Fader from 'react-fader'
 
 export type Player = {
   id: number
@@ -72,7 +69,7 @@ function AppWithRouteAccess() {
   return (
     <SetPlayersProvider value={setPlayers}>
       <PlayersProvider value={players}>
-        <Switch>
+        <Switch component={Fader} css={{ height: '100%' }}>
           <LocalStorageRoute path="/hunter">
             <Hunter />
           </LocalStorageRoute>

@@ -29,7 +29,7 @@ export function Layout({
         margin: '0 auto',
         maxWidth: '500px',
         overflowY: 'scroll',
-        height: '100%',
+        height: '100vw',
         display: 'flex',
         flexDirection: 'column',
       }}

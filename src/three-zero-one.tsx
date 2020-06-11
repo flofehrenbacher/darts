@@ -1,13 +1,14 @@
 import React from 'react'
-import InputNumber from 'react-input-number'
-import { Player, buttonStyle } from './App'
+import { buttonStyle } from './App'
 import { usePlayers, useSetPlayers } from './context'
 import { Layout } from './layout'
 import { inputStyle } from './home'
 import { theme } from './theme'
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
+import { jsx } from '@emotion/core'
 import { useStickyState } from './use-sticky-state'
+import { toast } from 'react-toastify'
+import Fader from 'react-fader'
 
 export function ThreeZeroOne() {
   const players = usePlayers()
@@ -64,14 +65,14 @@ export function ThreeZeroOne() {
       </ul>
       <div css={{ marginTop: 30 }}>
         {currentPlayer && (
-          <React.Fragment>
+          <Fader>
             <h2 css={{ fontSize: 40, textAlign: 'center' }}>
               {currentPlayer.name}
             </h2>
             <p css={{ fontSize: 50, textAlign: 'center' }}>
               {currentPlayer.threeZeroOnePoints}
             </p>
-          </React.Fragment>
+          </Fader>
         )}
         {currentPlayer && <RemovePoints onEnterPoints={onUpdatePoints} />}
       </div>
@@ -125,6 +126,7 @@ function RemovePoints({
               onEnterPoints(0, setEditableNumber)
               x.current?.setAttribute('autofocus', 'true')
               x.current?.focus()
+              toast('Das war wohl nix 🤪')
             } else {
               setEditableNumber(points)
             }
