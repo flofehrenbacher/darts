@@ -1,6 +1,6 @@
 import React from 'react'
 import InputNumber from 'react-input-number'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { buttonStyle, Player } from './App'
 import { usePlayers, useSetPlayers } from './context'
 import { inputStyle } from './home'
@@ -8,6 +8,7 @@ import { Layout } from './layout'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { theme } from './theme'
+import { useGoBack } from './go-back'
 
 export function EditPlayer() {
   const { id } = useParams()
@@ -33,11 +34,7 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
 
-  const history = useHistory()
-
-  React.useEffect(() => {
-    console.log({ editableNumber, editableName })
-  }, [editableName, editableNumber])
+  const goBack = useGoBack()
 
   function onEditPlayer() {
     setPlayers([
@@ -48,8 +45,7 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
         name: editableName,
       },
     ])
-    console.log()
-    history.goBack()
+    goBack()
   }
 
   return (

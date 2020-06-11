@@ -69,7 +69,7 @@ function AppWithRouteAccess() {
   return (
     <SetPlayersProvider value={setPlayers}>
       <PlayersProvider value={players}>
-        <Switch component={Fader} css={{ height: '100%' }}>
+        <Switch component={Fader}>
           <LocalStorageRoute path="/hunter">
             <Hunter />
           </LocalStorageRoute>
@@ -97,7 +97,6 @@ function LocalStorageRoute({
 }) {
   const { pathname } = useLocation()
   React.useEffect(() => {
-    console.log(path)
     localStorage.setItem('currentPath', pathname)
   }, [path, pathname])
   return <Route path={path}>{children}</Route>

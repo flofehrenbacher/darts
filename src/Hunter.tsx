@@ -35,7 +35,6 @@ export function Hunter() {
       updatePlayer.lives[index] = !alive
 
       if (updatePlayer?.lives.every((live) => !live)) {
-        console.log(updatePlayer?.lives)
         if (bonusAvailable) {
           alert('Es gibt ja noch den Bonus ☘️ Glück gehabt!')
           updatePlayer.lives[1] = true

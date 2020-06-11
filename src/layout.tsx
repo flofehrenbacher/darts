@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 import { theme } from './theme'
 import { RestartIcon } from './icons'
+import { useGoBack } from './go-back'
 
 export function Layout({
   children,
@@ -18,7 +19,7 @@ export function Layout({
   rightIcon?: React.ReactNode
   resetGame?: () => void
 }) {
-  const history = useHistory()
+  const goBack = useGoBack()
 
   return (
     <main
@@ -29,7 +30,7 @@ export function Layout({
         margin: '0 auto',
         maxWidth: '500px',
         overflowY: 'scroll',
-        height: '100vw',
+        height: '100vh',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -69,7 +70,7 @@ export function Layout({
                 fontSize: 20,
                 fontWeight: 500,
               }}
-              onClick={() => history.goBack()}
+              onClick={goBack}
             >
               ←
             </button>
