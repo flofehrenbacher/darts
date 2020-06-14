@@ -1,11 +1,11 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { Player } from './App'
-import { usePlayers, useSetPlayers } from './context'
-import { HitIcon, LifeIcon } from './icons'
-import { Layout } from './layout'
-import { theme } from './theme'
-import { useStickyState } from './use-sticky-state'
+import { Player } from '../app'
+import { usePlayers, useSetPlayers } from '../context'
+import { HitIcon, LifeIcon } from '../components/icons'
+import { Layout } from '../layout'
+import { theme } from '../styles/theme'
+import { useStickyState } from '../use-sticky-state'
 
 export function Hunter() {
   const setPlayers = useSetPlayers()

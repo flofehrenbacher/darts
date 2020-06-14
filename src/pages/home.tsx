@@ -1,14 +1,14 @@
 import React, { CSSProperties } from 'react'
-import { useSetPlayers, usePlayers } from './context'
-import { Layout } from './layout'
-import { buttonStyle, Player } from './App'
+import { useSetPlayers, usePlayers } from '../context'
+import { Layout } from '../layout'
+import { buttonStyle, Player } from '../app'
 import { Link, useHistory } from 'react-router-dom'
-import { useStickyState } from './use-sticky-state'
+import { useStickyState } from '../use-sticky-state'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { theme } from './theme'
+import { theme } from '../styles/theme'
 import { toast } from 'react-toastify'
-import { RemoveIcon } from './icons'
+import { RemoveIcon } from '../components/icons'
 
 export function Home({
   onRemovePlayer,

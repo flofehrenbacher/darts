@@ -2,9 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { theme } from './theme'
-import { RestartIcon } from './icons'
-import { useGoBack } from './go-back'
+import { theme } from './styles/theme'
+import { RestartIcon } from './components/icons'
+import { useGoBack } from './utils/go-back'
 
 export function Layout({
   children,
