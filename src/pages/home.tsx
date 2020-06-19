@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { RemoveIcon } from '../components/icons'
 import { CurrentPlayerIdKey } from '../three-zero-one'
 import { BonusAvailableKey } from './hunter'
+import { InitialCricketMap } from './cricket'
 
 export function Home({
   onRemovePlayer,
@@ -141,17 +142,6 @@ function AddPlayerForm(props: any) {
       ? `${newPlayer.name}2`
       : newPlayer.name
 
-    const cricketNumbbers = [
-      ...Array.from({ length: 6 }).map((_, index) => index + 15),
-      25,
-    ]
-    const cricketMap: Record<
-      string,
-      [true | false, true | false, true | false]
-    > = Object.fromEntries(
-      cricketNumbbers.map((number) => [number, [false, false, false]])
-    )
-
     setPlayers([
       ...players,
       {
@@ -162,7 +152,7 @@ function AddPlayerForm(props: any) {
         number: newPlayer.number,
         stillInGame: true,
         threeZeroOnePoints: 301,
-        cricketMap,
+        cricketMap: InitialCricketMap,
       },
     ])
     toast(`${newPlayerN} hinzugefügt`)

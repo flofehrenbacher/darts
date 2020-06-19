@@ -23,9 +23,32 @@ const responsive = {
   },
 }
 
+const CricketNumbbers = [
+  ...Array.from({ length: 6 }).map((_, index) => index + 15),
+  25,
+]
+export const InitialCricketMap: Record<
+  string,
+  [true | false, true | false, true | false]
+> = Object.fromEntries(
+  CricketNumbbers.map((number) => [number, [false, false, false]])
+)
+
 export function Cricket() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
+
+  function resetGame() {
+    const confirmation = window.confirm('Spiel wiederholen?')
+    if (confirmation) {
+      setPlayers((previousPlayers) => {
+        return previousPlayers.map((p) => ({
+          ...p,
+          cricketMap: InitialCricketMap,
+        }))
+      })
+    }
+  }
 
   function onClickHit(
     player: Player,
@@ -41,7 +64,7 @@ export function Cricket() {
   }
 
   return (
-    <Layout pageType="CRICKET" title="Cricket">
+    <Layout pageType="CRICKET" title="Cricket" resetGame={resetGame}>
       <Carousel
         responsive={responsive}
         showDots
