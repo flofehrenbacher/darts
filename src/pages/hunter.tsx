@@ -124,7 +124,9 @@ export function Hunter() {
                 player={player}
                 onClickHit={onClickHit}
                 onClickLive={onClickLive}
-                isLastPlayer={players.length === i + 1}
+                isLastPlayer={
+                  players.filter((p) => p.stillInGame).length === i + 1
+                }
               />
             ))}
         </ul>
