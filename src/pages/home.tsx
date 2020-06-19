@@ -76,6 +76,13 @@ export function Home({
               </button>
             </Link>
           </li>
+          <li>
+            <Link css={[gameLinkStyles]} to="/cricket">
+              <button css={[buttonStyle(theme.signalGreen), { marginTop: 2 }]}>
+                CRICKET
+              </button>
+            </Link>
+          </li>
         </ul>
         <button
           css={[buttonStyle(theme.dark, theme.signalRed), { marginTop: 20 }]}
@@ -134,6 +141,17 @@ function AddPlayerForm(props: any) {
       ? `${newPlayer.name}2`
       : newPlayer.name
 
+    const cricketNumbbers = [
+      ...Array.from({ length: 6 }).map((_, index) => index + 15),
+      25,
+    ]
+    const cricketMap: Record<
+      string,
+      [true | false, true | false, true | false]
+    > = Object.fromEntries(
+      cricketNumbbers.map((number) => [number, [false, false, false]])
+    )
+
     setPlayers([
       ...players,
       {
@@ -144,6 +162,7 @@ function AddPlayerForm(props: any) {
         number: newPlayer.number,
         stillInGame: true,
         threeZeroOnePoints: 301,
+        cricketMap,
       },
     ])
     toast(`${newPlayerN} hinzugefügt`)

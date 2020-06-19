@@ -14,6 +14,7 @@ import { useStickyState } from './use-sticky-state'
 import Switch from 'react-router-transition-switch'
 import Fader from 'react-fader'
 import { Debug } from './pages/debug'
+import { Cricket } from './pages/cricket'
 
 export type Player = {
   id: number
@@ -23,6 +24,7 @@ export type Player = {
   number?: number
   stillInGame: boolean
   threeZeroOnePoints: number
+  cricketMap: Record<string, [true | false, true | false, true | false]>
 }
 
 export const buttonStyle = (color: string, borderColor?: string) => css`
@@ -58,9 +60,18 @@ export function App() {
   )
 }
 
+const HunterVersionKey = 'hunter-version'
 export const PlayersKey = 'dart-players'
 function AppWithRouteAccess() {
+  React.useEffect(() => {
+    if (localStorage.getItem(HunterVersionKey) === null) {
+      localStorage.setItem(PlayersKey, '[]')
+      localStorage.setItem(HunterVersionKey, '1')
+      alert('Update: Es gibt jetzt auch Cricket 🥳')
+    }
+  }, [])
   const [players, setPlayers] = useStickyState<Player[]>([], PlayersKey)
+
   function onRemovePlayer(player: Player) {
     const confirmation = window.confirm(
       `Spieler ${player.name} wirklich entfernen?`
@@ -86,6 +97,9 @@ function AppWithRouteAccess() {
           </LocalStorageRoute>
           <LocalStorageRoute path="/hunter">
             <Hunter />
+          </LocalStorageRoute>
+          <LocalStorageRoute path="/cricket">
+            <Cricket />
           </LocalStorageRoute>
           <LocalStorageRoute path="/301">
             <ThreeZeroOne />

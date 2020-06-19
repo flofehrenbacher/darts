@@ -14,7 +14,7 @@ export function Layout({
   resetGame,
 }: {
   children: React.ReactNode
-  pageType: 'HUNTER' | '301' | 'HOME' | 'EDIT_PLAYER' | 'DEBUG'
+  pageType: 'HUNTER' | '301' | 'HOME' | 'EDIT_PLAYER' | 'DEBUG' | 'CRICKET'
   title?: string
   rightIcon?: React.ReactNode
   resetGame?: () => void
