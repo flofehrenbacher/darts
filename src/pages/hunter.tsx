@@ -7,6 +7,8 @@ import { Layout } from '../layout'
 import { theme } from '../styles/theme'
 import { useStickyState } from '../use-sticky-state'
 
+export const BonusAvailableKey = 'bonus-available'
+
 export function Hunter() {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
@@ -14,7 +16,7 @@ export function Hunter() {
 
   const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
     true,
-    'bonus-available'
+    BonusAvailableKey
   )
 
   function onClickHit(player: Player, hit: boolean, index: number) {

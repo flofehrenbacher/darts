@@ -10,20 +10,23 @@ import { useStickyState } from './use-sticky-state'
 import { toast } from 'react-toastify'
 import Fader from 'react-fader'
 
+export const CurrentPlayerIdKey = 'current-player-id'
+
 export function ThreeZeroOne() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
 
   const [currentPlayerId, setCurrentPlayerId] = useStickyState(
-    0,
-    'current-player-id'
+    players.sort((p1, p2) => p1.id - p2.id).find((p) => p.id >= 0)?.id ?? 0,
+    CurrentPlayerIdKey
   )
-
-  // React.useEffect(() => setCurrentPlayerId(0))
 
   function resetGame() {
     const confirmation = window.confirm('Spiel wiederholen?')
     if (confirmation) {
+      setCurrentPlayerId(
+        players.sort((p1, p2) => p1.id - p2.id).find((p) => p.id >= 0)?.id ?? 0
+      )
       setPlayers((previousPlayers) => {
         return previousPlayers.map((p) => ({
           ...p,
@@ -33,7 +36,9 @@ export function ThreeZeroOne() {
     }
   }
 
-  const currentPlayer = players.find((p) => currentPlayerId === p.id)
+  const currentPlayer = players
+    .sort((p1, p2) => p1.id - p2.id)
+    .find((p) => currentPlayerId === p.id)
 
   function onUpdatePoints(
     editableNumber: number,
@@ -47,7 +52,15 @@ export function ThreeZeroOne() {
         { ...currentPlayer, threeZeroOnePoints: newPoints },
       ])
       setEditableNumber(undefined)
-      setCurrentPlayerId((currentPlayerId + 1) % players.length)
+      const nextPlayer = players
+        .sort((p1, p2) => p1.id - p2.id)
+        .find((p) => p.id > currentPlayerId)
+
+      setCurrentPlayerId(
+        nextPlayer?.id ??
+          players.sort((p1, p2) => p1.id - p2.id).find((p) => p.id >= 0)?.id ??
+          0
+      )
     }
   }
 
@@ -55,7 +68,6 @@ export function ThreeZeroOne() {
     <Layout pageType="301" title="301" resetGame={resetGame}>
       <ul>
         {players
-          .filter((p) => p.stillInGame)
           .sort((p1, p2) => p1.id - p2.id)
           .map((player, i) => (
             <li key={player.id}>
@@ -135,23 +147,6 @@ function RemovePoints({
           }
         }}
       />
-      {/* <InputNumber
-        ref={x}
-        min={1}
-        max={180}
-        step={1}
-        css={{
-          ...inputStyle,
-          width: '70px',
-        }}
-        required
-        id="newPlayerNumber"
-        value={editableNumber === undefined ? '' : editableNumber}
-        onChange={(x: number) => {
-          setEditableNumber(x)
-        }}
-        enableMobileNumericKeyboard
-      /> */}
       <button css={[buttonStyle(theme.dark, theme.white), { marginTop: 20 }]}>
         Weiter
       </button>

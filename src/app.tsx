@@ -9,10 +9,11 @@ import { EditPlayer } from './pages/edit-player'
 import { Home } from './pages/home'
 import { Hunter } from './pages/hunter'
 import { theme } from './styles/theme'
-import { ThreeZeroOne } from './three-zero-one'
+import { ThreeZeroOne, CurrentPlayerIdKey } from './three-zero-one'
 import { useStickyState } from './use-sticky-state'
 import Switch from 'react-router-transition-switch'
 import Fader from 'react-fader'
+import { Debug } from './pages/debug'
 
 export type Player = {
   id: number
@@ -57,19 +58,32 @@ export function App() {
   )
 }
 
+export const PlayersKey = 'dart-players'
 function AppWithRouteAccess() {
-  const [players, setPlayers] = useStickyState<Player[]>([], '')
+  const [players, setPlayers] = useStickyState<Player[]>([], PlayersKey)
   function onRemovePlayer(player: Player) {
     const confirmation = window.confirm(
       `Spieler ${player.name} wirklich entfernen?`
     )
-    confirmation && setPlayers(players.filter((p) => p.id !== player.id))
+    if (confirmation) {
+      setPlayers(players.filter((p) => p.id !== player.id))
+      const currentPlayerId = Number(
+        localStorage.getItem(CurrentPlayerIdKey) ?? 0
+      )
+      const currentPlayer = players
+        .sort((p1, p2) => p1.id - p2.id)
+        .find((p) => p.id >= currentPlayerId && !(p.id === player.id))
+      localStorage.setItem(CurrentPlayerIdKey, `${currentPlayer?.id ?? 0}`)
+    }
   }
 
   return (
     <SetPlayersProvider value={setPlayers}>
       <PlayersProvider value={players}>
         <Switch component={Fader}>
+          <LocalStorageRoute path="/debug">
+            <Debug />
+          </LocalStorageRoute>
           <LocalStorageRoute path="/hunter">
             <Hunter />
           </LocalStorageRoute>

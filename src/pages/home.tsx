@@ -9,6 +9,8 @@ import { css, jsx } from '@emotion/core'
 import { theme } from '../styles/theme'
 import { toast } from 'react-toastify'
 import { RemoveIcon } from '../components/icons'
+import { CurrentPlayerIdKey } from '../three-zero-one'
+import { BonusAvailableKey } from './hunter'
 
 export function Home({
   onRemovePlayer,
@@ -81,12 +83,22 @@ export function Home({
             const confirmation = window.confirm(
               'Wirklich alle Spieler entfernen?'
             )
-            confirmation && setPlayers([])
-            localStorage.setItem('bonus-available', 'true')
+            if (confirmation) {
+              setPlayers([])
+              localStorage.setItem(CurrentPlayerIdKey, '0')
+              localStorage.setItem(BonusAvailableKey, 'true')
+            }
           }}
         >
           Zurücksetzen
         </button>
+        {window.location.search.includes('debug') && (
+          <Link css={[gameLinkStyles]} to="/debug">
+            <button css={[buttonStyle(theme.signalGreen), { marginTop: 2 }]}>
+              DEBUG
+            </button>
+          </Link>
+        )}
       </div>
     </Layout>
   )
