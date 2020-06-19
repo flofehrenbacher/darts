@@ -27,12 +27,13 @@ const CricketNumbbers = [
   ...Array.from({ length: 6 }).map((_, index) => index + 15),
   25,
 ]
-export const InitialCricketMap: Record<
+export const createInitialCricketMap: () => Record<
   string,
   [true | false, true | false, true | false]
-> = Object.fromEntries(
-  CricketNumbbers.map((number) => [number, [false, false, false]])
-)
+> = () =>
+  Object.fromEntries(
+    CricketNumbbers.map((number) => [number, [false, false, false]])
+  )
 
 export function Cricket() {
   const players = usePlayers()
@@ -44,7 +45,7 @@ export function Cricket() {
       setPlayers((previousPlayers) => {
         return previousPlayers.map((p) => ({
           ...p,
-          cricketMap: InitialCricketMap,
+          cricketMap: createInitialCricketMap(),
         }))
       })
     }
