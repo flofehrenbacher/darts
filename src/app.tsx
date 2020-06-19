@@ -65,23 +65,9 @@ export function App() {
   )
 }
 
-const HunterVersionKey = 'hunter-version'
 export const PlayersKey = 'dart-players'
 function AppWithRouteAccess() {
-  const history = useHistory()
   const [players, setPlayers] = useStickyState<Player[]>([], PlayersKey)
-  React.useEffect(() => {
-    if (
-      localStorage.getItem(HunterVersionKey) === null ||
-      Number(localStorage.getItem(HunterVersionKey)) < 2
-    ) {
-      localStorage.setItem(PlayersKey, '[]')
-      setPlayers([])
-      localStorage.setItem(HunterVersionKey, '2')
-      alert('Update: Es gibt jetzt auch Cricket 🥳')
-      history.push('/home')
-    }
-  }, [history, setPlayers])
 
   function onRemovePlayer(player: Player) {
     const confirmation = window.confirm(
