@@ -1,14 +1,14 @@
 import React from 'react'
 import InputNumber from 'react-input-number'
 import { useParams } from 'react-router-dom'
-import { buttonStyle, Player } from './App'
-import { usePlayers, useSetPlayers } from './context'
+import { buttonStyle, Player } from '../app'
+import { usePlayers, useSetPlayers } from '../context'
 import { inputStyle } from './home'
-import { Layout } from './layout'
+import { Layout } from '../layout'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
-import { theme } from './theme'
-import { useGoBack } from './go-back'
+import { theme } from '../styles/theme'
+import { useGoBack } from '../utils/go-back'
 
 export function EditPlayer() {
   const { id } = useParams()

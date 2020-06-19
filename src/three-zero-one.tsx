@@ -1,9 +1,9 @@
 import React from 'react'
-import { buttonStyle } from './App'
+import { buttonStyle } from './app'
 import { usePlayers, useSetPlayers } from './context'
 import { Layout } from './layout'
-import { inputStyle } from './home'
-import { theme } from './theme'
+import { inputStyle } from './pages/home'
+import { theme } from './styles/theme'
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
 import { useStickyState } from './use-sticky-state'
