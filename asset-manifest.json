@@ -1,26 +1,26 @@
 {
   "files": {
     "main.css": "/darts/static/css/main.fb14b20b.chunk.css",
-    "main.js": "/darts/static/js/main.294fe9e7.chunk.js",
-    "main.js.map": "/darts/static/js/main.294fe9e7.chunk.js.map",
+    "main.js": "/darts/static/js/main.adf3364f.chunk.js",
+    "main.js.map": "/darts/static/js/main.adf3364f.chunk.js.map",
     "runtime-main.js": "/darts/static/js/runtime-main.4e9586ce.js",
     "runtime-main.js.map": "/darts/static/js/runtime-main.4e9586ce.js.map",
     "static/css/2.de9afe10.chunk.css": "/darts/static/css/2.de9afe10.chunk.css",
-    "static/js/2.73c27669.chunk.js": "/darts/static/js/2.73c27669.chunk.js",
-    "static/js/2.73c27669.chunk.js.map": "/darts/static/js/2.73c27669.chunk.js.map",
+    "static/js/2.6bf7864e.chunk.js": "/darts/static/js/2.6bf7864e.chunk.js",
+    "static/js/2.6bf7864e.chunk.js.map": "/darts/static/js/2.6bf7864e.chunk.js.map",
     "index.html": "/darts/index.html",
-    "precache-manifest.ab92512d5ef93ae24da259c4d720f7ce.js": "/darts/precache-manifest.ab92512d5ef93ae24da259c4d720f7ce.js",
+    "precache-manifest.64a320057e44412a9c5cbe49b1a05c22.js": "/darts/precache-manifest.64a320057e44412a9c5cbe49b1a05c22.js",
     "service-worker.js": "/darts/service-worker.js",
     "static/css/2.de9afe10.chunk.css.map": "/darts/static/css/2.de9afe10.chunk.css.map",
     "static/css/main.fb14b20b.chunk.css.map": "/darts/static/css/main.fb14b20b.chunk.css.map",
-    "static/js/2.73c27669.chunk.js.LICENSE.txt": "/darts/static/js/2.73c27669.chunk.js.LICENSE.txt",
+    "static/js/2.6bf7864e.chunk.js.LICENSE.txt": "/darts/static/js/2.6bf7864e.chunk.js.LICENSE.txt",
     "static/media/styles.css": "/darts/static/media/revicons.2feb69cc.eot"
   },
   "entrypoints": [
     "static/js/runtime-main.4e9586ce.js",
     "static/css/2.de9afe10.chunk.css",
-    "static/js/2.73c27669.chunk.js",
+    "static/js/2.6bf7864e.chunk.js",
     "static/css/main.fb14b20b.chunk.css",
-    "static/js/main.294fe9e7.chunk.js"
+    "static/js/main.adf3364f.chunk.js"
   ]
 }
