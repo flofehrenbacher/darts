@@ -66,27 +66,29 @@ export function ThreeZeroOne() {
 
   return (
     <Layout pageType="301" title="301" resetGame={resetGame}>
-      <ul>
-        {players
-          .sort((p1, p2) => p1.id - p2.id)
-          .map((player, i) => (
-            <li key={player.id}>
-              {player.name} {player.threeZeroOnePoints}
-            </li>
-          ))}
-      </ul>
-      <div css={{ marginTop: 30 }}>
-        {currentPlayer && (
-          <Fader>
-            <h2 css={{ fontSize: 40, textAlign: 'center' }}>
-              {currentPlayer.name}
-            </h2>
-            <p css={{ fontSize: 50, textAlign: 'center' }}>
-              {currentPlayer.threeZeroOnePoints}
-            </p>
-          </Fader>
-        )}
-        {currentPlayer && <RemovePoints onEnterPoints={onUpdatePoints} />}
+      <div css={{ minHeight: '100%' }}>
+        <ul>
+          {players
+            .sort((p1, p2) => p1.id - p2.id)
+            .map((player, i) => (
+              <li key={player.id}>
+                {player.name} {player.threeZeroOnePoints}
+              </li>
+            ))}
+        </ul>
+        <div css={{ marginTop: 30 }}>
+          {currentPlayer && (
+            <Fader>
+              <h2 css={{ fontSize: 40, textAlign: 'center' }}>
+                {currentPlayer.name}
+              </h2>
+              <p css={{ fontSize: 50, textAlign: 'center' }}>
+                {currentPlayer.threeZeroOnePoints}
+              </p>
+            </Fader>
+          )}
+          {currentPlayer && <RemovePoints onEnterPoints={onUpdatePoints} />}
+        </div>
       </div>
     </Layout>
   )

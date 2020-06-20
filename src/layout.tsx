@@ -107,7 +107,17 @@ export function Layout({
           {rightIcon}
         </div>
       </div>
-      <div css={{ padding: 5, flexGrow: 1 }}>{children}</div>
+      <div
+        css={{
+          padding: 5,
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+        }}
+      >
+        {children}
+      </div>
     </main>
   )
 }

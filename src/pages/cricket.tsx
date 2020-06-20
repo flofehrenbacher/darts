@@ -1,5 +1,5 @@
 import React from 'react'
-import { HitIcon } from '../components/icons'
+import { HitIcon, BullsEyeIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
 /** @jsx jsx */
@@ -23,8 +23,10 @@ const responsive = {
   },
 }
 
-const CricketNumbbers = [
-  ...Array.from({ length: 6 }).map((_, index) => index + 15),
+const CricketNumbersInOrder = [
+  ...Array.from({ length: 6 })
+    .map((_, index) => index + 15)
+    .reverse(),
   25,
 ]
 export const createInitialCricketMap: () => Record<
@@ -32,7 +34,7 @@ export const createInitialCricketMap: () => Record<
   [true | false, true | false, true | false]
 > = () =>
   Object.fromEntries(
-    CricketNumbbers.map((number) => [number, [false, false, false]])
+    CricketNumbersInOrder.map((number) => [number, [false, false, false]])
   )
 
 export function Cricket() {
@@ -54,7 +56,7 @@ export function Cricket() {
   function onClickHit(
     player: Player,
     hit: boolean,
-    cricketNumber: string,
+    cricketNumber: number,
     index: number
   ) {
     const updatePlayer = players.find((p) => p.id === player.id)
@@ -70,13 +72,18 @@ export function Cricket() {
         responsive={responsive}
         showDots
         infinite
-        arrows={false}
+        arrows
         keyBoardControl
+        css={{ marginBottom: 30 }}
       >
         {players
           .sort((p1, p2) => p1.id - p2.id)
           .map((p) => (
-            <GamePlayer player={p} onClickHit={onClickHit} />
+            <GamePlayer
+              key={`cricket-player-${p.id}`}
+              player={p}
+              onClickHit={onClickHit}
+            />
           ))}
       </Carousel>
     </Layout>
@@ -91,7 +98,7 @@ function GamePlayer({
   onClickHit: (
     player: Player,
     hit: boolean,
-    cricketNumber: string,
+    cricketNumber: number,
     index: number
   ) => void
 }) {
@@ -111,21 +118,39 @@ function GamePlayer({
           margin: 0,
           padding: 0,
           display: 'flex',
-          justifyContent: 'space-between',
         }}
       >
-        <span style={{ fontSize: 40, marginBottom: 30 }}>{player.name}</span>{' '}
-        <span style={{ fontSize: 45, fontWeight: 600, marginLeft: 20 }}>
-          {player.number}
-        </span>
+        <span style={{ fontSize: 40, marginBottom: 30 }}>{player.name}</span>
       </h2>
       <div>
-        {Object.keys(player.cricketMap).map((cricketNumber) => (
+        {CricketNumbersInOrder.map((cricketNumber) => (
           <div
-            css={{ display: 'flex', marginTop: '10px', alignItems: 'center' }}
+            css={{
+              display: 'flex',
+              marginTop: '10px',
+              alignItems: 'center',
+              marginLeft: '-35px',
+            }}
+            key={`cricket-number-${cricketNumber}`}
           >
-            <span css={{ flexBasis: '40px', fontSize: '20px' }}>
-              {cricketNumber}
+            <span
+              css={{
+                flexBasis: '70px',
+                fontSize: '20px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              {cricketNumber === 25 ? (
+                <BullsEyeIcon
+                  style={{
+                    width: '60px',
+                  }}
+                />
+              ) : (
+                cricketNumber
+              )}
             </span>
             {player.cricketMap[cricketNumber].map((hit, index) => {
               return (
