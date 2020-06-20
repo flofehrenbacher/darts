@@ -1,14 +1,16 @@
-import React from 'react'
-import { buttonStyle } from './app'
-import { usePlayers, useSetPlayers } from './context'
-import { Layout } from './layout'
-import { inputStyle } from './pages/home'
-import { theme } from './styles/theme'
+import { jsx } from '@emotion/core';
+import React from 'react';
+import Fader from 'react-fader';
+import { toast } from 'react-toastify';
+
+import { buttonStyle } from '../app';
+import { usePlayers, useSetPlayers } from '../context';
+import { Layout } from '../layout';
+import { theme } from '../styles/theme';
+import { useStickyState } from '../use-sticky-state';
+import { inputStyle } from './home';
+
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { useStickyState } from './use-sticky-state'
-import { toast } from 'react-toastify'
-import Fader from 'react-fader'
 
 export const CurrentPlayerIdKey = 'current-player-id'
 

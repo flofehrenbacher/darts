@@ -1,12 +1,15 @@
-import React from 'react'
-import { HitIcon, BullsEyeIcon } from '../components/icons'
-import { usePlayers, useSetPlayers } from '../context'
-import { Layout } from '../layout'
+import 'react-multi-carousel/lib/styles.css';
+
+import { jsx } from '@emotion/core';
+import React from 'react';
+import Carousel from 'react-multi-carousel';
+
+import { Player } from '../app';
+import { BullsEyeIcon, HitIcon } from '../components/icons';
+import { usePlayers, useSetPlayers } from '../context';
+import { Layout } from '../layout';
+
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import { Player } from '../app'
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
 
 const responsive = {
   desktop: {

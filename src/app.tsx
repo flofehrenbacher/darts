@@ -1,23 +1,20 @@
-import { css, Global } from '@emotion/core'
-import emotionReset from 'emotion-reset'
-import React from 'react'
-import {
-  MemoryRouter as Router,
-  Route,
-  useLocation,
-  Switch,
-} from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { PlayersProvider, SetPlayersProvider } from './context'
-import { EditPlayer } from './pages/edit-player'
-import { Home } from './pages/home'
-import { Hunter } from './pages/hunter'
-import { theme } from './styles/theme'
-import { ThreeZeroOne, CurrentPlayerIdKey } from './three-zero-one'
-import { useStickyState } from './use-sticky-state'
-import { Debug } from './pages/debug'
-import { Cricket } from './pages/cricket'
+import 'react-toastify/dist/ReactToastify.css';
+
+import { css, Global } from '@emotion/core';
+import emotionReset from 'emotion-reset';
+import React from 'react';
+import { MemoryRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+
+import { PlayersProvider, SetPlayersProvider } from './context';
+import { Cricket } from './pages/cricket';
+import { Debug } from './pages/debug';
+import { EditPlayer } from './pages/edit-player';
+import { Home } from './pages/home';
+import { Hunter } from './pages/hunter';
+import { CurrentPlayerIdKey, ThreeZeroOne } from './pages/three-zero-one';
+import { theme } from './styles/theme';
+import { useStickyState } from './use-sticky-state';
 
 export type Player = {
   id: number

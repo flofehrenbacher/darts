@@ -1,5 +1,6 @@
-import React from 'react'
-import { theme } from '../styles/theme'
+import React from 'react';
+
+import { theme } from '../styles/theme';
 
 export function HitIcon(props: any) {
   return (

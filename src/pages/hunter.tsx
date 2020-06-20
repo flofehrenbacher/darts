@@ -1,11 +1,12 @@
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { Player } from '../app'
-import { usePlayers, useSetPlayers } from '../context'
-import { HitIcon, LifeIcon } from '../components/icons'
-import { Layout } from '../layout'
-import { theme } from '../styles/theme'
-import { useStickyState } from '../use-sticky-state'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+
+import { Player } from '../app';
+import { HitIcon, LifeIcon } from '../components/icons';
+import { usePlayers, useSetPlayers } from '../context';
+import { Layout } from '../layout';
+import { theme } from '../styles/theme';
+import { useStickyState } from '../use-sticky-state';
 
 export const BonusAvailableKey = 'bonus-available'
 

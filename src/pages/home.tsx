@@ -1,17 +1,19 @@
-import React, { CSSProperties } from 'react'
-import { useSetPlayers, usePlayers } from '../context'
-import { Layout } from '../layout'
-import { buttonStyle, Player } from '../app'
-import { Link, useHistory } from 'react-router-dom'
-import { useStickyState } from '../use-sticky-state'
+import { css, jsx } from '@emotion/core';
+import React, { CSSProperties } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import { buttonStyle, Player } from '../app';
+import { RemoveIcon } from '../components/icons';
+import { usePlayers, useSetPlayers } from '../context';
+import { Layout } from '../layout';
+import { theme } from '../styles/theme';
+import { useStickyState } from '../use-sticky-state';
+import { createInitialCricketMap } from './cricket';
+import { BonusAvailableKey } from './hunter';
+import { CurrentPlayerIdKey } from './three-zero-one';
+
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core'
-import { theme } from '../styles/theme'
-import { toast } from 'react-toastify'
-import { RemoveIcon } from '../components/icons'
-import { CurrentPlayerIdKey } from '../three-zero-one'
-import { BonusAvailableKey } from './hunter'
-import { createInitialCricketMap } from './cricket'
 
 export function Home({
   onRemovePlayer,
