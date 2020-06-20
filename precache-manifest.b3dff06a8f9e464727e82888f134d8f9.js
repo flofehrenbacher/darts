@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2ba3056ff82ee101f2ec9c5525d486c9",
+    "revision": "1ce756673507900420b85817fa480811",
     "url": "/darts/index.html"
   },
   {
-    "revision": "27809c9bb47d199fc842",
+    "revision": "93c0fe8ef03583d98cfc",
     "url": "/darts/static/css/2.de9afe10.chunk.css"
   },
   {
-    "revision": "5933bff0f1cdb73367f4",
+    "revision": "e67472a5744e74abde9f",
     "url": "/darts/static/css/main.47d76ea0.chunk.css"
   },
   {
-    "revision": "27809c9bb47d199fc842",
-    "url": "/darts/static/js/2.6bf7864e.chunk.js"
+    "revision": "93c0fe8ef03583d98cfc",
+    "url": "/darts/static/js/2.b8e633ec.chunk.js"
   },
   {
     "revision": "3453b8997016469371284a28c0e873e2",
-    "url": "/darts/static/js/2.6bf7864e.chunk.js.LICENSE.txt"
+    "url": "/darts/static/js/2.b8e633ec.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5933bff0f1cdb73367f4",
-    "url": "/darts/static/js/main.9a367011.chunk.js"
+    "revision": "e67472a5744e74abde9f",
+    "url": "/darts/static/js/main.e2992bf0.chunk.js"
   },
   {
     "revision": "8537b9ab9552d426b467",
