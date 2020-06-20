@@ -1,1 +1,0 @@
-{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,UAEE,YAAa,CACb,WAAY,CACZ,KAAM,CACN,MACF,CAEA,MACE,eAAiB,CACjB,WACF,CAEA,oBACE,OACF","file":"main.9aa99342.chunk.css","sourcesContent":["body,\nhtml {\n  height: 100vh;\n  width: 100vw;\n  top: 0;\n  left: 0;\n}\n\n#root {\n  background: black;\n  height: 100%;\n}\n\n::-webkit-scrollbar {\n  width: 0;\n}\n"]}
