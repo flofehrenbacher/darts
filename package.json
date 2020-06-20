@@ -6,14 +6,13 @@
   "dependencies": {
     "@emotion/core": "^10.0.28",
     "emotion-reset": "^2.0.7",
+    "react-fader": "^3.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-fader": "^3.1.1",
     "react-input-number": "^5.0.19",
     "react-multi-carousel": "^2.5.5",
     "react-responsive-carousel": "^3.2.8",
     "react-router-dom": "^5.2.0",
-    "react-router-transition-switch": "^1.1.2",
     "react-scripts": "3.4.1",
     "react-toastify": "^6.0.5",
     "typescript": "^3.7.5"

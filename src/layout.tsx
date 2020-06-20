@@ -29,9 +29,8 @@ export function Layout({
         color: theme.white,
         margin: '0 auto',
         maxWidth: '500px',
-        overflowY: 'scroll',
-        height: '100vh',
         display: 'flex',
+        minHeight: '100%',
         flexDirection: 'column',
       }}
     >

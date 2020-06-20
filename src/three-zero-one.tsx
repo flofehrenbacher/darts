@@ -66,7 +66,7 @@ export function ThreeZeroOne() {
 
   return (
     <Layout pageType="301" title="301" resetGame={resetGame}>
-      <div css={{ minHeight: '100%' }}>
+      <div css={{ flexGrow: 1 }}>
         <ul>
           {players
             .sort((p1, p2) => p1.id - p2.id)

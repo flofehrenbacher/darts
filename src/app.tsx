@@ -5,7 +5,7 @@ import {
   MemoryRouter as Router,
   Route,
   useLocation,
-  useHistory,
+  Switch,
 } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,8 +16,6 @@ import { Hunter } from './pages/hunter'
 import { theme } from './styles/theme'
 import { ThreeZeroOne, CurrentPlayerIdKey } from './three-zero-one'
 import { useStickyState } from './use-sticky-state'
-import Switch from 'react-router-transition-switch'
-import Fader from 'react-fader'
 import { Debug } from './pages/debug'
 import { Cricket } from './pages/cricket'
 
@@ -88,7 +86,7 @@ function AppWithRouteAccess() {
   return (
     <SetPlayersProvider value={setPlayers}>
       <PlayersProvider value={players}>
-        <Switch component={Fader}>
+        <Switch>
           <LocalStorageRoute path="/debug">
             <Debug />
           </LocalStorageRoute>

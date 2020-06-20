@@ -168,6 +168,7 @@ function AddPlayerForm(props: any) {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        flexShrink: 0,
       }}
       {...props}
     >
