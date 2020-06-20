@@ -15,3 +15,24 @@ html {
 ::-webkit-scrollbar {
   width: 0;
 }
+
+.custom-dots {
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-dots li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-dots li button {
+  border: none;
+  background-color: #ffffff;
+}
+
+.custom-dots li.react-multi-carousel-dot--active button {
+  background-color: #226f54;
+}

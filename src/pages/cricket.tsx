@@ -74,11 +74,9 @@ export function Cricket() {
       <div css={{ paddingBottom: 30 }}>
         <Carousel
           responsive={responsive}
-          showDots
           infinite
-          arrows
-          keyBoardControl
-          renderDotsOutside={false}
+          showDots
+          dotListClass="custom-dots"
         >
           {players
             .sort((p1, p2) => p1.id - p2.id)
