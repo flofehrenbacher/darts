@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/darts/precache-manifest.c1c54d9b635d5f05054a856293884be9.js"
+  "/darts/precache-manifest.310d01dca780df110a264c3787fdb648.js"
 );
 
 self.addEventListener('message', (event) => {
