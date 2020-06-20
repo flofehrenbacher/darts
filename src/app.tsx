@@ -12,12 +12,13 @@ import { Debug } from './pages/debug';
 import { EditPlayer } from './pages/edit-player';
 import { Home } from './pages/home';
 import { Hunter } from './pages/hunter';
-import { CurrentPlayerIdKey, ThreeZeroOne } from './pages/three-zero-one';
+import { CurrentPlayerIndexKey, ThreeZeroOne } from './pages/three-zero-one';
 import { theme } from './styles/theme';
 import { useStickyState } from './use-sticky-state';
 
 export type Player = {
   id: number
+  index: number
   name: string
   lives: [true | false, true | false, true | false]
   hits: [true | false, true | false, true | false]
@@ -69,20 +70,22 @@ function AppWithRouteAccess() {
       `Spieler ${player.name} wirklich entfernen?`
     )
     if (confirmation) {
+      const remainingPlayers = players.filter((p) => p.id !== player.id)
+      const currentPlayerIndex = localStorage.getItem(CurrentPlayerIndexKey)
+      if (Number(currentPlayerIndex) > remainingPlayers.length - 1) {
+        localStorage.setItem(CurrentPlayerIndexKey, '0')
+      }
       setPlayers(players.filter((p) => p.id !== player.id))
-      const currentPlayerId = Number(
-        localStorage.getItem(CurrentPlayerIdKey) ?? 0
-      )
-      const currentPlayer = players
-        .sort((p1, p2) => p1.id - p2.id)
-        .find((p) => p.id >= currentPlayerId && !(p.id === player.id))
-      localStorage.setItem(CurrentPlayerIdKey, `${currentPlayer?.id ?? 0}`)
     }
   }
 
   return (
     <SetPlayersProvider value={setPlayers}>
-      <PlayersProvider value={players}>
+      <PlayersProvider
+        value={players
+          .sort((p1, p2) => p1.index - p2.index)
+          .map((p, i) => ({ ...p, index: i }))}
+      >
         <Switch>
           <LocalStorageRoute path="/debug">
             <Debug />

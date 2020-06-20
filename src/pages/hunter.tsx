@@ -118,7 +118,6 @@ export function Hunter() {
         <ul style={{ listStyle: 'none' }}>
           {players
             .filter((p) => p.stillInGame)
-            .sort((p1, p2) => p1.id - p2.id)
             .map((player, i) => (
               <GamePlayer
                 key={player.name}

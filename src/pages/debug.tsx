@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Player, PlayersKey } from '../app';
 import { Layout } from '../layout';
-import { CurrentPlayerIdKey } from './three-zero-one';
+import { CurrentPlayerIndexKey } from './three-zero-one';
 
 export function Debug() {
   const players = JSON.parse(
@@ -10,7 +10,7 @@ export function Debug() {
   ) as Player[]
 
   const currentPlayerId = JSON.parse(
-    localStorage.getItem(CurrentPlayerIdKey) ?? ''
+    localStorage.getItem(CurrentPlayerIndexKey) ?? ''
   )
   return (
     <React.Fragment>

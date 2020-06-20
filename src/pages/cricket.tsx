@@ -78,15 +78,13 @@ export function Cricket() {
           showDots
           dotListClass="custom-dots"
         >
-          {players
-            .sort((p1, p2) => p1.id - p2.id)
-            .map((p) => (
-              <GamePlayer
-                key={`cricket-player-${p.id}`}
-                player={p}
-                onClickHit={onClickHit}
-              />
-            ))}
+          {players.map((p) => (
+            <GamePlayer
+              key={`cricket-player-${p.id}`}
+              player={p}
+              onClickHit={onClickHit}
+            />
+          ))}
         </Carousel>
       </div>
     </Layout>

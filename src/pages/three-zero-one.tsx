@@ -12,23 +12,21 @@ import { inputStyle } from './home';
 
 /** @jsx jsx */
 
-export const CurrentPlayerIdKey = 'current-player-id'
+export const CurrentPlayerIndexKey = 'current-player-index'
 
 export function ThreeZeroOne() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
 
-  const [currentPlayerId, setCurrentPlayerId] = useStickyState(
-    players.sort((p1, p2) => p1.id - p2.id).find((p) => p.id >= 0)?.id ?? 0,
-    CurrentPlayerIdKey
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useStickyState(
+    players.find((p) => p.index >= 0)?.index ?? 0,
+    CurrentPlayerIndexKey
   )
 
   function resetGame() {
     const confirmation = window.confirm('Spiel wiederholen?')
     if (confirmation) {
-      setCurrentPlayerId(
-        players.sort((p1, p2) => p1.id - p2.id).find((p) => p.id >= 0)?.id ?? 0
-      )
+      setCurrentPlayerIndex(players.find((p) => p.index >= 0)?.index ?? 0)
       setPlayers((previousPlayers) => {
         return previousPlayers.map((p) => ({
           ...p,
@@ -38,9 +36,7 @@ export function ThreeZeroOne() {
     }
   }
 
-  const currentPlayer = players
-    .sort((p1, p2) => p1.id - p2.id)
-    .find((p) => currentPlayerId === p.id)
+  const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
 
   function onUpdatePoints(
     editableNumber: number,
@@ -50,18 +46,14 @@ export function ThreeZeroOne() {
       const newPoints = currentPlayer.threeZeroOnePoints - editableNumber
 
       setPlayers([
-        ...players.filter((p) => p.id !== currentPlayer.id),
+        ...players.filter((p) => p.index !== currentPlayer.index),
         { ...currentPlayer, threeZeroOnePoints: newPoints },
       ])
       setEditableNumber(undefined)
-      const nextPlayer = players
-        .sort((p1, p2) => p1.id - p2.id)
-        .find((p) => p.id > currentPlayerId)
+      const nextPlayer = players.find((p) => p.index > currentPlayerIndex)
 
-      setCurrentPlayerId(
-        nextPlayer?.id ??
-          players.sort((p1, p2) => p1.id - p2.id).find((p) => p.id >= 0)?.id ??
-          0
+      setCurrentPlayerIndex(
+        nextPlayer?.index ?? players.find((p) => p.index >= 0)?.index ?? 0
       )
     }
   }
@@ -70,13 +62,11 @@ export function ThreeZeroOne() {
     <Layout pageType="301" title="301" resetGame={resetGame}>
       <div css={{ flexGrow: 1 }}>
         <ul>
-          {players
-            .sort((p1, p2) => p1.id - p2.id)
-            .map((player, i) => (
-              <li key={player.id}>
-                {player.name} {player.threeZeroOnePoints}
-              </li>
-            ))}
+          {players.map((player, i) => (
+            <li key={player.id}>
+              {player.name} {player.threeZeroOnePoints}
+            </li>
+          ))}
         </ul>
         <div css={{ marginTop: 30 }}>
           {currentPlayer && (
@@ -133,7 +123,7 @@ function RemovePoints({
         required
         autoFocus
         id="newPlayerNumber"
-        value={editableNumber === undefined ? '' : editableNumber}
+        value={editableNumber === undefined ? '' : String(editableNumber)}
         onChange={(event) => {
           event.preventDefault()
           const points = Number(event.target.value)
