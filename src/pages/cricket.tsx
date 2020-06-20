@@ -71,24 +71,26 @@ export function Cricket() {
 
   return (
     <Layout pageType="CRICKET" title="Cricket" resetGame={resetGame}>
-      <Carousel
-        responsive={responsive}
-        showDots
-        infinite
-        arrows
-        keyBoardControl
-        css={{ marginBottom: 30 }}
-      >
-        {players
-          .sort((p1, p2) => p1.id - p2.id)
-          .map((p) => (
-            <GamePlayer
-              key={`cricket-player-${p.id}`}
-              player={p}
-              onClickHit={onClickHit}
-            />
-          ))}
-      </Carousel>
+      <div css={{ paddingBottom: 30 }}>
+        <Carousel
+          responsive={responsive}
+          showDots
+          infinite
+          arrows
+          keyBoardControl
+          renderDotsOutside={false}
+        >
+          {players
+            .sort((p1, p2) => p1.id - p2.id)
+            .map((p) => (
+              <GamePlayer
+                key={`cricket-player-${p.id}`}
+                player={p}
+                onClickHit={onClickHit}
+              />
+            ))}
+        </Carousel>
+      </div>
     </Layout>
   )
 }
