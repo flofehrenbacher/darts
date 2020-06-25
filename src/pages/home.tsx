@@ -1,18 +1,26 @@
-import { css, jsx } from '@emotion/core';
-import React, { CSSProperties } from 'react';
-import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from 'react-beautiful-dnd';
-import { Link, useHistory } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { css, jsx } from '@emotion/core'
+import React, { CSSProperties } from 'react'
+import {
+  DragDropContext,
+  Draggable,
+  DraggingStyle,
+  Droppable,
+  DropResult,
+  NotDraggingStyle,
+} from 'react-beautiful-dnd'
+import { Link, useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import arrayMove from 'array-move'
 
-import { buttonStyle, Player } from '../app';
-import { RemoveIcon, SwapIcon } from '../components/icons';
-import { usePlayers, useSetPlayers } from '../context';
-import { Layout } from '../layout';
-import { theme } from '../styles/theme';
-import { useStickyState } from '../use-sticky-state';
-import { createInitialCricketMap } from './cricket';
-import { BonusAvailableKey } from './hunter';
-import { CurrentPlayerIndexKey } from './three-zero-one';
+import { buttonStyle, Player } from '../app'
+import { RemoveIcon, SwapIcon } from '../components/icons'
+import { usePlayers, useSetPlayers } from '../context'
+import { Layout } from '../layout'
+import { theme } from '../styles/theme'
+import { useStickyState } from '../use-sticky-state'
+import { createInitialCricketMap } from './cricket'
+import { BonusAvailableKey } from './hunter'
+import { CurrentPlayerIndexKey } from './three-zero-one'
 
 /** @jsx jsx */
 
@@ -27,21 +35,6 @@ const getItemStyle = (
   }),
   ...draggableStyle,
 })
-
-function reorder(
-  players: Player[],
-  startIndex: number,
-  endIndex: number
-): Player[] {
-  const replacedPlayer = players[endIndex]
-  const movedPlayer = players[startIndex]
-
-  let reorderedPlayers = players
-  reorderedPlayers[startIndex] = replacedPlayer
-  reorderedPlayers[endIndex] = movedPlayer
-
-  return reorderedPlayers.map((p, i) => ({ ...p, index: i }))
-}
 
 export function Home({
   onRemovePlayer,
@@ -63,11 +56,11 @@ export function Home({
         destination.index === source.index
       )
     ) {
-      const newOrderOfPlayers = reorder(
+      const newOrderOfPlayers = arrayMove(
         players,
         source.index,
         destination.index
-      )
+      ).map((p, i) => ({ ...p, index: i }))
 
       setPlayers(newOrderOfPlayers)
     }
