@@ -1,20 +1,25 @@
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 
-import { css, Global } from '@emotion/core';
-import emotionReset from 'emotion-reset';
-import React from 'react';
-import { MemoryRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { css, Global } from '@emotion/core'
+import emotionReset from 'emotion-reset'
+import React from 'react'
+import {
+  MemoryRouter as Router,
+  Route,
+  Switch,
+  useLocation,
+} from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
-import { PlayersProvider, SetPlayersProvider } from './context';
-import { Cricket } from './pages/cricket';
-import { Debug } from './pages/debug';
-import { EditPlayer } from './pages/edit-player';
-import { Home } from './pages/home';
-import { Hunter } from './pages/hunter';
-import { CurrentPlayerIndexKey, ThreeZeroOne } from './pages/three-zero-one';
-import { theme } from './styles/theme';
-import { useStickyState } from './use-sticky-state';
+import { PlayersProvider, SetPlayersProvider } from './context'
+import { Cricket } from './pages/cricket'
+import { Debug } from './pages/debug'
+import { EditPlayer } from './pages/edit-player'
+import { Home } from './pages/home'
+import { Hunter } from './pages/hunter'
+import { CurrentPlayerIndexKey, ThreeZeroOne } from './pages/three-zero-one'
+import { theme } from './styles/theme'
+import { useStickyState } from './use-sticky-state'
 
 export type Player = {
   id: number
@@ -28,16 +33,20 @@ export type Player = {
   cricketMap: Record<string, [true | false, true | false, true | false]>
 }
 
-export const buttonStyle = (color: string, borderColor?: string) => css`
+export const buttonStyle = (
+  backgroundColor: string,
+  borderColor?: string
+) => css`
   display: block;
   padding: 7px;
   width: 100%;
   color: ${theme.white};
   border: none;
-  background-color: ${color};
+  background-color: ${backgroundColor};
   font-size: 20px;
   font-weight: 500;
   border: 2px solid ${borderColor ?? 'transparent'};
+  letter-spacing: 2px;
 `
 
 export function App() {

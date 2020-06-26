@@ -145,19 +145,23 @@ export function Home({
         <h2 css={headlineStyles}>Spiel starten</h2>
         <ul style={{ listStyle: 'none' }}>
           <Link css={gameLinkStyles} to="/hunter">
-            <button css={buttonStyle(theme.signalGreen)}>HUNTER</button>
+            <button css={buttonStyle('transparent', theme.grey)}>HUNTER</button>
           </Link>
 
           <li>
             <Link css={[gameLinkStyles]} to="/301">
-              <button css={[buttonStyle(theme.signalGreen), { marginTop: 2 }]}>
+              <button
+                css={[buttonStyle('transparent', theme.grey), { marginTop: 2 }]}
+              >
                 301
               </button>
             </Link>
           </li>
           <li>
             <Link css={[gameLinkStyles]} to="/cricket">
-              <button css={[buttonStyle(theme.signalGreen), { marginTop: 2 }]}>
+              <button
+                css={[buttonStyle('transparent', theme.grey), { marginTop: 2 }]}
+              >
                 CRICKET
               </button>
             </Link>
