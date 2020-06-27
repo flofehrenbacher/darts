@@ -1,13 +1,15 @@
-import 'react-multi-carousel/lib/styles.css';
+import 'react-multi-carousel/lib/styles.css'
 
-import { jsx } from '@emotion/core';
-import React from 'react';
-import Carousel from 'react-multi-carousel';
+import { jsx } from '@emotion/core'
+import React from 'react'
+import Carousel from 'react-multi-carousel'
 
-import { Player } from '../app';
-import { BullsEyeIcon, HitIcon } from '../components/icons';
-import { usePlayers, useSetPlayers } from '../context';
-import { Layout } from '../layout';
+import { Player, useThrowConfettiFor } from '../app'
+import { BullsEyeIcon, HitIcon } from '../components/icons'
+import { usePlayers, useSetPlayers } from '../context'
+import { Layout } from '../layout'
+import { toast } from 'react-toastify'
+import { useStickyState } from '../use-sticky-state'
 
 /** @jsx jsx */
 
@@ -43,10 +45,14 @@ export const createInitialCricketMap: () => Record<
 export function Cricket() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
+  const [isGameOver, setIsGameOver] = useStickyState(false, 'cricket-over')
+
+  const throwConfetti = useThrowConfettiFor()
 
   function resetGame() {
     const confirmation = window.confirm('Spiel wiederholen?')
     if (confirmation) {
+      setIsGameOver(false)
       setPlayers((previousPlayers) => {
         return previousPlayers.map((p) => ({
           ...p,
@@ -65,6 +71,19 @@ export function Cricket() {
     const updatePlayer = players.find((p) => p.id === player.id)
     if (updatePlayer) {
       updatePlayer.cricketMap[cricketNumber][index] = !hit
+
+      const finishedGame = Object.keys(
+        updatePlayer.cricketMap
+      ).every((cricketNumber) =>
+        updatePlayer.cricketMap[cricketNumber].every((done) => done === true)
+      )
+
+      if (finishedGame && isGameOver === false) {
+        setIsGameOver(true)
+        toast(`${updatePlayer.name} ist wohl der Cricket-Master!!!`)
+        throwConfetti()
+      }
+
       setPlayers([...players.filter((p) => p.id !== player.id), updatePlayer])
     }
   }

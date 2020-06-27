@@ -15,6 +15,7 @@ export function Hunter() {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
   const throwConfetti = useThrowConfettiFor()
+  const [isGameOver, setIsGameOver] = useStickyState(false, 'hunter-over')
 
   const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
     true,
@@ -62,7 +63,8 @@ export function Hunter() {
       ])
 
       const restPlayers = players.filter((p) => p.stillInGame)
-      if (restPlayers.length === 1) {
+      if (restPlayers.length === 1 && isGameOver === false) {
+        setIsGameOver(true)
         const promise = throwConfetti()
         toast(`Nicht schlecht, ${restPlayers[0].name}! Weiter so 🎊🍻🥳`)
         await promise
@@ -93,6 +95,7 @@ export function Hunter() {
     const confirmation =
       alreadyConfirmed || window.confirm('Spiel wiederholen?')
     if (confirmation) {
+      setIsGameOver(false)
       setPlayers((previousPlayers) => {
         return previousPlayers.map((p) => ({
           ...p,

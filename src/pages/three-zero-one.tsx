@@ -1,14 +1,14 @@
-import { jsx } from '@emotion/core';
-import React from 'react';
-import Fader from 'react-fader';
-import { toast } from 'react-toastify';
+import { jsx } from '@emotion/core'
+import React from 'react'
+import Fader from 'react-fader'
+import { toast } from 'react-toastify'
 
-import { buttonStyle } from '../app';
-import { usePlayers, useSetPlayers } from '../context';
-import { Layout } from '../layout';
-import { theme } from '../styles/theme';
-import { useStickyState } from '../use-sticky-state';
-import { inputStyle } from './home';
+import { buttonStyle, useThrowConfettiFor } from '../app'
+import { usePlayers, useSetPlayers } from '../context'
+import { Layout } from '../layout'
+import { theme } from '../styles/theme'
+import { useStickyState } from '../use-sticky-state'
+import { inputStyle } from './home'
 
 /** @jsx jsx */
 
@@ -17,6 +17,9 @@ export const CurrentPlayerIndexKey = 'current-player-index'
 export function ThreeZeroOne() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
+  const [isGameOver, setIsGameOver] = useStickyState(false, '301-over')
+
+  const throwConfetti = useThrowConfettiFor()
 
   const [currentPlayerIndex, setCurrentPlayerIndex] = useStickyState(
     players.find((p) => p.index >= 0)?.index ?? 0,
@@ -26,6 +29,7 @@ export function ThreeZeroOne() {
   function resetGame() {
     const confirmation = window.confirm('Spiel wiederholen?')
     if (confirmation) {
+      setIsGameOver(false)
       setCurrentPlayerIndex(players.find((p) => p.index >= 0)?.index ?? 0)
       setPlayers((previousPlayers) => {
         return previousPlayers.map((p) => ({
@@ -38,12 +42,17 @@ export function ThreeZeroOne() {
 
   const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
 
-  function onUpdatePoints(
+  async function onUpdatePoints(
     editableNumber: number,
     setEditableNumber: React.Dispatch<React.SetStateAction<number | undefined>>
   ) {
     if (editableNumber !== undefined && currentPlayer !== undefined) {
       const newPoints = currentPlayer.threeZeroOnePoints - editableNumber
+      if (newPoints === 0 && isGameOver === false) {
+        setIsGameOver(true)
+        throwConfetti()
+        toast(`Congrats, ${currentPlayer.name}!!!`)
+      }
 
       setPlayers([
         ...players.filter((p) => p.index !== currentPlayer.index),
