@@ -1,10 +1,10 @@
-import { css, jsx } from '@emotion/core';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { css, jsx } from '@emotion/core'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
-import { RestartIcon } from './components/icons';
-import { theme } from './styles/theme';
-import { useGoBack } from './utils/go-back';
+import { RestartIcon } from './components/icons'
+import { theme } from './styles/theme'
+import { useGoBack } from './utils/go-back'
 
 /** @jsx jsx */
 

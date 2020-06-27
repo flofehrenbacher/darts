@@ -1,19 +1,20 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react'
+import { useHistory } from 'react-router-dom'
 
-import { Player } from '../app';
-import { HitIcon, LifeIcon } from '../components/icons';
-import { usePlayers, useSetPlayers } from '../context';
-import { Layout } from '../layout';
-import { theme } from '../styles/theme';
-import { useStickyState } from '../use-sticky-state';
+import { Player, useThrowConfettiFor } from '../app'
+import { HitIcon, LifeIcon } from '../components/icons'
+import { usePlayers, useSetPlayers } from '../context'
+import { Layout } from '../layout'
+import { theme } from '../styles/theme'
+import { useStickyState } from '../use-sticky-state'
+import { toast } from 'react-toastify'
 
 export const BonusAvailableKey = 'bonus-available'
 
 export function Hunter() {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
-  const history = useHistory()
+  const throwConfetti = useThrowConfettiFor()
 
   const [bonusAvailable, setBonusAvailble] = useStickyState<boolean>(
     true,
@@ -31,7 +32,7 @@ export function Hunter() {
     }
   }
 
-  function onClickLive(player: Player, alive: boolean, index: number) {
+  async function onClickLive(player: Player, alive: boolean, index: number) {
     const updatePlayer = players.find((p) => p.name === player.name)
     let wasPlayerRemoved = false
     if (updatePlayer !== undefined) {
@@ -39,7 +40,7 @@ export function Hunter() {
 
       if (updatePlayer?.lives.every((live) => !live)) {
         if (bonusAvailable) {
-          alert('Es gibt ja noch den Bonus ☘️ Glück gehabt!')
+          toast('Es gibt ja noch den Bonus ☘️ Glück gehabt!')
           updatePlayer.lives[1] = true
           setPlayers([
             ...players.filter((p) => p.name !== player.name),
@@ -62,15 +63,12 @@ export function Hunter() {
 
       const restPlayers = players.filter((p) => p.stillInGame)
       if (restPlayers.length === 1) {
+        const promise = throwConfetti()
+        toast(`Nicht schlecht, ${restPlayers[0].name}! Weiter so 🎊🍻🥳`)
+        await promise
         resetGame(true)
-        const confirmation = window.confirm(
-          `Glückwunsch ${restPlayers[0].name}🎊🍻🥳\n Nochmal spielen? 🤓`
-        )
-        if (!confirmation) {
-          history.push('home')
-        }
       } else if (wasPlayerRemoved) {
-        alert(
+        toast(
           `${updatePlayer.name} fliegt als ${
             players.filter((p) => !p.stillInGame).length
           }. aus dem Spiel ✌️`
