@@ -16,7 +16,14 @@ export function Layout({
   resetGame,
 }: {
   children: React.ReactNode
-  pageType: 'HUNTER' | '301' | 'HOME' | 'EDIT_PLAYER' | 'DEBUG' | 'CRICKET'
+  pageType:
+    | 'HUNTER'
+    | '301'
+    | 'HOME'
+    | 'EDIT_PLAYER'
+    | 'DEBUG'
+    | 'CRICKET'
+    | 'HALF_IT'
   title?: string
   rightIcon?: React.ReactNode
   resetGame?: () => void
@@ -40,9 +47,8 @@ export function Layout({
         style={{
           height: 60,
           display: 'flex',
-          backgroundColor: theme.white,
+          background: rainbow,
           margin: 0,
-          color: 'black',
           overflow: 'hidden',
           position: 'sticky',
           top: 0,
@@ -58,7 +64,7 @@ export function Layout({
           style={{
             height: '100%',
             width: 60,
-            backgroundColor: pageType !== 'HOME' ? theme.grey : 'none',
+            background: 'transparent',
           }}
         >
           {pageType !== 'HOME' && (
@@ -69,7 +75,9 @@ export function Layout({
                 display: 'block',
                 border: 'none',
                 fontSize: 20,
+                background: 'transparent',
                 fontWeight: 500,
+                color: 'white',
               }}
               onClick={goBack}
             >
@@ -96,10 +104,6 @@ export function Layout({
             display: 'flex',
             justifyContent: 'space-around',
             alignItems: 'center',
-            backgroundColor:
-              rightIcon !== undefined || resetGame !== undefined
-                ? theme.grey
-                : 'none',
           }}
         >
           {resetGame && (
@@ -110,7 +114,7 @@ export function Layout({
       </div>
       <div
         css={{
-          padding: 5,
+          padding: 10,
           flexGrow: 1,
           display: 'flex',
           flexDirection: 'column',
@@ -132,5 +136,10 @@ const styles = {
     text-align: center;
     font-weight: bold;
     font-size: 20px;
+    color: white;
   `,
 }
+
+export const rainbow = `linear-gradient(217deg, rgba(0,0,255,.8), rgba(0,0,255,0.2) 70%),
+linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0.2) 70%),
+linear-gradient(336deg, rgba(255,0,0,.8), rgba(255,0,0,0.2) 70%)`

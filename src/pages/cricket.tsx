@@ -4,12 +4,12 @@ import { jsx } from '@emotion/core'
 import React from 'react'
 import Carousel from 'react-multi-carousel'
 
-import { Player, useThrowConfettiFor } from '../app'
+import { useThrowConfettiFor } from '../app'
 import { BullsEyeIcon, HitIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
-import { toast } from 'react-toastify'
 import { useStickyState } from '../use-sticky-state'
+import { Player } from '../model/player'
 
 /** @jsx jsx */
 
@@ -80,7 +80,6 @@ export function Cricket() {
 
       if (finishedGame && isGameOver === false) {
         setIsGameOver(true)
-        toast(`${updatePlayer.name} ist wohl der Cricket-Master!!!`)
         throwConfetti()
       }
 

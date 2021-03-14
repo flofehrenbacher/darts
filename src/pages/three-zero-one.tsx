@@ -1,7 +1,6 @@
 import { jsx } from '@emotion/core'
 import React from 'react'
 import Fader from 'react-fader'
-import { toast } from 'react-toastify'
 
 import { buttonStyle, useThrowConfettiFor } from '../app'
 import { usePlayers, useSetPlayers } from '../context'
@@ -51,7 +50,6 @@ export function ThreeZeroOne() {
       if (newPoints === 0 && isGameOver === false) {
         setIsGameOver(true)
         throwConfetti()
-        toast(`Congrats, ${currentPlayer.name}!!!`)
       }
 
       setPlayers([
@@ -141,7 +139,6 @@ function RemovePoints({
               onEnterPoints(0, setEditableNumber)
               x.current?.setAttribute('autofocus', 'true')
               x.current?.focus()
-              toast('Das war wohl nix 🤪')
             } else {
               setEditableNumber(points)
             }
@@ -150,7 +147,7 @@ function RemovePoints({
           }
         }}
       />
-      <button css={[buttonStyle(theme.dark, theme.white), { marginTop: 20 }]}>
+      <button css={[buttonStyle(theme.white, theme.white), { marginTop: 20 }]}>
         Weiter
       </button>
     </form>

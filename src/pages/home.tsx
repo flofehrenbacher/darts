@@ -9,10 +9,9 @@ import {
   NotDraggingStyle,
 } from 'react-beautiful-dnd'
 import { Link, useHistory } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import arrayMove from 'array-move'
 
-import { buttonStyle, Player } from '../app'
+import { buttonStyle } from '../app'
 import { RemoveIcon, SwapIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
@@ -21,6 +20,7 @@ import { useStickyState } from '../use-sticky-state'
 import { createInitialCricketMap } from './cricket'
 import { BonusAvailableKey } from './hunter'
 import { CurrentPlayerIndexKey } from './three-zero-one'
+import { Player } from '../model/player'
 
 /** @jsx jsx */
 
@@ -67,7 +67,7 @@ export function Home({
   }
 
   return (
-    <Layout title="Darts" pageType="HOME">
+    <Layout title="darts" pageType="HOME">
       <h2 css={headlineStyles}>Spieler hinzufügen</h2>
       <AddPlayerForm css={{ marginTop: 20 }} />
       <div>
@@ -96,7 +96,7 @@ export function Home({
                             height: 40,
                             backgroundColor: theme.grey,
                             color: theme.dark,
-                            marginTop: 2,
+                            marginTop: 5,
                           }}
                           style={getItemStyle(
                             snapshot.isDragging,
@@ -105,9 +105,12 @@ export function Home({
                           key={p.id}
                           onClick={() => history.push(`edit-player/${p.id}`)}
                         >
-                          <span css={{ padding: 10, fontWeight: 600 }}>
-                            {p.name}
-                          </span>
+                          <div css={{ display: 'flex', alignItems: 'center' }}>
+                            <SwapIcon css={{ width: '35px' }} />
+                            <span css={{ padding: 10, fontWeight: 600 }}>
+                              {p.name}
+                            </span>
+                          </div>
                           <div
                             css={{
                               height: '100%',
@@ -116,7 +119,6 @@ export function Home({
                               alignItems: 'center',
                             }}
                           >
-                            <SwapIcon css={{ width: '35px' }} />
                             <button
                               css={{
                                 border: 'none',
@@ -144,14 +146,27 @@ export function Home({
         </ul>
         <h2 css={headlineStyles}>Spiel starten</h2>
         <ul style={{ listStyle: 'none' }}>
-          <Link css={gameLinkStyles} to="/hunter">
-            <button css={buttonStyle('transparent', theme.grey)}>HUNTER</button>
-          </Link>
+          <li>
+            <Link css={[gameLinkStyles]} to="/half-it">
+              <button css={[buttonStyle(theme.grey, theme.grey)]}>
+                HALF IT!
+              </button>
+            </Link>
+          </li>
+          <li>
+            <Link css={gameLinkStyles} to="/hunter">
+              <button
+                css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
+              >
+                HUNTER
+              </button>
+            </Link>
+          </li>
 
           <li>
             <Link css={[gameLinkStyles]} to="/301">
               <button
-                css={[buttonStyle('transparent', theme.grey), { marginTop: 2 }]}
+                css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
               >
                 301
               </button>
@@ -160,7 +175,7 @@ export function Home({
           <li>
             <Link css={[gameLinkStyles]} to="/cricket">
               <button
-                css={[buttonStyle('transparent', theme.grey), { marginTop: 2 }]}
+                css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
               >
                 CRICKET
               </button>
@@ -168,7 +183,10 @@ export function Home({
           </li>
         </ul>
         <button
-          css={[buttonStyle(theme.dark, theme.signalRed), { marginTop: 20 }]}
+          css={[
+            buttonStyle(theme.signalRed, theme.signalRed, theme.white),
+            { marginTop: 20 },
+          ]}
           onClick={() => {
             const confirmation = window.confirm(
               'Wirklich alle Spieler entfernen?'
@@ -184,7 +202,7 @@ export function Home({
         </button>
         {window.location.search.includes('debug') && (
           <Link css={[gameLinkStyles]} to="/debug">
-            <button css={[buttonStyle(theme.signalGreen), { marginTop: 2 }]}>
+            <button css={[buttonStyle(theme.signalGreen), { marginTop: 5 }]}>
               DEBUG
             </button>
           </Link>
@@ -241,7 +259,6 @@ function AddPlayerForm(props: any) {
         index: players.length > 0 ? players[players.length - 1].index + 1 : 0,
       },
     ])
-    toast(`${newPlayerN} hinzugefügt`)
   }
 
   return (
@@ -273,7 +290,10 @@ function AddPlayerForm(props: any) {
         }
       ></input>
       <button
-        css={[buttonStyle(theme.dark, theme.signalGreen), { marginTop: 10 }]}
+        css={[
+          buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
+          { marginTop: 10 },
+        ]}
       >
         Hinzufügen
       </button>

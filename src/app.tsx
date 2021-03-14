@@ -1,5 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css'
-
 import { css, Global } from '@emotion/core'
 import emotionReset from 'emotion-reset'
 import React from 'react'
@@ -9,7 +7,6 @@ import {
   Switch,
   useLocation,
 } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
 import Confetti from 'react-confetti'
 import useWindowSize from 'react-use/lib/useWindowSize'
 
@@ -23,29 +20,20 @@ import { CurrentPlayerIndexKey, ThreeZeroOne } from './pages/three-zero-one'
 import { theme } from './styles/theme'
 import { useStickyState } from './use-sticky-state'
 import { createDeferredPromise } from './utils/deferred-promise'
+import { HalfIt } from './pages/half-it'
+import { Player, PlayersKey } from './model/player'
 
-export const ConfettiDuration = 5000
-
-export type Player = {
-  id: number
-  index: number
-  name: string
-  lives: [true | false, true | false, true | false]
-  hits: [true | false, true | false, true | false]
-  number?: number
-  stillInGame: boolean
-  threeZeroOnePoints: number
-  cricketMap: Record<string, [true | false, true | false, true | false]>
-}
+export const ConfettiDuration = 3000
 
 export const buttonStyle = (
   backgroundColor: string,
-  borderColor?: string
+  borderColor?: string,
+  color = theme.dark
 ) => css`
   display: block;
   padding: 7px;
   width: 100%;
-  color: ${theme.white};
+  color: ${color};
   border: none;
   background-color: ${backgroundColor};
   font-size: 20px;
@@ -69,13 +57,11 @@ export function App() {
           }
         `}
       />
-      <ToastContainer pauseOnFocusLoss={false} pauseOnHover={false} />
       <AppWithRouteAccess />
     </Router>
   )
 }
 
-export const PlayersKey = 'dart-players'
 function AppWithRouteAccess() {
   const [players, setPlayers] = useStickyState<Player[]>([], PlayersKey)
 
@@ -113,6 +99,9 @@ function AppWithRouteAccess() {
             </LocalStorageRoute>
             <LocalStorageRoute path="/301">
               <ThreeZeroOne />
+            </LocalStorageRoute>
+            <LocalStorageRoute path="/half-it">
+              <HalfIt />
             </LocalStorageRoute>
             <LocalStorageRoute path="/edit-player/:id">
               <EditPlayer />
@@ -166,6 +155,7 @@ function ThrowConfettiForProvider({ children }: { children: React.ReactNode }) {
           width={width}
           height={height}
           tweenDuration={ConfettiDuration}
+          numberOfPieces={1000}
           onConfettiComplete={() => {
             setThrowConfetti(false)
             onConfettiComplete.resolve()

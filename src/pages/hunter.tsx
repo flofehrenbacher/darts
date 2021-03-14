@@ -1,13 +1,13 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { Player, useThrowConfettiFor } from '../app'
+import { useThrowConfettiFor } from '../app'
 import { HitIcon, LifeIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
 import { theme } from '../styles/theme'
 import { useStickyState } from '../use-sticky-state'
-import { toast } from 'react-toastify'
+import { Player } from '../model/player'
 
 export const BonusAvailableKey = 'bonus-available'
 
@@ -41,7 +41,6 @@ export function Hunter() {
 
       if (updatePlayer?.lives.every((live) => !live)) {
         if (bonusAvailable) {
-          toast('Es gibt ja noch den Bonus ☘️ Glück gehabt!')
           updatePlayer.lives[1] = true
           setPlayers([
             ...players.filter((p) => p.name !== player.name),
@@ -66,15 +65,12 @@ export function Hunter() {
       if (restPlayers.length === 1 && isGameOver === false) {
         setIsGameOver(true)
         const promise = throwConfetti()
-        toast(`Nicht schlecht, ${restPlayers[0].name}! Weiter so 🎊🍻🥳`)
         await promise
         resetGame(true)
       } else if (wasPlayerRemoved) {
-        toast(
-          `${updatePlayer.name} fliegt als ${
-            players.filter((p) => !p.stillInGame).length
-          }. aus dem Spiel ✌️`
-        )
+        // `${updatePlayer.name} fliegt als ${
+        //   players.filter((p) => !p.stillInGame).length
+        // }. aus dem Spiel ✌️`
       }
     }
   }
@@ -111,7 +107,7 @@ export function Hunter() {
   return (
     <Layout
       pageType="HUNTER"
-      title="Hunter"
+      title="hunter"
       rightIcon={RightIcon}
       resetGame={() => resetGame(false)}
     >

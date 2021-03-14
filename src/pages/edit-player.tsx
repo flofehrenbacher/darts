@@ -1,14 +1,15 @@
-import { css, jsx } from '@emotion/core';
-import React from 'react';
-import InputNumber from 'react-input-number';
-import { useParams } from 'react-router-dom';
+import { css, jsx } from '@emotion/core'
+import React from 'react'
+import InputNumber from 'react-input-number'
+import { useParams } from 'react-router-dom'
 
-import { buttonStyle, Player } from '../app';
-import { usePlayers, useSetPlayers } from '../context';
-import { Layout } from '../layout';
-import { theme } from '../styles/theme';
-import { useGoBack } from '../utils/go-back';
-import { inputStyle } from './home';
+import { buttonStyle } from '../app'
+import { usePlayers, useSetPlayers } from '../context'
+import { Layout } from '../layout'
+import { Player } from '../model/player'
+import { theme } from '../styles/theme'
+import { useGoBack } from '../utils/go-back'
+import { inputStyle } from './home'
 
 /** @jsx jsx */
 
@@ -112,9 +113,12 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
           />
         </div>
         <button
-          css={[buttonStyle(theme.dark, theme.signalGreen), { marginTop: 50 }]}
+          css={[
+            buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
+            { marginTop: 50 },
+          ]}
         >
-          Ändern
+          Speichern
         </button>
       </form>
     </div>

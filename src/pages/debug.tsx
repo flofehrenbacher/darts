@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import { Player, PlayersKey } from '../app';
-import { Layout } from '../layout';
-import { CurrentPlayerIndexKey } from './three-zero-one';
+import { Layout } from '../layout'
+import { Player, PlayersKey } from '../model/player'
+import { CurrentPlayerIndexKey } from './three-zero-one'
 
 export function Debug() {
   const players = JSON.parse(

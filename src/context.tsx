@@ -1,6 +1,5 @@
-import React from 'react';
-
-import { Player } from './app';
+import React from 'react'
+import { Player } from './model/player'
 
 const SetPlayersContext = React.createContext<
   React.Dispatch<React.SetStateAction<Player[]>> | undefined
