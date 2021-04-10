@@ -93,7 +93,7 @@ export function HalfIt() {
                       {currentPlayer.name}
                     </h2>
                     <p css={{ fontSize: 50, textAlign: 'center' }}>
-                      {currentPlayer.halfItPoints}
+                      {currentPlayer.halfItPoints ?? 0}
                     </p>
                   </Fader>
                   <button
