@@ -8,6 +8,8 @@ import { useGoBack } from './utils/go-back'
 
 /** @jsx jsx */
 
+export const headerHeight = 60
+
 export function Layout({
   children,
   title,
@@ -45,7 +47,7 @@ export function Layout({
     >
       <div
         style={{
-          height: 60,
+          height: headerHeight,
           display: 'flex',
           background: rainbow,
           margin: 0,

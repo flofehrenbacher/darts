@@ -2,12 +2,13 @@ import React from 'react'
 import Fader from 'react-fader'
 import { buttonStyle, useThrowConfettiFor } from '../app'
 import { usePlayers, useSetPlayers } from '../context'
-import { Layout, rainbow } from '../layout'
+import { headerHeight, Layout, rainbow } from '../layout'
 import { useStickyState } from '../use-sticky-state'
 
 import { jsx } from '@emotion/core'
 import { theme } from '../styles/theme'
 import { Player } from '../model/player'
+import { PointButtonsHalfIt } from '../components/point-buttons-half-it'
 
 /** @jsx jsx */
 
@@ -58,14 +59,87 @@ export function HalfIt() {
         {step < HalfItStep.length ? (
           <div css={{ marginTop: 30 }}>
             {currentPlayer && (
-              <Fader>
-                <h2 css={{ fontSize: 40, textAlign: 'center' }}>
-                  {currentPlayer.name}
-                </h2>
-                <p css={{ fontSize: 50, textAlign: 'center' }}>
-                  {currentPlayer.halfItPoints}
-                </p>
-              </Fader>
+              <div
+                css={{
+                  position: 'sticky',
+                  top: headerHeight,
+                  background: theme.dark,
+                }}
+              >
+                <span
+                  css={{
+                    position: 'absolute',
+                    textAlign: 'center',
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    fontSize: '100px',
+                    zIndex: -1,
+                    color: 'lightskyblue',
+                    opacity: 0.5,
+                  }}
+                >
+                  {HalfItStep[step]}
+                </span>
+                <div css={{ zIndex: 1 }}>
+                  <Fader>
+                    <h2
+                      css={{
+                        fontSize: 40,
+                        textAlign: 'center',
+                      }}
+                    >
+                      {currentPlayer.name}
+                    </h2>
+                    <p css={{ fontSize: 50, textAlign: 'center' }}>
+                      {currentPlayer.halfItPoints}
+                    </p>
+                  </Fader>
+                  <button
+                    css={[buttonStyle(theme.white), { marginTop: 20 }]}
+                    onClick={() => {
+                      nextPlayer(
+                        players,
+                        currentPlayerIndex,
+                        setCurrentPlayerIndex,
+                        setStep
+                      )
+                    }}
+                  >
+                    Weiter
+                  </button>
+                  <button
+                    css={[
+                      buttonStyle(rainbow, 'transparent', theme.white),
+                      { marginTop: 20 },
+                    ]}
+                    onClick={() => {
+                      const updatePlayer = {
+                        ...currentPlayer,
+                        halfItPoints: Math.floor(
+                          (currentPlayer?.halfItPoints ?? 0) / 2
+                        ),
+                      }
+
+                      setPlayers([
+                        ...players.filter(
+                          (p, i) => p.index !== currentPlayerIndex
+                        ),
+                        updatePlayer,
+                      ])
+                      nextPlayer(
+                        players,
+                        currentPlayerIndex,
+                        setCurrentPlayerIndex,
+                        setStep
+                      )
+                    }}
+                  >
+                    Half it!
+                  </button>
+                </div>
+              </div>
             )}
             {currentPlayer && (
               <MakePoints
@@ -95,88 +169,33 @@ function MakePoints({
   setStep,
 }: MakePointsProps) {
   const players = usePlayers()
-  const setPlayers = useSetPlayers()
   const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
 
-  if (currentPlayer && typeof currentStep === 'number') {
+  if (currentPlayer) {
     return (
       <React.Fragment>
-        <button
-          css={[
-            buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
-            { marginTop: 20 },
-          ]}
-          onClick={() => {
-            const updatePlayer = {
-              ...currentPlayer,
-              halfItPoints: (currentPlayer?.halfItPoints ?? 0) + currentStep,
-            }
-
-            setPlayers([
-              ...players.filter((p, i) => p.index !== currentPlayerIndex),
-              updatePlayer,
-            ])
-          }}
-        >
-          + {currentStep}
-        </button>
-        <button
-          css={[
-            buttonStyle(theme.signalRed, theme.signalRed, theme.white),
-            { marginTop: 20 },
-          ]}
-          onClick={() => {
-            const updatePlayer = {
-              ...currentPlayer,
-              halfItPoints: (currentPlayer?.halfItPoints ?? 0) - currentStep,
-            }
-
-            setPlayers([
-              ...players.filter((p, i) => p.index !== currentPlayerIndex),
-              updatePlayer,
-            ])
-          }}
-        >
-          - {currentStep}
-        </button>
-        <button
-          css={[
-            buttonStyle(rainbow, 'transparent', theme.white),
-            { marginTop: 20 },
-          ]}
-          onClick={() => {
-            const updatePlayer = {
-              ...currentPlayer,
-              halfItPoints: Math.floor((currentPlayer?.halfItPoints ?? 0) / 2),
-            }
-
-            setPlayers([
-              ...players.filter((p, i) => p.index !== currentPlayerIndex),
-              updatePlayer,
-            ])
-            nextPlayer(
-              players,
-              currentPlayerIndex,
-              setCurrentPlayerIndex,
-              setStep
-            )
-          }}
-        >
-          Half it!
-        </button>
-        <button
-          css={[buttonStyle(theme.white), { marginTop: 20 }]}
-          onClick={() => {
-            nextPlayer(
-              players,
-              currentPlayerIndex,
-              setCurrentPlayerIndex,
-              setStep
-            )
-          }}
-        >
-          Weiter
-        </button>
+        {typeof currentStep === 'number' ? (
+          <PointButtonsHalfIt
+            currentPlayerIndex={currentPlayerIndex}
+            currentPlayer={currentPlayer}
+            value={currentStep}
+          />
+        ) : (
+          [
+            50,
+            25,
+            ...Array.from({ length: 20 })
+              .map((_, value) => value + 1)
+              .reverse(),
+          ].map((n) => (
+            <PointButtonsHalfIt
+              currentPlayerIndex={currentPlayerIndex}
+              currentPlayer={currentPlayer}
+              value={n}
+              key={n}
+            />
+          ))
+        )}
       </React.Fragment>
     )
   }
@@ -200,7 +219,7 @@ type ElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<
   ? ElementType
   : never
 
-type HalfItStep = ElementType<typeof HalfItStep>
+export type HalfItStep = ElementType<typeof HalfItStep>
 
 function nextPlayer(
   players: Player[],

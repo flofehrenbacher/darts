@@ -148,7 +148,7 @@ export function Home({
         <ul style={{ listStyle: 'none' }}>
           <li>
             <Link css={[gameLinkStyles]} to="/half-it">
-              <button css={[buttonStyle(theme.grey, theme.grey)]}>
+              <button css={[buttonStyle('hotpink', theme.grey, 'white')]}>
                 HALF IT!
               </button>
             </Link>
