@@ -257,6 +257,7 @@ function AddPlayerForm(props: any) {
         threeZeroOnePoints: 301,
         cricketMap: createInitialCricketMap(),
         index: players.length > 0 ? players[players.length - 1].index + 1 : 0,
+        halfItPoints: 0,
       },
     ])
   }

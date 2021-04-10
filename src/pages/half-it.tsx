@@ -1,87 +1,220 @@
-import 'react-multi-carousel/lib/styles.css'
-
-import { css, jsx } from '@emotion/core'
 import React from 'react'
+import Fader from 'react-fader'
+import { buttonStyle, useThrowConfettiFor } from '../app'
+import { usePlayers, useSetPlayers } from '../context'
+import { Layout, rainbow } from '../layout'
+import { useStickyState } from '../use-sticky-state'
 
-import { useThrowConfettiFor } from '../app'
-import { Layout } from '../layout'
+import { jsx } from '@emotion/core'
+import { theme } from '../styles/theme'
+import { Player } from '../model/player'
 
 /** @jsx jsx */
 
-const CricketNumbersInOrder = [
-  ...Array.from({ length: 6 })
-    .map((_, index) => index + 15)
-    .reverse(),
-  25,
-]
-export const createInitialCricketMap: () => Record<
-  string,
-  [true | false, true | false, true | false]
-> = () =>
-  Object.fromEntries(
-    CricketNumbersInOrder.map((number) => [number, [false, false, false]])
-  )
+export const CurrentPlayerIndexKeyHalfIt = 'current-player-index-half-it'
 
 export function HalfIt() {
+  const players = usePlayers()
+  const setPlayers = useSetPlayers()
+  const [step, setStep] = useStickyState(0, 'half-it-step')
+
   const throwConfetti = useThrowConfettiFor()
+
   React.useEffect(() => {
-    throwConfetti()
-  })
+    step === HalfItStep.length && throwConfetti()
+  }, [step, throwConfetti])
+
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useStickyState(
+    players.find((p) => p.index >= 0)?.index ?? 0,
+    CurrentPlayerIndexKeyHalfIt
+  )
 
   function resetGame() {
-    throwConfetti()
+    const confirmation = window.confirm('Spiel wiederholen?')
+    if (confirmation) {
+      setCurrentPlayerIndex(players.find((p) => p.index >= 0)?.index ?? 0)
+      setPlayers((previousPlayers) => {
+        return previousPlayers.map((p) => ({
+          ...p,
+          halfItPoints: 0,
+        }))
+      })
+      setStep(0)
+    }
   }
+
+  const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
 
   return (
     <Layout pageType="HALF_IT" title="half it!" resetGame={resetGame}>
-      <div
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-grow: 1;
-
-          animation: text-shadow 1.5s ease-in-out infinite;
-          font-size: 5em;
-          font-weight: 900;
-          line-height: 1;
-          text-align: center;
-
-          @keyframes text-shadow {
-            0% {
-              transform: translateY(0);
-              text-shadow: 0 0 0 #0c2ffb, 0 0 0 #2cfcfd, 0 0 0 #fb203b,
-                0 0 0 #fefc4b;
-            }
-
-            20% {
-              transform: translateY(-1em);
-              text-shadow: 0 0.125em 0 #0c2ffb, 0 0.25em 0 #2cfcfd,
-                0 -0.125em 0 #fb203b, 0 -0.25em 0 #fefc4b;
-            }
-
-            40% {
-              transform: translateY(0.5em);
-              text-shadow: 0 -0.0625em 0 #0c2ffb, 0 -0.125em 0 #2cfcfd,
-                0 0.0625em 0 #fb203b, 0 0.125em 0 #fefc4b;
-            }
-
-            60% {
-              transform: translateY(-0.25em);
-              text-shadow: 0 0.03125em 0 #0c2ffb, 0 0.0625em 0 #2cfcfd,
-                0 -0.03125em 0 #fb203b, 0 -0.0625em 0 #fefc4b;
-            }
-
-            80% {
-              transform: translateY(0);
-              text-shadow: 0 0 0 #0c2ffb, 0 0 0 #2cfcfd, 0 0 0 #fb203b,
-                0 0 0 #fefc4b;
-            }
-          }
-        `}
-      >
-        COMING SOON!
+      <div css={{ flexGrow: 1 }}>
+        <ul>
+          {players.map((player, i) => (
+            <li key={player.id}>
+              {player.name} {player.halfItPoints}
+            </li>
+          ))}
+        </ul>
+        {step < HalfItStep.length ? (
+          <div css={{ marginTop: 30 }}>
+            {currentPlayer && (
+              <Fader>
+                <h2 css={{ fontSize: 40, textAlign: 'center' }}>
+                  {currentPlayer.name}
+                </h2>
+                <p css={{ fontSize: 50, textAlign: 'center' }}>
+                  {currentPlayer.halfItPoints}
+                </p>
+              </Fader>
+            )}
+            {currentPlayer && (
+              <MakePoints
+                currentStep={HalfItStep[step]}
+                currentPlayerIndex={currentPlayerIndex}
+                setCurrentPlayerIndex={setCurrentPlayerIndex}
+                setStep={setStep}
+              />
+            )}
+          </div>
+        ) : null}
       </div>
     </Layout>
   )
+}
+
+interface MakePointsProps {
+  currentStep: HalfItStep
+  currentPlayerIndex: number
+  setCurrentPlayerIndex: React.Dispatch<React.SetStateAction<number>>
+  setStep: React.Dispatch<React.SetStateAction<number>>
+}
+function MakePoints({
+  currentStep,
+  currentPlayerIndex,
+  setCurrentPlayerIndex,
+  setStep,
+}: MakePointsProps) {
+  const players = usePlayers()
+  const setPlayers = useSetPlayers()
+  const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
+
+  if (currentPlayer && typeof currentStep === 'number') {
+    return (
+      <React.Fragment>
+        <button
+          css={[
+            buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
+            { marginTop: 20 },
+          ]}
+          onClick={() => {
+            const updatePlayer = {
+              ...currentPlayer,
+              halfItPoints: (currentPlayer?.halfItPoints ?? 0) + currentStep,
+            }
+
+            setPlayers([
+              ...players.filter((p, i) => p.index !== currentPlayerIndex),
+              updatePlayer,
+            ])
+          }}
+        >
+          + {currentStep}
+        </button>
+        <button
+          css={[
+            buttonStyle(theme.signalRed, theme.signalRed, theme.white),
+            { marginTop: 20 },
+          ]}
+          onClick={() => {
+            const updatePlayer = {
+              ...currentPlayer,
+              halfItPoints: (currentPlayer?.halfItPoints ?? 0) - currentStep,
+            }
+
+            setPlayers([
+              ...players.filter((p, i) => p.index !== currentPlayerIndex),
+              updatePlayer,
+            ])
+          }}
+        >
+          - {currentStep}
+        </button>
+        <button
+          css={[
+            buttonStyle(rainbow, 'transparent', theme.white),
+            { marginTop: 20 },
+          ]}
+          onClick={() => {
+            const updatePlayer = {
+              ...currentPlayer,
+              halfItPoints: Math.floor((currentPlayer?.halfItPoints ?? 0) / 2),
+            }
+
+            setPlayers([
+              ...players.filter((p, i) => p.index !== currentPlayerIndex),
+              updatePlayer,
+            ])
+            nextPlayer(
+              players,
+              currentPlayerIndex,
+              setCurrentPlayerIndex,
+              setStep
+            )
+          }}
+        >
+          Half it!
+        </button>
+        <button
+          css={[buttonStyle(theme.white), { marginTop: 20 }]}
+          onClick={() => {
+            nextPlayer(
+              players,
+              currentPlayerIndex,
+              setCurrentPlayerIndex,
+              setStep
+            )
+          }}
+        >
+          Weiter
+        </button>
+      </React.Fragment>
+    )
+  }
+  return (
+    <button
+      css={[buttonStyle(theme.white), { marginTop: 20 }]}
+      onClick={() => {
+        nextPlayer(players, currentPlayerIndex, setCurrentPlayerIndex, setStep)
+      }}
+    >
+      Weiter
+    </button>
+  )
+}
+
+const HalfItStep = [15, 16, 'double', 17, 18, 'triple', 19, 20, 'bull'] as const
+
+type ElementType<T extends ReadonlyArray<unknown>> = T extends ReadonlyArray<
+  infer ElementType
+>
+  ? ElementType
+  : never
+
+type HalfItStep = ElementType<typeof HalfItStep>
+
+function nextPlayer(
+  players: Player[],
+  currentPlayerIndex: number,
+  setCurrentPlayerIndex: React.Dispatch<React.SetStateAction<number>>,
+  setStep: React.Dispatch<React.SetStateAction<number>>
+) {
+  const nextPlayer = players.find((p) => p.index > currentPlayerIndex)
+
+  setCurrentPlayerIndex(
+    nextPlayer?.index ?? players.find((p) => p.index >= 0)?.index ?? 0
+  )
+
+  if (currentPlayerIndex === players.length - 1) {
+    setStep((previousStep) => previousStep + 1)
+  }
 }

@@ -35,7 +35,7 @@ export const buttonStyle = (
   width: 100%;
   color: ${color};
   border: none;
-  background-color: ${backgroundColor};
+  background: ${backgroundColor};
   font-size: 20px;
   font-weight: 500;
   border: 2px solid ${borderColor ?? 'transparent'};
@@ -176,5 +176,5 @@ export function useThrowConfettiFor() {
     )
   }
 
-  return throwConfettiFor
+  return React.useCallback(throwConfettiFor, [])
 }

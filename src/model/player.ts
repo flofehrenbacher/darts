@@ -10,4 +10,5 @@ export type Player = {
   stillInGame: boolean
   threeZeroOnePoints: number
   cricketMap: Record<string, [true | false, true | false, true | false]>
+  halfItPoints: number
 }
