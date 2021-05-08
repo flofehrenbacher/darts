@@ -110,7 +110,10 @@ export function Layout({
           }}
         >
           {resetGame && (
-            <RestartIcon css={{ width: 40, height: 40 }} onClick={resetGame} />
+            <RestartIcon
+              css={{ width: 40, height: 40 }}
+              onClick={() => resetGame()}
+            />
           )}
           {rightIcon}
         </div>

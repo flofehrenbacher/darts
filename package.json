@@ -27,7 +27,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "lint": "NODE_OPTIONS='--max-old-space-size=4096' eslint . --ext .ts,.tsx --cache"
   },
   "eslintConfig": {
     "extends": "react-app"
