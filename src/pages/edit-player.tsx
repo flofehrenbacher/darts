@@ -1,4 +1,4 @@
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/react'
 import React from 'react'
 import InputNumber from 'react-input-number'
 import { useParams } from 'react-router-dom'
@@ -11,9 +11,12 @@ import { theme } from '../styles/theme'
 import { useGoBack } from '../utils/go-back'
 import { inputStyle } from './home'
 
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 export function EditPlayer() {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const { id } = useParams()
   const players = usePlayers()
   const player = players.find((p) => {

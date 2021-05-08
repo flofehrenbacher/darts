@@ -1,4 +1,4 @@
-import { css, jsx } from '@emotion/core'
+import { css, jsx } from '@emotion/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -6,6 +6,7 @@ import { RestartIcon } from './components/icons'
 import { theme } from './styles/theme'
 import { useGoBack } from './utils/go-back'
 
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 export const headerHeight = 60

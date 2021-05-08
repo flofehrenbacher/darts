@@ -2,7 +2,7 @@ import React from 'react'
 
 import { theme } from '../styles/theme'
 
-export function HitIcon(props: any) {
+export function HitIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill="none" rx="0" ry="0" />
@@ -29,14 +29,7 @@ export function HitIcon(props: any) {
   )
 }
 
-export function LifeIcon({
-  fillSecondary,
-  fillPrimary,
-  ...props
-}: any & {
-  fillSecondary: string
-  fillPrimary: string
-}) {
+export function LifeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <path
@@ -47,7 +40,7 @@ export function LifeIcon({
   )
 }
 
-export function RemoveIcon(props: any) {
+export function RemoveIcon(props: unknown) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill="none" rx="0" ry="0" />
@@ -74,7 +67,7 @@ export function RemoveIcon(props: any) {
   )
 }
 
-export function RestartIcon(props: any) {
+export function RestartIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <path
@@ -87,7 +80,7 @@ export function RestartIcon(props: any) {
   )
 }
 
-export function BullsEyeIcon(props: any) {
+export function BullsEyeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill="none" rx="0" ry="0" />
@@ -114,7 +107,7 @@ export function BullsEyeIcon(props: any) {
   )
 }
 
-export function SwapIcon(props: any) {
+export function SwapIcon(props: unknown) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill={theme.signalGreen} rx="0" ry="0" />

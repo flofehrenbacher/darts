@@ -1,4 +1,6 @@
-import { jsx } from '@emotion/core'
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { jsx } from '@emotion/react'
 import React from 'react'
 import Fader from 'react-fader'
 
@@ -8,8 +10,6 @@ import { Layout } from '../layout'
 import { theme } from '../styles/theme'
 import { useStickyState } from '../use-sticky-state'
 import { inputStyle } from './home'
-
-/** @jsx jsx */
 
 export const CurrentPlayerIndexKey = 'current-player-index'
 
@@ -42,7 +42,7 @@ export function ThreeZeroOne() {
   const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
 
   async function onUpdatePoints(
-    editableNumber: number,
+    editableNumber: number | undefined,
     setEditableNumber: React.Dispatch<React.SetStateAction<number | undefined>>
   ) {
     if (editableNumber !== undefined && currentPlayer !== undefined) {
@@ -69,7 +69,7 @@ export function ThreeZeroOne() {
     <Layout pageType="301" title="301" resetGame={resetGame}>
       <div css={{ flexGrow: 1 }}>
         <ul>
-          {players.map((player, i) => (
+          {players.map((player) => (
             <li key={player.id}>
               {player.name} {player.threeZeroOnePoints}
             </li>
@@ -95,7 +95,10 @@ export function ThreeZeroOne() {
 function RemovePoints({
   onEnterPoints,
 }: {
-  onEnterPoints: (...props: any) => void
+  onEnterPoints: (
+    editableNumber: number | undefined,
+    setEditableNumber: React.Dispatch<React.SetStateAction<number | undefined>>
+  ) => Promise<void>
 }) {
   const x = React.useRef<HTMLInputElement>(null)
 
@@ -122,12 +125,15 @@ function RemovePoints({
         min={0}
         max={180}
         step={1}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         css={{
           ...inputStyle,
           width: '70px',
         }}
         pattern="\d*"
         required
+        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         id="newPlayerNumber"
         value={editableNumber === undefined ? '' : String(editableNumber)}

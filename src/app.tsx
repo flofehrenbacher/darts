@@ -1,4 +1,4 @@
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 import emotionReset from 'emotion-reset'
 import React from 'react'
 import {
@@ -176,5 +176,6 @@ export function useThrowConfettiFor() {
     )
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return React.useCallback(throwConfettiFor, [])
 }

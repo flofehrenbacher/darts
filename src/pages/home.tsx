@@ -1,4 +1,6 @@
-import { css, jsx } from '@emotion/core'
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { css, jsx } from '@emotion/react'
 import React, { CSSProperties } from 'react'
 import {
   DragDropContext,
@@ -22,6 +24,7 @@ import { BonusAvailableKey } from './hunter'
 import { CurrentPlayerIndexKey } from './three-zero-one'
 import { Player } from '../model/player'
 
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 const getItemStyle = (
@@ -224,7 +227,7 @@ const headlineStyles = css`
   font-weight: bold;
 `
 
-function AddPlayerForm(props: any) {
+function AddPlayerForm(props: unknown) {
   const [newPlayer, setNewPlayer] = useStickyState<{
     name: string
     number: number | undefined

@@ -5,11 +5,12 @@ import { usePlayers, useSetPlayers } from '../context'
 import { headerHeight, Layout, rainbow } from '../layout'
 import { useStickyState } from '../use-sticky-state'
 
-import { jsx } from '@emotion/core'
+import { jsx } from '@emotion/react'
 import { theme } from '../styles/theme'
 import { Player } from '../model/player'
 import { PointButtonsHalfIt } from '../components/point-buttons-half-it'
 
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 export const CurrentPlayerIndexKeyHalfIt = 'current-player-index-half-it'
@@ -50,7 +51,7 @@ export function HalfIt() {
     <Layout pageType="HALF_IT" title="half it!" resetGame={resetGame}>
       <div css={{ flexGrow: 1 }}>
         <ul>
-          {players.map((player, i) => (
+          {players.map((player) => (
             <li key={player.id}>
               {player.name} {player.halfItPoints}
             </li>
@@ -124,7 +125,7 @@ export function HalfIt() {
 
                       setPlayers([
                         ...players.filter(
-                          (p, i) => p.index !== currentPlayerIndex
+                          (p) => p.index !== currentPlayerIndex
                         ),
                         updatePlayer,
                       ])

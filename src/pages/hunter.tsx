@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
@@ -5,7 +7,6 @@ import { useThrowConfettiFor } from '../app'
 import { HitIcon, LifeIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
-import { theme } from '../styles/theme'
 import { useStickyState } from '../use-sticky-state'
 import { Player } from '../model/player'
 
@@ -82,8 +83,6 @@ export function Hunter() {
         width: 40,
         height: 40,
       }}
-      fillPrimary={theme.dark}
-      fillSecondary={theme.dark}
     />
   )
 
@@ -183,7 +182,7 @@ function GamePlayer({
                   zIndex: 1,
                 }}
                 key={`${player.name}-hit-${index}`}
-                onClick={(e: any) => {
+                onClick={(e) => {
                   e.stopPropagation()
                   onClickHit(player, hit, index)
                 }}
@@ -196,8 +195,6 @@ function GamePlayer({
           {player.lives.map((alive, index) => {
             return (
               <LifeIcon
-                fillPrimary={theme.white}
-                fillSecondary={theme.signalGreen}
                 style={{
                   opacity: alive ? 1 : 0.2,
                   marginLeft: '3%',
@@ -205,7 +202,7 @@ function GamePlayer({
                   zIndex: 1,
                 }}
                 key={`${player.name}-live-${index}`}
-                onClick={(e: any) => {
+                onClick={(e) => {
                   e.stopPropagation()
                   onClickLive(player, alive, index)
                 }}

@@ -3,8 +3,9 @@ import { buttonStyle } from '../app'
 import { usePlayers, useSetPlayers } from '../context'
 import { Player } from '../model/player'
 import { theme } from '../styles/theme'
-import { jsx } from '@emotion/core'
+import { jsx } from '@emotion/react'
 
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 interface PointButtonsHalfItProps {
@@ -34,7 +35,7 @@ export function PointButtonsHalfIt({
           }
 
           setPlayers([
-            ...players.filter((p, i) => p.index !== currentPlayerIndex),
+            ...players.filter((p) => p.index !== currentPlayerIndex),
             updatePlayer,
           ])
         }}
@@ -53,7 +54,7 @@ export function PointButtonsHalfIt({
           }
 
           setPlayers([
-            ...players.filter((p, i) => p.index !== currentPlayerIndex),
+            ...players.filter((p) => p.index !== currentPlayerIndex),
             updatePlayer,
           ])
         }}

@@ -1,6 +1,6 @@
 import 'react-multi-carousel/lib/styles.css'
 
-import { jsx } from '@emotion/core'
+import { jsx } from '@emotion/react'
 import React from 'react'
 import Carousel from 'react-multi-carousel'
 
@@ -11,6 +11,7 @@ import { Layout } from '../layout'
 import { useStickyState } from '../use-sticky-state'
 import { Player } from '../model/player'
 
+/** @jsxRuntime classic */
 /** @jsx jsx */
 
 const responsive = {
@@ -181,7 +182,7 @@ function GamePlayer({
                     zIndex: 1,
                   }}
                   key={`${player.name}-hit-${index}`}
-                  onClick={(e: any) => {
+                  onClick={(e) => {
                     e.stopPropagation()
                     onClickHit(player, hit, cricketNumber, index)
                   }}
