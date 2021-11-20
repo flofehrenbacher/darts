@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -17,14 +13,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "typeRoots": [
-      "src/typings",
-      "node_modules/@types"
-    ],
-    "noFallthroughCasesInSwitch": true
+    "jsx": "preserve",
+    "typeRoots": ["src/typings", "node_modules/@types"],
+    "noFallthroughCasesInSwitch": true,
+    "incremental": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "emotion-css-prop.d.ts"],
+  "exclude": ["node_modules"]
 }

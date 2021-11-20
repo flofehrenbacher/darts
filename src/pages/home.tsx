@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { css, jsx } from '@emotion/react'
+import { css } from '@emotion/react'
+import { arrayMoveImmutable } from 'array-move'
 import React, { CSSProperties } from 'react'
 import {
   DragDropContext,
@@ -10,22 +9,18 @@ import {
   DropResult,
   NotDraggingStyle,
 } from 'react-beautiful-dnd'
-import { Link, useHistory } from 'react-router-dom'
-import arrayMove from 'array-move'
-
-import { buttonStyle } from '../app'
+import Link from 'next/link'
 import { RemoveIcon, SwapIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
+import { Player } from '../model/player'
+import { buttonStyle } from '../styles/button-style'
 import { theme } from '../styles/theme'
 import { useStickyState } from '../use-sticky-state'
+import { CurrentPlayerIndexKey } from './301'
 import { createInitialCricketMap } from './cricket'
 import { BonusAvailableKey } from './hunter'
-import { CurrentPlayerIndexKey } from './three-zero-one'
-import { Player } from '../model/player'
-
-/** @jsxRuntime classic */
-/** @jsx jsx */
+import { useRouter } from 'next/dist/client/router'
 
 const getItemStyle = (
   isDragging: boolean,
@@ -39,14 +34,24 @@ const getItemStyle = (
   ...draggableStyle,
 })
 
-export function Home({
-  onRemovePlayer,
-}: {
-  onRemovePlayer: (player: Player) => void
-}) {
+export default function Home() {
+  function onRemovePlayer(player: Player) {
+    const confirmation = window.confirm(
+      `Spieler ${player.name} wirklich entfernen?`
+    )
+    if (confirmation) {
+      const remainingPlayers = players.filter((p) => p.id !== player.id)
+      const currentPlayerIndex = localStorage.getItem(CurrentPlayerIndexKey)
+      if (Number(currentPlayerIndex) > remainingPlayers.length - 1) {
+        localStorage.setItem(CurrentPlayerIndexKey, '0')
+      }
+      setPlayers(players.filter((p) => p.id !== player.id))
+    }
+  }
+
   const setPlayers = useSetPlayers()
   const players = usePlayers()
-  const history = useHistory()
+  const { push } = useRouter()
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result
@@ -59,7 +64,7 @@ export function Home({
         destination.index === source.index
       )
     ) {
-      const newOrderOfPlayers = arrayMove(
+      const newOrderOfPlayers = arrayMoveImmutable(
         players,
         source.index,
         destination.index
@@ -75,7 +80,7 @@ export function Home({
       <AddPlayerForm css={{ marginTop: 20 }} />
       <div>
         <h2 css={headlineStyles}>Spieler</h2>
-        <ul style={{ listStyle: 'none' }}>
+        <ul css={{ listStyle: 'none' }}>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable">
               {(provided) => (
@@ -91,22 +96,24 @@ export function Home({
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          css={{
-                            width: '100%',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            height: 40,
-                            backgroundColor: theme.grey,
-                            color: theme.dark,
-                            marginTop: 5,
-                          }}
-                          style={getItemStyle(
-                            snapshot.isDragging,
-                            provided.draggableProps.style
-                          )}
+                          css={[
+                            {
+                              width: '100%',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              height: 40,
+                              backgroundColor: theme.grey,
+                              color: theme.darker,
+                              marginTop: 5,
+                            },
+                            getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            ),
+                          ]}
                           key={p.id}
-                          onClick={() => history.push(`edit-player/${p.id}`)}
+                          onClick={() => push(`edit-player/${p.id}`)}
                         >
                           <div css={{ display: 'flex', alignItems: 'center' }}>
                             <SwapIcon css={{ width: '35px' }} />
@@ -148,16 +155,16 @@ export function Home({
           </DragDropContext>
         </ul>
         <h2 css={headlineStyles}>Spiel starten</h2>
-        <ul style={{ listStyle: 'none' }}>
+        <ul css={{ listStyle: 'none' }}>
           <li>
-            <Link css={[gameLinkStyles]} to="/half-it">
-              <button css={[buttonStyle('hotpink', theme.grey, 'white')]}>
+            <Link css={[gameLinkStyles]} href="/half-it">
+              <button css={[buttonStyle(theme.grey, theme.grey)]}>
                 HALF IT!
               </button>
             </Link>
           </li>
           <li>
-            <Link css={gameLinkStyles} to="/hunter">
+            <Link css={gameLinkStyles} href="/hunter">
               <button
                 css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
               >
@@ -167,7 +174,7 @@ export function Home({
           </li>
 
           <li>
-            <Link css={[gameLinkStyles]} to="/301">
+            <Link css={[gameLinkStyles]} href="/301">
               <button
                 css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
               >
@@ -176,7 +183,7 @@ export function Home({
             </Link>
           </li>
           <li>
-            <Link css={[gameLinkStyles]} to="/cricket">
+            <Link css={[gameLinkStyles]} href="/cricket">
               <button
                 css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
               >
@@ -203,13 +210,6 @@ export function Home({
         >
           Zurücksetzen
         </button>
-        {window.location.search.includes('debug') && (
-          <Link css={[gameLinkStyles]} to="/debug">
-            <button css={[buttonStyle(theme.signalGreen), { marginTop: 5 }]}>
-              DEBUG
-            </button>
-          </Link>
-        )}
       </div>
     </Layout>
   )
@@ -272,19 +272,19 @@ function AddPlayerForm(props: unknown) {
         onAddNewPlayer(newPlayer)
         setNewPlayer({ name: '', number: undefined })
       }}
-      style={{
+      css={{
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
       }}
       {...props}
     >
-      <label htmlFor="newPlayerName" style={{ display: 'block' }}>
+      <label htmlFor="newPlayerName" css={{ display: 'block' }}>
         Name
       </label>
       <input
         ref={input}
-        style={{ ...inputStyle }}
+        css={{ ...inputStyle }}
         id="newPlayerName"
         autoComplete="new-password"
         required
@@ -292,7 +292,7 @@ function AddPlayerForm(props: unknown) {
         onChange={(event) =>
           setNewPlayer({ ...newPlayer, name: event.target.value })
         }
-      ></input>
+      />
       <button
         css={[
           buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),

@@ -54,7 +54,7 @@ export function RemoveIcon(props: unknown) {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M16.5962 8.81802L15.182 7.40381L12 10.5858L8.81802 7.40381L7.40381 8.81802L10.5858 12L7.40381 15.182L8.81802 16.5962L12 13.4142L15.182 16.5962L16.5962 15.182L13.4142 12L16.5962 8.81802Z"
-        fill={theme.dark}
+        fill={theme.darker}
       />
       <path
         fillRule="evenodd"

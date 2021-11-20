@@ -1,12 +1,7 @@
-import React from 'react'
-import { buttonStyle } from '../app'
 import { usePlayers, useSetPlayers } from '../context'
 import { Player } from '../model/player'
+import { buttonStyle } from '../styles/button-style'
 import { theme } from '../styles/theme'
-import { jsx } from '@emotion/react'
-
-/** @jsxRuntime classic */
-/** @jsx jsx */
 
 interface PointButtonsHalfItProps {
   currentPlayer: Player

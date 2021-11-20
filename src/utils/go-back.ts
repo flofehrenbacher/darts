@@ -1,10 +1,6 @@
-import { useHistory } from 'react-router-dom'
+import { useRouter } from 'next/dist/client/router'
 
 export function useGoBack() {
-  const h = useHistory()
-  if (h.length > 1) {
-    return () => h.goBack()
-  } else {
-    return () => h.push('/home')
-  }
+  const { back } = useRouter()
+  return back
 }

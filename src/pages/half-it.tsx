@@ -1,21 +1,16 @@
 import React from 'react'
-import Fader from 'react-fader'
-import { buttonStyle, useThrowConfettiFor } from '../app'
+import { useThrowConfettiFor } from '../throw-confetti-provider'
+import { buttonStyle } from '../styles/button-style'
 import { usePlayers, useSetPlayers } from '../context'
 import { headerHeight, Layout, rainbow } from '../layout'
 import { useStickyState } from '../use-sticky-state'
-
-import { jsx } from '@emotion/react'
 import { theme } from '../styles/theme'
 import { Player } from '../model/player'
 import { PointButtonsHalfIt } from '../components/point-buttons-half-it'
 
-/** @jsxRuntime classic */
-/** @jsx jsx */
-
 export const CurrentPlayerIndexKeyHalfIt = 'current-player-index-half-it'
 
-export function HalfIt() {
+export default function HalfIt() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
   const [step, setStep] = useStickyState(0, 'half-it-step')
@@ -64,7 +59,7 @@ export function HalfIt() {
                 css={{
                   position: 'sticky',
                   top: headerHeight,
-                  background: theme.dark,
+                  background: theme.darker,
                 }}
               >
                 <span
@@ -84,7 +79,7 @@ export function HalfIt() {
                   {HalfItStep[step]}
                 </span>
                 <div css={{ zIndex: 1 }}>
-                  <Fader>
+                  <div>
                     <h2
                       css={{
                         fontSize: 40,
@@ -96,7 +91,7 @@ export function HalfIt() {
                     <p css={{ fontSize: 50, textAlign: 'center' }}>
                       {currentPlayer.halfItPoints ?? 0}
                     </p>
-                  </Fader>
+                  </div>
                   <button
                     css={[buttonStyle(theme.white), { marginTop: 20 }]}
                     onClick={() => {

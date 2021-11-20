@@ -1,19 +1,15 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import { jsx } from '@emotion/react'
 import React from 'react'
-import Fader from 'react-fader'
-
-import { buttonStyle, useThrowConfettiFor } from '../app'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
+import { buttonStyle } from '../styles/button-style'
 import { theme } from '../styles/theme'
+import { useThrowConfettiFor } from '../throw-confetti-provider'
 import { useStickyState } from '../use-sticky-state'
 import { inputStyle } from './home'
 
 export const CurrentPlayerIndexKey = 'current-player-index'
 
-export function ThreeZeroOne() {
+export default function ThreeZeroOne() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
   const [isGameOver, setIsGameOver] = useStickyState(false, '301-over')
@@ -77,14 +73,14 @@ export function ThreeZeroOne() {
         </ul>
         <div css={{ marginTop: 30 }}>
           {currentPlayer && (
-            <Fader>
+            <div>
               <h2 css={{ fontSize: 40, textAlign: 'center' }}>
                 {currentPlayer.name}
               </h2>
               <p css={{ fontSize: 50, textAlign: 'center' }}>
                 {currentPlayer.threeZeroOnePoints}
               </p>
-            </Fader>
+            </div>
           )}
           {currentPlayer && <RemovePoints onEnterPoints={onUpdatePoints} />}
         </div>

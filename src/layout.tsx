@@ -1,13 +1,8 @@
-import { css, jsx } from '@emotion/react'
-import React from 'react'
-import { Link } from 'react-router-dom'
-
+import { css } from '@emotion/react'
+import Link from 'next/link'
 import { RestartIcon } from './components/icons'
 import { theme } from './styles/theme'
 import { useGoBack } from './utils/go-back'
-
-/** @jsxRuntime classic */
-/** @jsx jsx */
 
 export const headerHeight = 60
 
@@ -35,9 +30,9 @@ export function Layout({
 
   return (
     <main
-      style={{
+      css={{
         fontFamily: 'arial',
-        backgroundColor: theme.dark,
+        backgroundColor: theme.darker,
         color: theme.white,
         margin: '0 auto',
         maxWidth: '500px',
@@ -47,7 +42,7 @@ export function Layout({
       }}
     >
       <div
-        style={{
+        css={{
           height: headerHeight,
           display: 'flex',
           background: rainbow,
@@ -64,7 +59,7 @@ export function Layout({
         }}
       >
         <div
-          style={{
+          css={{
             height: '100%',
             width: 60,
             background: 'transparent',
@@ -72,7 +67,7 @@ export function Layout({
         >
           {pageType !== 'HOME' && (
             <button
-              style={{
+              css={{
                 height: '100%',
                 width: '100%',
                 display: 'block',
@@ -89,19 +84,19 @@ export function Layout({
           )}
         </div>
         <div
-          style={{
+          css={{
             height: '100%',
             width: 60,
           }}
         ></div>
         <Link
-          style={{ textDecoration: 'none', color: theme.dark, flexGrow: 1 }}
-          to="/"
+          href="/"
+          css={{ textDecoration: 'none', color: theme.darker, flexGrow: 1 }}
         >
           <h1 css={styles.h1}>{title}</h1>
         </Link>
         <div
-          style={{
+          css={{
             height: '100%',
             width: 120,
             display: 'flex',

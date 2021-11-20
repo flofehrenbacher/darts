@@ -1,9 +1,7 @@
+import { css } from '@emotion/react'
 import React from 'react'
-import { useThrowConfettiFor } from '../app'
 import { Layout } from '../layout'
-import { css, jsx } from '@emotion/react'
-/** @jsxRuntime classic */
-/** @jsx jsx */
+import { useThrowConfettiFor } from '../throw-confetti-provider'
 
 export function ComingSoon() {
   const throwConfetti = useThrowConfettiFor()

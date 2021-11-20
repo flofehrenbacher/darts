@@ -1,18 +1,10 @@
-import 'react-multi-carousel/lib/styles.css'
-
-import { jsx } from '@emotion/react'
-import React from 'react'
 import Carousel from 'react-multi-carousel'
-
-import { useThrowConfettiFor } from '../app'
 import { BullsEyeIcon, HitIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
-import { useStickyState } from '../use-sticky-state'
 import { Player } from '../model/player'
-
-/** @jsxRuntime classic */
-/** @jsx jsx */
+import { useThrowConfettiFor } from '../throw-confetti-provider'
+import { useStickyState } from '../use-sticky-state'
 
 const responsive = {
   desktop: {
@@ -43,7 +35,7 @@ export const createInitialCricketMap: () => Record<
     CricketNumbersInOrder.map((number) => [number, [false, false, false]])
   )
 
-export function Cricket() {
+export default function Cricket() {
   const players = usePlayers()
   const setPlayers = useSetPlayers()
   const [isGameOver, setIsGameOver] = useStickyState(false, 'cricket-over')
@@ -73,10 +65,9 @@ export function Cricket() {
     if (updatePlayer) {
       updatePlayer.cricketMap[cricketNumber][index] = !hit
 
-      const finishedGame = Object.keys(
-        updatePlayer.cricketMap
-      ).every((cricketNumber) =>
-        updatePlayer.cricketMap[cricketNumber].every((done) => done === true)
+      const finishedGame = Object.keys(updatePlayer.cricketMap).every(
+        (cricketNumber) =>
+          updatePlayer.cricketMap[cricketNumber].every((done) => done === true)
       )
 
       if (finishedGame && isGameOver === false) {
@@ -124,7 +115,7 @@ function GamePlayer({
 }) {
   return (
     <div
-      style={{
+      css={{
         padding: 20,
         display: 'flex',
         flexDirection: 'column',
@@ -134,13 +125,13 @@ function GamePlayer({
       }}
     >
       <h2
-        style={{
+        css={{
           margin: 0,
           padding: 0,
           display: 'flex',
         }}
       >
-        <span style={{ fontSize: 40, marginBottom: 30 }}>{player.name}</span>
+        <span css={{ fontSize: 40, marginBottom: 30 }}>{player.name}</span>
       </h2>
       <div>
         {CricketNumbersInOrder.map((cricketNumber) => (
@@ -164,7 +155,7 @@ function GamePlayer({
             >
               {cricketNumber === 25 ? (
                 <BullsEyeIcon
-                  style={{
+                  css={{
                     width: '60px',
                   }}
                 />
@@ -175,7 +166,7 @@ function GamePlayer({
             {player.cricketMap[cricketNumber].map((hit, index) => {
               return (
                 <HitIcon
-                  style={{
+                  css={{
                     opacity: hit ? 1 : 0.2,
                     marginLeft: '3%',
                     width: '60px',

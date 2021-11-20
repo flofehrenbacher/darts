@@ -1,4 +1,5 @@
 export const theme = {
+  darker: '#111',
   dark: '#102542',
   signalRed: 'darkred',
   signalGreen: '#226F54',

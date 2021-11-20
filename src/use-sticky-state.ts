@@ -1,13 +1,12 @@
 import React from 'react'
 
 const HunterVersionKey = 'hunter-version'
-const CurrentVersion = 3
+const CurrentVersion = 4
 
-export function useStickyState<A>(
-  defaultValue: A,
-  key: string
-): [A, React.Dispatch<React.SetStateAction<A>>] {
+export function useStickyState<A>(defaultValue: A, key: string) {
   const [value, setValue] = React.useState<A>(() => {
+    if (typeof window === 'undefined') return null
+
     const version = window.localStorage.getItem(HunterVersionKey) ?? 0
     if (Number(version) < CurrentVersion) {
       window.localStorage.setItem(HunterVersionKey, String(CurrentVersion))
@@ -20,5 +19,6 @@ export function useStickyState<A>(
   React.useEffect(() => {
     window.localStorage.setItem(key, JSON.stringify(value))
   }, [key, value])
-  return [value, setValue]
+
+  return [value ?? defaultValue, setValue] as const
 }

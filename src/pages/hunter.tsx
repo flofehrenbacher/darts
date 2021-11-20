@@ -1,18 +1,14 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-
-import { useThrowConfettiFor } from '../app'
+import { useRouter } from 'next/dist/client/router'
 import { HitIcon, LifeIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
-import { useStickyState } from '../use-sticky-state'
 import { Player } from '../model/player'
+import { useThrowConfettiFor } from '../throw-confetti-provider'
+import { useStickyState } from '../use-sticky-state'
 
 export const BonusAvailableKey = 'bonus-available'
 
-export function Hunter() {
+export default function Hunter() {
   const setPlayers = useSetPlayers()
   const players = usePlayers()
   const throwConfetti = useThrowConfettiFor()
@@ -78,7 +74,7 @@ export function Hunter() {
 
   const RightIcon = (
     <LifeIcon
-      style={{
+      css={{
         opacity: bonusAvailable ? 1 : 0.3,
         width: 40,
         height: 40,
@@ -111,7 +107,7 @@ export function Hunter() {
       resetGame={() => resetGame(false)}
     >
       <div>
-        <ul style={{ listStyle: 'none' }}>
+        <ul css={{ listStyle: 'none' }}>
           {players
             .filter((p) => p.stillInGame)
             .map((player, i) => (
@@ -142,11 +138,11 @@ function GamePlayer({
   onClickHit: (player: Player, hit: boolean, index: number) => void
   isLastPlayer: boolean
 }) {
-  const history = useHistory()
+  const { push } = useRouter()
   return (
     <li
-      onClick={() => history.push(`edit-player/${player.id}`)}
-      style={{
+      onClick={() => push(`edit-player/${player.id}`)}
+      css={{
         borderBottom: isLastPlayer ? 'solid 2px transparent' : 'solid 2px grey',
         padding: 20,
         height: '30vh',
@@ -157,25 +153,25 @@ function GamePlayer({
       }}
     >
       <h2
-        style={{
+        css={{
           margin: 0,
           padding: 0,
           display: 'flex',
           justifyContent: 'space-between',
         }}
       >
-        <span style={{ fontSize: 40 }}>{player.name}</span>{' '}
-        <span style={{ fontSize: 45, fontWeight: 600, marginLeft: 20 }}>
+        <span css={{ fontSize: 40 }}>{player.name}</span>{' '}
+        <span css={{ fontSize: 45, fontWeight: 600, marginLeft: 20 }}>
           {player.number}
         </span>
       </h2>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flexBasis: '50%' }}>
-          <div style={{ marginTop: 30, marginBottom: 10 }}>Treffer</div>
+      <div css={{ display: 'flex' }}>
+        <div css={{ flexBasis: '50%' }}>
+          <div css={{ marginTop: 30, marginBottom: 10 }}>Treffer</div>
           {player.hits.map((hit, index) => {
             return (
               <HitIcon
-                style={{
+                css={{
                   opacity: hit ? 1 : 0.2,
                   marginLeft: '3%',
                   width: '30%',
@@ -190,12 +186,12 @@ function GamePlayer({
             )
           })}
         </div>
-        <div style={{ marginLeft: 20, flexBasis: '50%' }}>
-          <div style={{ marginTop: 30, marginBottom: 10 }}>Leben</div>
+        <div css={{ marginLeft: 20, flexBasis: '50%' }}>
+          <div css={{ marginTop: 30, marginBottom: 10 }}>Leben</div>
           {player.lives.map((alive, index) => {
             return (
               <LifeIcon
-                style={{
+                css={{
                   opacity: alive ? 1 : 0.2,
                   marginLeft: '3%',
                   width: '30%',
