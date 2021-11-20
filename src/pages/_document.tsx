@@ -20,8 +20,20 @@ class MyDocument extends Document {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#000000" />
           <meta name="description" content="App for playing darts" />
-          <link rel="apple-touch-icon" href="/logo192.png" />
           <link rel="manifest" href="/manifest.json" />
+          <link
+            href="/logo192.png"
+            rel="icon"
+            type="image/png"
+            sizes="192x192"
+          />
+          <link
+            href="/logo512.png"
+            rel="icon"
+            type="image/png"
+            sizes="512x512"
+          />
+          <link rel="apple-touch-icon" href="/logo192.png" />
           <title>Darts - Hunter</title>
         </Head>
         <body>

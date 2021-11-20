@@ -5,10 +5,10 @@
   "homepage": "http://flofehrenbacher.github.io/darts",
   "scripts": {
     "dev": "next dev",
-    "build": "next export -o build",
+    "build": "next build && next export -o out",
     "start": "next start",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d out",
     "tsc": "tsc",
     "lint": "NODE_OPTIONS='--max-old-space-size=4096' eslint . --ext .ts,.tsx --cache"
   },
