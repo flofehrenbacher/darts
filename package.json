@@ -5,7 +5,8 @@
   "homepage": "http://flofehrenbacher.github.io/darts",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export -o out",
+    "build:gh": "npm run build && next export",
+    "build": "next build",
     "start": "next start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d out",
