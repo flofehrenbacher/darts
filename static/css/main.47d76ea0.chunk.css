@@ -1,2 +1,0 @@
-body,html{position:fixed;overflow:hidden}#root{background:#000;width:100vw;height:100vh;overflow-y:scroll;-webkit-overflow-scrolling:touch}::-webkit-scrollbar{width:0}.custom-dots{height:20px}.custom-dots,.custom-dots li{justify-content:center;align-items:center}.custom-dots li{display:flex}.custom-dots li button{border:none;background-color:#fff}.custom-dots li.react-multi-carousel-dot--active button{background-color:#226f54}
-/*# sourceMappingURL=main.47d76ea0.chunk.css.map */
