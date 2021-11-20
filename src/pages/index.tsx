@@ -266,12 +266,7 @@ function AddPlayerForm(props: unknown) {
   }
 
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault()
-        onAddNewPlayer(newPlayer)
-        setNewPlayer({ name: '', number: undefined })
-      }}
+    <div
       css={{
         display: 'flex',
         flexDirection: 'column',
@@ -294,6 +289,10 @@ function AddPlayerForm(props: unknown) {
         }
       />
       <button
+        onClick={() => {
+          onAddNewPlayer(newPlayer)
+          setNewPlayer({ name: '', number: undefined })
+        }}
         css={[
           buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
           { marginTop: 10 },
@@ -301,7 +300,7 @@ function AddPlayerForm(props: unknown) {
       >
         Hinzufügen
       </button>
-    </form>
+    </div>
   )
 }
 

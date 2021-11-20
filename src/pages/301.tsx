@@ -108,14 +108,7 @@ function RemovePoints({
   >(undefined)
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        onEnterPoints(editableNumber, setEditableNumber)
-        x.current?.setAttribute('autofocus', 'true')
-        x.current?.focus()
-      }}
-    >
+    <div>
       <input
         ref={x}
         min={0}
@@ -149,9 +142,16 @@ function RemovePoints({
           }
         }}
       />
-      <button css={[buttonStyle(theme.white, theme.white), { marginTop: 20 }]}>
+      <button
+        onClick={() => {
+          onEnterPoints(editableNumber, setEditableNumber)
+          x.current?.setAttribute('autofocus', 'true')
+          x.current?.focus()
+        }}
+        css={[buttonStyle(theme.white, theme.white), { marginTop: 20 }]}
+      >
         Weiter
       </button>
-    </form>
+    </div>
   )
 }

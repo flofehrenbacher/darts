@@ -58,11 +58,7 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
         paddingBottom: 50,
       }}
     >
-      <form
-        onSubmit={(event) => {
-          event.preventDefault()
-          onEditPlayer()
-        }}
+      <div
         css={{
           display: 'flex',
           flexDirection: 'column',
@@ -110,10 +106,11 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
             buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
             { marginTop: 50 },
           ]}
+          onClick={onEditPlayer}
         >
           Speichern
         </button>
-      </form>
+      </div>
     </div>
   )
 }
