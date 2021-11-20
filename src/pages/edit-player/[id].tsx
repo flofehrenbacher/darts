@@ -8,7 +8,7 @@ import { Layout } from '../../layout'
 import { Player } from '../../model/player'
 import { theme } from '../../styles/theme'
 import { useGoBack } from '../../utils/go-back'
-import { inputStyle } from '../home'
+import { inputStyle } from '..'
 
 export default function EditPlayer() {
   const router = useRouter()

@@ -5,7 +5,7 @@ import { buttonStyle } from '../styles/button-style'
 import { theme } from '../styles/theme'
 import { useThrowConfettiFor } from '../throw-confetti-provider'
 import { useStickyState } from '../use-sticky-state'
-import { inputStyle } from './home'
+import { inputStyle } from './'
 
 export const CurrentPlayerIndexKey = 'current-player-index'
 
