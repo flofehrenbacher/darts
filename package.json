@@ -27,7 +27,7 @@
     "@emotion/react": "11.7.0",
     "array-move": "4.0.0",
     "emotion-reset": "3.0.1",
-    "next": "12.0.4",
+    "next": "12.0.5",
     "next-pwa": "5.4.1",
     "react": "17.0.2",
     "react-beautiful-dnd": "13.1.0",
