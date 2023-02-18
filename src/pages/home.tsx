@@ -227,7 +227,7 @@ const headlineStyles = css`
   font-weight: bold;
 `
 
-function AddPlayerForm(props: unknown) {
+function AddPlayerForm(props: Record<string, unknown>) {
   const [newPlayer, setNewPlayer] = useStickyState<{
     name: string
     number: number | undefined
