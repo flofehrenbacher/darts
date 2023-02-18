@@ -17,7 +17,8 @@
   ],
   "rules": {
     "jsx-a11y/anchor-is-valid": "off", // This rule is not compatible with Next.js"s <Link /> components
-    "no-only-tests/no-only-tests": "error"
+    "no-only-tests/no-only-tests": "error",
+    "react/no-unknown-property": "off"
   },
   "overrides": [
     {
