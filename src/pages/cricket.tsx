@@ -86,6 +86,7 @@ export default function Cricket() {
           responsive={responsive}
           infinite
           showDots
+          autoPlay={false}
           dotListClass="custom-dots"
         >
           {players.map((p) => (
