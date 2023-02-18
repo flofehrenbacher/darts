@@ -40,7 +40,7 @@ export function LifeIcon(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-export function RemoveIcon(props: unknown) {
+export function RemoveIcon(props: Record<string, unknown>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill="none" rx="0" ry="0" />
@@ -107,7 +107,7 @@ export function BullsEyeIcon(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-export function SwapIcon(props: unknown) {
+export function SwapIcon(props: Record<string, unknown>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <rect width="24" height="24" fill={theme.signalGreen} rx="0" ry="0" />
