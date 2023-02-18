@@ -5,7 +5,8 @@
   "homepage": "http://flofehrenbacher.github.io/darts",
   "scripts": {
     "dev": "next dev",
-    "build": "next export -o build",
+    "build": "next build",
+    "postbuild": "next export -o build",
     "start": "next start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
@@ -13,11 +14,7 @@
     "lint": "NODE_OPTIONS='--max-old-space-size=4096' eslint . --ext .ts,.tsx --cache"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
