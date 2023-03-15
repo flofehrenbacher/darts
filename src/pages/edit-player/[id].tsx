@@ -1,7 +1,6 @@
 import { css } from '@emotion/react'
 import { useRouter } from 'next/dist/client/router'
 import React from 'react'
-import InputNumber from 'react-input-number'
 import { buttonStyle } from '../../styles/button-style'
 import { usePlayers, useSetPlayers } from '../../context'
 import { Layout } from '../../layout'
@@ -85,7 +84,7 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
           >
             Nummer
           </label>
-          <InputNumber
+          <input
             min={1}
             max={25}
             step={1}
@@ -94,11 +93,11 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
               width: '40px',
             }}
             id="newPlayerNumber"
-            value={editableNumber === undefined ? '' : editableNumber}
-            onChange={(x: number) => {
-              setEditableNumber(x)
+            type="number"
+            value={editableNumber}
+            onChange={(event) => {
+              setEditableNumber(parseInt(event.target.value))
             }}
-            enableMobileNumericKeyboard
           />
         </div>
         <button
