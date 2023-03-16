@@ -102,7 +102,7 @@ function EditPlayerForm({ player, ...props }: { player: Player }) {
         </div>
         <button
           css={[
-            buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
+            buttonStyle(theme.signalGreen, theme.signalGreen, theme.darker),
             { marginTop: 50 },
           ]}
           onClick={onEditPlayer}

@@ -20,7 +20,7 @@ export function PointButtonsHalfIt({
     <div css={{ display: 'flex' }} {...props}>
       <button
         css={[
-          buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
+          buttonStyle(theme.signalGreen, theme.signalGreen, theme.darker),
           { marginTop: 20 },
         ]}
         onClick={() => {
@@ -39,7 +39,7 @@ export function PointButtonsHalfIt({
       </button>
       <button
         css={[
-          buttonStyle(theme.signalRed, theme.signalRed, theme.white),
+          buttonStyle(theme.signalRed, theme.signalRed, theme.darker),
           { marginTop: 20 },
         ]}
         onClick={() => {

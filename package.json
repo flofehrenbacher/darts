@@ -7,7 +7,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "deploy:gh": "gh-pages -d gh-pages",
     "tsc": "tsc",
     "lint": "NODE_OPTIONS='--max-old-space-size=4096' eslint . --ext .ts,.tsx --cache"
   },
@@ -25,10 +24,11 @@
   },
   "dependencies": {
     "@emotion/react": "11.10.6",
+    "@mantine/core": "6.0.2",
+    "@mantine/next": "6.0.2",
     "array-move": "4.0.0",
     "emotion-reset": "3.0.1",
-    "next": "12.3.4",
-    "next-pwa": "5.6.0",
+    "next": "13.2.4",
     "react": "18.2.0",
     "react-beautiful-dnd": "13.1.1",
     "react-confetti": "6.1.0",

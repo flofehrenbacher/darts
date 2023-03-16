@@ -5,11 +5,11 @@ html {
 }
 
 #__next {
-  background: black;
   width: 100vw;
   height: 100vh;
   overflow-y: scroll;
-  -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
+  -webkit-overflow-scrolling: touch;
+  /* enables “momentum” (smooth) scrolling */
 }
 
 ::-webkit-scrollbar {

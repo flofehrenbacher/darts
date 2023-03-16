@@ -1,8 +1,7 @@
+import { Button, NumberInput } from '@mantine/core'
 import React from 'react'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
-import { buttonStyle } from '../styles/button-style'
-import { theme } from '../styles/theme'
 import { useThrowConfettiFor } from '../throw-confetti-provider'
 import { useStickyState } from '../use-sticky-state'
 import { inputStyle } from './'
@@ -38,10 +37,10 @@ export default function ThreeZeroOne() {
   const currentPlayer = players.find((p) => currentPlayerIndex === p.index)
 
   async function onUpdatePoints(
-    editableNumber: number | undefined,
-    setEditableNumber: React.Dispatch<React.SetStateAction<number | undefined>>
+    editableNumber: number | null,
+    setEditableNumber: React.Dispatch<React.SetStateAction<number | null>>
   ) {
-    if (editableNumber !== undefined && currentPlayer !== undefined) {
+    if (editableNumber !== null && currentPlayer !== undefined) {
       const newPoints = currentPlayer.threeZeroOnePoints - editableNumber
       if (newPoints === 0 && isGameOver === false) {
         setIsGameOver(true)
@@ -52,7 +51,7 @@ export default function ThreeZeroOne() {
         ...players.filter((p) => p.index !== currentPlayer.index),
         { ...currentPlayer, threeZeroOnePoints: newPoints },
       ])
-      setEditableNumber(undefined)
+      setEditableNumber(null)
       const nextPlayer = players.find((p) => p.index > currentPlayerIndex)
 
       setCurrentPlayerIndex(
@@ -92,8 +91,8 @@ function RemovePoints({
   onEnterPoints,
 }: {
   onEnterPoints: (
-    editableNumber: number | undefined,
-    setEditableNumber: React.Dispatch<React.SetStateAction<number | undefined>>
+    editableNumber: number | null,
+    setEditableNumber: React.Dispatch<React.SetStateAction<number | null>>
   ) => Promise<void>
 }) {
   const x = React.useRef<HTMLInputElement>(null)
@@ -103,19 +102,17 @@ function RemovePoints({
       x.current.focus()
     }
   })
-  const [editableNumber, setEditableNumber] = React.useState<
-    number | undefined
-  >(undefined)
+  const [editableNumber, setEditableNumber] = React.useState<number | null>(
+    null
+  )
 
   return (
     <div>
-      <input
+      <NumberInput
         ref={x}
         min={0}
         max={180}
         step={1}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         css={{
           ...inputStyle,
           width: '70px',
@@ -124,11 +121,10 @@ function RemovePoints({
         required
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
+        size={'lg'}
         id="newPlayerNumber"
-        value={editableNumber === undefined ? '' : String(editableNumber)}
-        onChange={(event) => {
-          event.preventDefault()
-          const points = Number(event.target.value)
+        hideControls
+        onChange={(points) => {
           if (typeof points === 'number') {
             if (points === 0) {
               onEnterPoints(0, setEditableNumber)
@@ -138,20 +134,20 @@ function RemovePoints({
               setEditableNumber(points)
             }
           } else {
-            setEditableNumber(undefined)
+            setEditableNumber(null)
           }
         }}
       />
-      <button
+      <Button
         onClick={() => {
           onEnterPoints(editableNumber, setEditableNumber)
           x.current?.setAttribute('autofocus', 'true')
           x.current?.focus()
         }}
-        css={[buttonStyle(theme.white, theme.white), { marginTop: 20 }]}
+        css={{ margin: '20px auto 0', display: 'block' }}
       >
         Weiter
-      </button>
+      </Button>
     </div>
   )
 }

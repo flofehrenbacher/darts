@@ -32,8 +32,8 @@ export function Layout({
     <main
       css={{
         fontFamily: 'arial',
-        backgroundColor: theme.darker,
-        color: theme.white,
+        backgroundColor: theme.white,
+        color: theme.darker,
         margin: '0 auto',
         maxWidth: '500px',
         display: 'flex',
@@ -45,13 +45,13 @@ export function Layout({
         css={{
           height: headerHeight,
           display: 'flex',
-          background: rainbow,
+          backgroundImage:
+            'linear-gradient(20deg, rgb(34, 139, 230) 0%, rgb(18, 184, 134) 100%)',
           margin: 0,
           overflow: 'hidden',
           position: 'sticky',
           top: 0,
           left: 0,
-          borderBottom: 'solid 2px grey',
           zIndex: 1,
           justifyContent: 'center',
           alignItems: 'center',
@@ -72,7 +72,7 @@ export function Layout({
                 width: '100%',
                 display: 'block',
                 border: 'none',
-                fontSize: 20,
+                fontSize: 24,
                 background: 'transparent',
                 fontWeight: 500,
                 color: 'white',
@@ -91,7 +91,7 @@ export function Layout({
         ></div>
         <Link
           href="/"
-          css={{ textDecoration: 'none', color: theme.darker, flexGrow: 1 }}
+          css={{ textDecoration: 'none', color: theme.white, flexGrow: 1 }}
         >
           <h1 css={styles.h1}>{title}</h1>
         </Link>
@@ -140,7 +140,3 @@ const styles = {
     color: white;
   `,
 }
-
-export const rainbow = `linear-gradient(217deg, rgba(0,0,255,.8), rgba(0,0,255,0.2) 70%),
-linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0.2) 70%),
-linear-gradient(336deg, rgba(255,0,0,.8), rgba(255,0,0,0.2) 70%)`

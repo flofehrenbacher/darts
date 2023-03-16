@@ -4,7 +4,7 @@ import { theme } from './theme'
 export const buttonStyle = (
   backgroundColor: string,
   borderColor?: string,
-  color = theme.darker
+  color = theme.white
 ) => css`
   display: block;
   padding: 7px;

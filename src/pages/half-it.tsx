@@ -2,7 +2,7 @@ import React from 'react'
 import { useThrowConfettiFor } from '../throw-confetti-provider'
 import { buttonStyle } from '../styles/button-style'
 import { usePlayers, useSetPlayers } from '../context'
-import { headerHeight, Layout, rainbow } from '../layout'
+import { headerHeight, Layout } from '../layout'
 import { useStickyState } from '../use-sticky-state'
 import { theme } from '../styles/theme'
 import { Player } from '../model/player'
@@ -59,7 +59,7 @@ export default function HalfIt() {
                 css={{
                   position: 'sticky',
                   top: headerHeight,
-                  background: theme.darker,
+                  background: theme.white,
                 }}
               >
                 <span
@@ -93,7 +93,7 @@ export default function HalfIt() {
                     </p>
                   </div>
                   <button
-                    css={[buttonStyle(theme.white), { marginTop: 20 }]}
+                    css={[buttonStyle(theme.darker), { marginTop: 20 }]}
                     onClick={() => {
                       nextPlayer(
                         players,
@@ -107,7 +107,7 @@ export default function HalfIt() {
                   </button>
                   <button
                     css={[
-                      buttonStyle(rainbow, 'transparent', theme.white),
+                      buttonStyle('blue', 'transparent', theme.darker),
                       { marginTop: 20 },
                     ]}
                     onClick={() => {
@@ -197,7 +197,7 @@ function MakePoints({
   }
   return (
     <button
-      css={[buttonStyle(theme.white), { marginTop: 20 }]}
+      css={[buttonStyle(theme.darker), { marginTop: 20 }]}
       onClick={() => {
         nextPlayer(players, currentPlayerIndex, setCurrentPlayerIndex, setStep)
       }}

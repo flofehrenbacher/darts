@@ -1,5 +1,7 @@
 import { css } from '@emotion/react'
+import { Button, CloseButton, TextInput } from '@mantine/core'
 import { arrayMoveImmutable } from 'array-move'
+import { useRouter } from 'next/dist/client/router'
 import React, { CSSProperties } from 'react'
 import {
   DragDropContext,
@@ -9,27 +11,24 @@ import {
   DropResult,
   NotDraggingStyle,
 } from 'react-beautiful-dnd'
-import Link from 'next/link'
-import { RemoveIcon, SwapIcon } from '../components/icons'
+import { SwapIcon } from '../components/icons'
 import { usePlayers, useSetPlayers } from '../context'
 import { Layout } from '../layout'
 import { Player } from '../model/player'
-import { buttonStyle } from '../styles/button-style'
 import { theme } from '../styles/theme'
 import { useStickyState } from '../use-sticky-state'
 import { CurrentPlayerIndexKey } from './301'
 import { createInitialCricketMap } from './cricket'
 import { BonusAvailableKey } from './hunter'
-import { useRouter } from 'next/dist/client/router'
 
 const getItemStyle = (
   isDragging: boolean,
   draggableStyle?: DraggingStyle | NotDraggingStyle
 ) => ({
   ...(isDragging && {
-    backgroundColor: theme.dark,
-    color: theme.white,
-    border: `2px solid ${theme.white}`,
+    backgroundColor: theme.grey,
+    color: theme.darker,
+    border: `2px solid ${theme.darker}`,
   }),
   ...draggableStyle,
 })
@@ -103,9 +102,11 @@ export default function Home() {
                               justifyContent: 'space-between',
                               alignItems: 'center',
                               height: 40,
-                              backgroundColor: theme.grey,
-                              color: theme.darker,
+                              backgroundColor: theme.dark,
+                              color: theme.white,
                               marginTop: 5,
+                              borderRadius: 10,
+                              padding: '0 4px',
                             },
                             getItemStyle(
                               snapshot.isDragging,
@@ -129,20 +130,13 @@ export default function Home() {
                               alignItems: 'center',
                             }}
                           >
-                            <button
-                              css={{
-                                border: 'none',
-                                height: '100%',
-                                width: '35px',
-                                background: theme.white,
-                              }}
+                            <CloseButton
+                              size={'md'}
                               onClick={(e) => {
                                 e.stopPropagation()
                                 onRemovePlayer(p)
                               }}
-                            >
-                              <RemoveIcon />
-                            </button>
+                            ></CloseButton>
                           </div>
                         </li>
                       )}
@@ -155,48 +149,59 @@ export default function Home() {
           </DragDropContext>
         </ul>
         <h2 css={headlineStyles}>Spiel starten</h2>
-        <ul css={{ listStyle: 'none' }}>
+        <ul
+          css={{
+            listStyle: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12,
+          }}
+        >
           <li>
-            <Link css={[gameLinkStyles]} href="/half-it">
-              <button css={[buttonStyle(theme.grey, theme.grey)]}>
-                HALF IT!
-              </button>
-            </Link>
+            <Button
+              size="md"
+              onClick={() => push('/301')}
+              css={{ width: '100%' }}
+              color="violet"
+            >
+              301
+            </Button>
           </li>
           <li>
-            <Link css={gameLinkStyles} href="/hunter">
-              <button
-                css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
-              >
-                HUNTER
-              </button>
-            </Link>
-          </li>
-
-          <li>
-            <Link css={[gameLinkStyles]} href="/301">
-              <button
-                css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
-              >
-                301
-              </button>
-            </Link>
+            <Button
+              size="md"
+              onClick={() => push('/cricket')}
+              css={{ width: '100%' }}
+              color="orange"
+            >
+              Cricket
+            </Button>
           </li>
           <li>
-            <Link css={[gameLinkStyles]} href="/cricket">
-              <button
-                css={[buttonStyle(theme.grey, theme.grey), { marginTop: 5 }]}
-              >
-                CRICKET
-              </button>
-            </Link>
+            <Button
+              size="md"
+              onClick={() => push('/half-it')}
+              css={{ width: '100%' }}
+              color="indigo"
+            >
+              Half it!
+            </Button>
+          </li>
+          <li>
+            <Button
+              size="md"
+              onClick={() => push('/hunter')}
+              css={{ width: '100%' }}
+              color="teal"
+            >
+              Hunter
+            </Button>
           </li>
         </ul>
-        <button
-          css={[
-            buttonStyle(theme.signalRed, theme.signalRed, theme.white),
-            { marginTop: 20 },
-          ]}
+        <Button
+          css={[{ marginTop: 20, width: '100%' }]}
+          variant="light"
+          color={'red'}
           onClick={() => {
             const confirmation = window.confirm(
               'Wirklich alle Spieler entfernen?'
@@ -209,15 +214,11 @@ export default function Home() {
           }}
         >
           Zurücksetzen
-        </button>
+        </Button>
       </div>
     </Layout>
   )
 }
-
-const gameLinkStyles = css`
-  text-decoration: none;
-`
 
 const headlineStyles = css`
   display: block;
@@ -277,7 +278,7 @@ function AddPlayerForm(props: Record<string, unknown>) {
       <label htmlFor="newPlayerName" css={{ display: 'block' }}>
         Name
       </label>
-      <input
+      <TextInput
         ref={input}
         css={{ ...inputStyle }}
         id="newPlayerName"
@@ -288,18 +289,16 @@ function AddPlayerForm(props: Record<string, unknown>) {
           setNewPlayer({ ...newPlayer, name: event.target.value })
         }
       />
-      <button
+      <Button
         onClick={() => {
           onAddNewPlayer(newPlayer)
           setNewPlayer({ name: '', number: undefined })
         }}
-        css={[
-          buttonStyle(theme.signalGreen, theme.signalGreen, theme.white),
-          { marginTop: 10 },
-        ]}
+        css={{ marginTop: 10 }}
+        variant="outline"
       >
         Hinzufügen
-      </button>
+      </Button>
     </div>
   )
 }
@@ -307,7 +306,7 @@ function AddPlayerForm(props: Record<string, unknown>) {
 export const inputStyle: CSSProperties = {
   textAlign: 'center',
   backgroundColor: 'transparent',
-  color: theme.white,
+  color: theme.darker,
   border: 'none',
   borderBottom: 'solid 2px white',
   fontSize: 24,
